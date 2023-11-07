@@ -1,3 +1,25 @@
+// The MIT License (MIT)
+// 
+// Copyright (c) 2023 Francisco Romano
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 #include <pxit.h>
 #include <windows.h>
 #include <stdio.h>
@@ -22,9 +44,9 @@ static WORD                PXIT_KEYMAP[256] = {};  // the mouse & keyboard mappe
 static const int           PXIT_KEYMAP_LENGTH = sizeof(PXIT_KEYMAP) / sizeof(WORD);
 static atomic_bool         PXIT_IS_RUNNING = 0;    // is the application currently running
 static atomic_bool         PXIT_IS_CLOSING = 0;    // is the application currently closing
-static PxitInitFunctionPtr PXIT_CALLBACK_INIT;  // the application's 'init' function pointer
-static PxitQuitFunctionPtr PXIT_CALLBACK_QUIT;  // the application's 'quit' function pointer
-static PxitTickFunctionPtr PXIT_CALLBACK_TICK;  // the application's 'tick' function pointer
+static PxitInitFunctionPtr PXIT_CALLBACK_INIT;     // the application's 'init' function pointer
+static PxitQuitFunctionPtr PXIT_CALLBACK_QUIT;     // the application's 'quit' function pointer
+static PxitTickFunctionPtr PXIT_CALLBACK_TICK;     // the application's 'tick' function pointer
 
 void PXIT_KEY_INPUT(KEY_EVENT_RECORD* e)
 {
@@ -119,7 +141,7 @@ int pxitApplicationEntryPoint(const PxitApplicationCreateInfo* info, int argc, c
     while (!PXIT_IS_CLOSING)
     {
         DWORD length = 0;
-        if (PeekConsoleInputA(PXIT_WIN32_STDIN, PXIT_WIN32_EVENTS, PXIT_WIN32_EVENTS_LENGTH, &length) && length)
+        if (PeekConsoleInputA(PXIT_WIN32_STDIN, PXIT_WIN32_EVENTS, 1, &length) && length)
         {
             // read all queued console inputs
             ReadConsoleInputA(PXIT_WIN32_STDIN, PXIT_WIN32_EVENTS, PXIT_WIN32_EVENTS_LENGTH, &length);
