@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.28 FATAL_ERROR)
+project(OpenGL)
+set(CMAKE_SHARED_LIBRARY_PREFIX lib)
+set(LIBRARY_OUTPUT_PATH "${CMAKE_CURRENT_LIST_DIR}/bin/")
+add_library(OpenGL STATIC
+  "${CMAKE_CURRENT_LIST_DIR}/src/OpenGL_WGL.c"
+  "${CMAKE_CURRENT_LIST_DIR}/src/GLES20.c"
+  "${CMAKE_CURRENT_LIST_DIR}/src/GLES30.c"
+  "${CMAKE_CURRENT_LIST_DIR}/src/GLES31.c"
+  "${CMAKE_CURRENT_LIST_DIR}/src/GLES32.c"
+)
+target_include_directories(OpenGL PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")

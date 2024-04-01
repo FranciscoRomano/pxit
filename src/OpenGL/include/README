@@ -1,0 +1,11 @@
+# OpenGL C++ API
+
+This folder contains the C++ API headers for the following OpenGL versions:
+- OpenGL ES 2.0
+- OpenGL ES 3.0
+- OpenGL ES 3.1
+- OpenGL ES 3.2
+
+All generated/modified files originated from the Khronos` OpenGL registry.<br/>
+You can find more information about the OpenGL registry with the following link:
+- https://github.com/KhronosGroup/OpenGL-Registry
