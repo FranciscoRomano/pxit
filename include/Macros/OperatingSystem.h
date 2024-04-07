@@ -23,17 +23,20 @@
 // ---------------------------------------------------------------------------------------------- //
 #ifndef __Macros_OperatingSystems_h__
 #define __Macros_OperatingSystems_h__ 1
-// https://github.com/cpredef/predef/blob/master/OperatingSystems.md
 // ---------------------------------------------------------------------------------------------- //
 #if defined(__ANDROID__)
   #define OPERATING_SYSTEM_ANDROID 1
-#elif defined(_WIN32) || defined(_WIN64)
+#elif defined(_WIN32) ||\
+      defined(_WIN64)
   #define OPERATING_SYSTEM_WINDOWS 1
-#elif defined(__MACH__) && defined(__APPLE__)
-  #define OPERATING_SYSTEM_MACOS 1
-#elif defined(__linux__) || defined(__linux) || defined(linux)
+#elif defined(__APPLE__)
+  #define OPERATING_SYSTEM_APPLE 1
+#elif defined(linux)     ||\
+      defined(__linux)   ||\
+      defined(__linux__)
   #define OPERATING_SYSTEM_LINUX 1
-#elif defined(__unix__) && defined(__unix)
+#elif defined(__unix) ||\
+      defined(__unix__)
   #define OPERATING_SYSTEM_UNIX 1
 #endif
 // ---------------------------------------------------------------------------------------------- //

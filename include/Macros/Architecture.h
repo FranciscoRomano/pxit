@@ -21,35 +21,44 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 // ---------------------------------------------------------------------------------------------- //
-#ifndef __Macros_Compilers_h__
-#define __Macros_Compilers_h__ 1
-// https://github.com/cpredef/predef/blob/master/Compilers.md
+#ifndef __Macros_Architecture_h__
+#define __Macros_Architecture_h__ 1
 // ---------------------------------------------------------------------------------------------- //
-#if defined(__clang__)
-  #define COMPILER_CLANG 1
-  #define COMPILER_VERSION_NAME "Clang"
-  #define COMPILER_VERSION ((((unsigned int)__clang_major__) << 22)\
-                           |(((unsigned int)__clang_minor__) << 12))
-#elif defined(__GNUC__)
-  #define COMPILER_GCC 1
-  #define COMPILER_VERSION_NAME "GCC C/C++"
-  #define COMPILER_VERSION ((((unsigned int)__GNUC__)       << 22)\
-                           |(((unsigned int)__GNUC_MINOR__) << 12))
-#elif defined(_MSC_VER)
-  #define COMPILER_MSVC 1
-  #define COMPILER_VERSION_NAME "Microsoft Visual C++ (MSVC)"
-  #define COMPILER_VERSION _MSC_VER
-#elif defined(__MINGW32__)
-  #define COMPILER_MINGW 1
-  #define COMPILER_VERSION_NAME "MinGW"
-  #define COMPILER_VERSION ((((unsigned int)__MINGW32_MAJOR_VERSION) << 22)\
-                           |(((unsigned int)__MINGW32_MINOR_VERSION) << 12))
-#elif defined(__MINGW64__)
-  #define COMPILER_MINGW 1
-  #define COMPILER_VERSION_NAME "MinGW-w64"
-  #define COMPILER_VERSION ((((unsigned int)__MINGW64_MAJOR_VERSION) << 22)\
-                           |(((unsigned int)__MINGW64_MINOR_VERSION) << 12))
+#if defined(i386)     ||\
+    defined(__i386)   ||\
+    defined(__i386__) ||\
+    defined(_M_IX86)  ||\
+    defined(_X86_)
+  #define ARCHITECTURE_NAME "i386"
+  #define ARCHITECTURE_I386  1
+  #define ARCHITECTURE_32_BIT 1
 #endif
 // ---------------------------------------------------------------------------------------------- //
-#endif//__Macros_Compilers_h__
+#if defined(__amd64)    ||\
+    defined(__amd64__)  ||\
+    defined(__x86_64)   ||\
+    defined(__x86_64__) ||\
+    defined(_M_AMD64)
+  #define ARCHITECTURE_NAME "AMD64"
+  #define ARCHITECTURE_AMD64 1
+  #define ARCHITECTURE_64_BIT 1
+#endif
+// ---------------------------------------------------------------------------------------------- //
+#if defined(__aarch64__) ||\
+    defined(_M_ARM64)
+  #define ARCHITECTURE_NAME "ARM64"
+  #define ARCHITECTURE_ARM64 1
+  #define ARCHITECTURE_64_BIT 1
+#elif defined(__arm__)   ||\
+    defined(__thumb__)   ||\
+    defined(_ARM)        ||\
+    defined(_M_ARM)      ||\
+    defined(_M_ARMT)     ||\
+    defined(__arm)
+  #define ARCHITECTURE_NAME "ARM"
+  #define ARCHITECTURE_ARM 1
+  #define ARCHITECTURE_32_BIT 1
+#endif
+// ---------------------------------------------------------------------------------------------- //
+#endif//__Macros_Architecture_h__
 // ---------------------------------------------------------------------------------------------- //

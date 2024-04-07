@@ -3,8 +3,9 @@
 #include <iostream>
 #include <string>
 #include <Windows.h>
-#include <Macros/Compilers.h>
-#include <Macros/OperatingSystems.h>
+#include <Macros/Architecture.h>
+#include <Macros/Compiler.h>
+#include <Macros/OperatingSystem.h>
 // https://github.com/cpredef/predef/blob/master/Compilers.md
 
 bool is_running = false;
@@ -30,8 +31,11 @@ void* LetsGetThatOpenGLFunction(const char* name)
 int main(int argc, char** argv)
 {
     #ifdef OPERATING_SYSTEM_WINDOWS
-    std::string compiler_info = COMPILER_VERSION_NAME " (" + std::to_string(COMPILER_VERSION) + ")";
-    MessageBoxA(NULL, compiler_info.c_str(), "Compiler info", MB_OK);
+    std::string arch_info = ARCHITECTURE_NAME;
+    std::string comp_info = COMPILER_VERSION_NAME " (" + std::to_string(COMPILER_VERSION) + ")";
+    std::string title = arch_info + " | " + comp_info;
+
+    MessageBoxA(NULL, title.c_str(), "Platform Information", MB_OK);
 
     WNDCLASSEXA wc;
     ZeroMemory(&wc, sizeof(WNDCLASSEXW));
