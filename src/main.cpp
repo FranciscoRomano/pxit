@@ -1,7 +1,11 @@
 #include <GLES32.h>
 #include <OpenGL_WGL.h>
 #include <iostream>
+#include <string>
 #include <Windows.h>
+#include <Macros/Compilers.h>
+#include <Macros/OperatingSystems.h>
+// https://github.com/cpredef/predef/blob/master/Compilers.md
 
 bool is_running = false;
 
@@ -25,6 +29,10 @@ void* LetsGetThatOpenGLFunction(const char* name)
 
 int main(int argc, char** argv)
 {
+    #ifdef OPERATING_SYSTEM_WINDOWS
+    std::string compiler_info = COMPILER_VERSION_NAME " (" + std::to_string(COMPILER_VERSION) + ")";
+    MessageBoxA(NULL, compiler_info.c_str(), "Compiler info", MB_OK);
+
     WNDCLASSEXA wc;
     ZeroMemory(&wc, sizeof(WNDCLASSEXW));
     wc.cbClsExtra    = 0;
@@ -161,5 +169,6 @@ int main(int argc, char** argv)
     DestroyWindow(h_window);
     pxFreeOpenGL_WGL();
     UnregisterClassA(wc.lpszClassName, wc.hInstance);
+    #endif
     return 0;
 }

@@ -1,3 +1,2 @@
 @echo off
-cd ./src
-cmake --build ./../obj
+cmake --build ./obj
