@@ -111,7 +111,7 @@ BOOL pxLoadOpenGL_WGL(HINSTANCE hInstance, LPCSTR lpszClassName)
         return FALSE;
     }
 
-    // 5) create a new OpenGL 1.0 context and fetch the required procedures
+    // 5) create a new OpenGL context and fetch the required procedures
     HGLRC opengl1_context = GOpenGLCallbacks_WGL.CreateContext(h_window_dc);
     if (!opengl1_context)
     {
@@ -128,7 +128,7 @@ BOOL pxLoadOpenGL_WGL(HINSTANCE hInstance, LPCSTR lpszClassName)
     IMPL_LOAD_PROCEDURE(GetPixelFormatAttribfvARB);
     #undef IMPL_LOAD_PROCEDURE
 
-    // 6) destroy OpenGL 1.0 context, dummy device context and window before returning
+    // 6) destroy OpenGL context, dummy device context and window before returning
     GOpenGLCallbacks_WGL.MakeCurrent(NULL, NULL);
     GOpenGLCallbacks_WGL.DeleteContext(opengl1_context);
     ReleaseDC(h_window, h_window_dc);
