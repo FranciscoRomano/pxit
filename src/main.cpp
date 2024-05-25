@@ -30,7 +30,6 @@ void* LetsGetThatOpenGLFunction(const char* name)
 
 int main(int argc, char** argv)
 {
-    #ifdef OPERATING_SYSTEM_WINDOWS
     std::string arch_info = ARCHITECTURE_NAME;
     std::string comp_info = COMPILER_VERSION_NAME " (" + std::to_string(COMPILER_VERSION) + ")";
     std::string title = arch_info + " | " + comp_info;
@@ -56,6 +55,20 @@ int main(int argc, char** argv)
         MessageBoxA(NULL, "Failed to register Class", "BANANAS", MB_OK);
         return -1;
     }
+
+    DISPLAY_DEVICEW display = {};
+    display.cb = sizeof(DISPLAY_DEVICEW);
+    for (int i = 0; EnumDisplayDevicesW(NULL, i, &display, EDD_GET_DEVICE_INTERFACE_NAME); i++)
+    {
+        std::wstring msg;
+        msg += std::wstring(L"DisplayDevice[")    + std::to_wstring(i)    + L"]\n";
+        msg += std::wstring(L"  DeviceName  : ")  + display.DeviceName   + L",\n";
+        msg += std::wstring(L"  DeviceString: ")  + display.DeviceString + L",\n";
+        msg += std::wstring(L"  DeviceID    : ")  + display.DeviceID     + L",\n";
+        msg += std::wstring(L"  DeviceKey   : ")  + display.DeviceKey    + L",\n";
+        MessageBoxW(NULL, msg.c_str(), L"Device", MB_OK);
+    }
+
     if (!pxLoadOpenGL_WGL(wc.hInstance, wc.lpszClassName))
     {
         MessageBoxA(NULL, "Failed to load WINGDI WGL library", "BANANAS", MB_OK);
@@ -173,6 +186,5 @@ int main(int argc, char** argv)
     DestroyWindow(h_window);
     pxFreeOpenGL_WGL();
     UnregisterClassA(wc.lpszClassName, wc.hInstance);
-    #endif
     return 0;
 }
