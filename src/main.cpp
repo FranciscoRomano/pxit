@@ -7,6 +7,9 @@
 #include <Macros/Architecture.h>
 #include <Macros/Compiler.h>
 #include <Macros/OperatingSystem.h>
+#include <Core/Buffer.h>
+#include <span>
+#include <iostream>
 // https://github.com/cpredef/predef/blob/master/Compilers.md
 
 bool is_running = false;
@@ -45,8 +48,47 @@ void* LetsGetThatOpenGLFunction(const char* name)
     return (void*)pxProcOpenGL_WGL(name);
 }
 
+struct float3 { float X, Y, Z; };
+
 int main(int argc, char** argv)
 {
+    AllocConsole();
+    freopen("CONOUT$", "w", stdout);
+
+    {
+        // 1) create the master buffer to RULE THEM ALLL!
+        std::vector<float3> vbo;
+        for (int i = 0; i < 5; i++)
+            vbo.push_back({ 1, 2, 3 });
+
+        // 2) print the current data stored in master buffer
+        std::cout << "1st print of master buffer\n";
+        for (int i = 0; i < vbo.size(); i++)
+        {
+            std::cout << "[" << i << "] - { X: ";
+            std::cout << vbo[i].X << ", Y: " << vbo[i].Y << ", Z: " << vbo[i].Z;
+            std::cout << " }\n";
+        }
+
+        // 3) create 3 buffer views and modify all data in master buffer
+        std::buffer<float> vbo_x(vbo, 0, 12); // source, offset, stride
+        std::buffer<float> vbo_y(vbo, 4, 12); // source, offset, stride
+        std::buffer<float> vbo_z(vbo, 8, 12); // source, offset, stride
+        for (int i = 0; i < vbo_x.size(); i++) vbo_x[i] = i;
+        for (int i = 0; i < vbo_y.size(); i++) vbo_y[i] = -i;
+        for (int i = 0; i < vbo_z.size(); i++) vbo_z[i] = 0;
+
+        // 4) finally, print again the new modified data stored in master buffer
+        std::cout << "\n2nd print of master buffer\n";
+        for (int i = 0; i < vbo.size(); i++)
+        {
+            std::cout << "[" << i << "] - { X: ";
+            std::cout << vbo[i].X << ", Y: " << vbo[i].Y << ", Z: " << vbo[i].Z;
+            std::cout << " }\n";
+        }
+    }
+
+
     std::string arch_info = ARCHITECTURE_NAME;
     std::string comp_info = COMPILER_VERSION_NAME " (" + std::to_string(COMPILER_VERSION) + ")";
     std::string title = arch_info + " | " + comp_info;
