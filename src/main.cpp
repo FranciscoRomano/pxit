@@ -10,6 +10,22 @@
 
 bool is_running = false;
 
+typedef struct PX_HMONITOR_INFO {
+    HMONITOR hMonitor;
+    RECT     rect;
+} PX_HMONITOR_INFO;
+
+std::vector<PX_HMONITOR_INFO> px_monitor_infos;
+
+BOOL PxMonitorEnumProc(HMONITOR hMonitor, HDC hDC, LPRECT lpRect, LPARAM lParam)
+{
+    px_monitor_infos.push_back({
+        hMonitor,
+        *lpRect
+    });
+    return TRUE;
+}
+
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     if (is_running) switch (uMsg)
@@ -54,6 +70,30 @@ int main(int argc, char** argv)
     {
         MessageBoxA(NULL, "Failed to register Class", "BANANAS", MB_OK);
         return -1;
+    }
+
+    EnumDisplayMonitors(NULL, NULL, PxMonitorEnumProc, 0);
+
+    for (auto info : px_monitor_infos)
+    {
+        MONITORINFO hmonitor_info;
+        hmonitor_info.cbSize = sizeof(MONITORINFO);
+        if (!GetMonitorInfoW(info.hMonitor, &hmonitor_info)) continue;
+
+        std::wstring msg;
+        msg += std::wstring(L"DisplayMonitor\n");
+        msg += std::wstring(L"- rcMonitor: {");
+        msg += std::wstring(L" left: ")    + std::to_wstring(hmonitor_info.rcMonitor.left);
+        msg += std::wstring(L", top: ")    + std::to_wstring(hmonitor_info.rcMonitor.top);
+        msg += std::wstring(L", right: ")  + std::to_wstring(hmonitor_info.rcMonitor.right);
+        msg += std::wstring(L", bottom: ") + std::to_wstring(hmonitor_info.rcMonitor.bottom);
+        msg += std::wstring(L" }\n- rcWork: {");
+        msg += std::wstring(L" left: ")    + std::to_wstring(hmonitor_info.rcWork.left);
+        msg += std::wstring(L", top: ")    + std::to_wstring(hmonitor_info.rcWork.top);
+        msg += std::wstring(L", right: ")  + std::to_wstring(hmonitor_info.rcWork.right);
+        msg += std::wstring(L", bottom: ") + std::to_wstring(hmonitor_info.rcWork.bottom);
+        msg += std::wstring(L" }");
+        MessageBoxW(NULL, msg.c_str(), L"Device", MB_OK);
     }
 
     DISPLAY_DEVICEW display = {};
@@ -144,9 +184,9 @@ int main(int argc, char** argv)
     auto glcontext = GOpenGLCallbacks_WGL.CreateContext(h_window_dc);
     GOpenGLCallbacks_WGL.MakeCurrent(h_window_dc, glcontext);
 
-    if (LoadOpenGLES32(LetsGetThatOpenGLFunction) != 1)
+    if (LoadOpenGLES20(LetsGetThatOpenGLFunction) != 1)
     {
-        MessageBoxA(NULL, "Failed to load OpenGL ES 3.2", "BANANAS", MB_OK);
+        MessageBoxA(NULL, "Failed to load OpenGL ES 2.0", "ERROR", MB_OK);
         return -1;
     }
 

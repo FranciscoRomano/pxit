@@ -44,7 +44,11 @@ BOOL pxLoadOpenGL_WGL(HINSTANCE hInstance, LPCSTR lpszClassName)
     if (GOpenGLLibrary_WGL == NULL)
     {
         GOpenGLLibrary_WGL = LoadLibraryA("opengl32.dll");
-        if (!GOpenGLLibrary_WGL) return FALSE;
+        if (!GOpenGLLibrary_WGL)
+        {
+            MessageBoxA(NULL, "Failed to load 'opengl32.dll'", "ERROR", MB_OK);
+            return FALSE;
+        }
     }
 
     // 2) fetch all available WGL procedures by name
@@ -90,22 +94,28 @@ BOOL pxLoadOpenGL_WGL(HINSTANCE hInstance, LPCSTR lpszClassName)
         hInstance,
         NULL
     );
-    if (!h_window) return FALSE;
+    if (!h_window)
+    {
+        MessageBoxA(NULL, "Failed to create dummy window", "ERROR", MB_OK);
+        return FALSE;
+    }
     HDC h_window_dc = GetDC(h_window);
 
     // 4) set the pixel format for the dummy window device context
     PIXELFORMATDESCRIPTOR pixel_format;
     ZeroMemory(&pixel_format, sizeof(pixel_format));
-    pixel_format.nSize      = sizeof(pixel_format);
-    pixel_format.nVersion   = 1;
-    pixel_format.dwFlags    = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-    pixel_format.iPixelType = PFD_TYPE_RGBA;
-    pixel_format.cColorBits = 32;
-    pixel_format.cAlphaBits = 8;
-    pixel_format.cDepthBits = 24;
+    pixel_format.nSize        = sizeof(pixel_format);
+    pixel_format.nVersion     = 1;
+    pixel_format.dwFlags      = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+    pixel_format.iPixelType   = PFD_TYPE_RGBA;
+    pixel_format.cColorBits   = 32;
+    pixel_format.cDepthBits   = 24;
+    pixel_format.cStencilBits = 8;
+    pixel_format.dwLayerMask  = PFD_MAIN_PLANE;
     int cpf_result = ChoosePixelFormat(h_window_dc, &pixel_format);
     if (!cpf_result || !SetPixelFormat(h_window_dc, cpf_result, &pixel_format))
     {
+        MessageBoxA(NULL, "Failed to set pixel format", "ERROR", MB_OK);
         ReleaseDC(h_window, h_window_dc);
         DestroyWindow(h_window);
         return FALSE;
@@ -115,6 +125,7 @@ BOOL pxLoadOpenGL_WGL(HINSTANCE hInstance, LPCSTR lpszClassName)
     HGLRC opengl1_context = GOpenGLCallbacks_WGL.CreateContext(h_window_dc);
     if (!opengl1_context)
     {
+        MessageBoxA(NULL, "Failed to create opengl context", "ERROR", MB_OK);
         ReleaseDC(h_window, h_window_dc);
         DestroyWindow(h_window);
         return FALSE;

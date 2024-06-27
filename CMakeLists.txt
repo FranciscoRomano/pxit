@@ -17,5 +17,6 @@ add_executable(pxit
 )
 target_include_directories(pxit PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include")
 target_include_directories(pxit PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include/OpenGL")
+target_link_options(pxit PRIVATE -static)
 target_link_options(pxit PRIVATE -mwindows)
 #--------------------------------------------------------------------------------------------------#
