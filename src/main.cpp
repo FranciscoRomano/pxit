@@ -2,6 +2,7 @@
 #include <OpenGL_WGL.h>
 #include <iostream>
 #include <string>
+#include <vector>
 #include <Windows.h>
 #include <Macros/Architecture.h>
 #include <Macros/Compiler.h>
