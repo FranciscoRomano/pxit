@@ -8,6 +8,8 @@
             "label": "Clean",
             "group": { "kind": "build", "isDefault": false },
             "linux": { "command": "bash ${workspaceRoot}/.vscode/cmake.clean.sh" },
+            "windows": { "command": "${workspaceRoot}/.vscode/cmake.clean.ps1" },
+            "presentation": { "echo": false },
             "problemMatcher": []
         },
         {
@@ -15,6 +17,7 @@
             "label": "Build",
             "group": { "kind": "build", "isDefault": false },
             "linux": { "command": "bash ${workspaceRoot}/.vscode/cmake.build.sh" },
+            "windows": { "command": "${workspaceRoot}/.vscode/cmake.build.ps1" },
             "presentation": { "echo": false },
             "problemMatcher": [],
         },
