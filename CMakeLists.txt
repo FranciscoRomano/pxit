@@ -1,12 +1,7 @@
 #--------------------------------------------------------------------------------------------------#
 cmake_minimum_required(VERSION 3.28 FATAL_ERROR)
 #--------------------------------------------------------------------------------------------------#
-# set global configuration
-set(CMAKE_CXX_VISIBILITY_PRESET hidden)
-set(CMAKE_VISIBILITY_INLINES_HIDDEN YES)
-#--------------------------------------------------------------------------------------------------#
 project(pxit)
-set(EXECUTABLE_OUTPUT_PATH "${CMAKE_CURRENT_LIST_DIR}/bin")
 add_executable(pxit
   "${CMAKE_CURRENT_LIST_DIR}/src/OpenGL/GLES20.c"
   "${CMAKE_CURRENT_LIST_DIR}/src/OpenGL/GLES30.c"
