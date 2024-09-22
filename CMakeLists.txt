@@ -4,6 +4,7 @@
 # https://gitlab.kitware.com/cmake/cmake
 #--------------------------------------------------------------------------------------------------#
 cmake_minimum_required(VERSION 3.28 FATAL_ERROR)
+project(pxit)
 
 # GNU/Linux Operating System
 set(IS_PLATFORM_LINUX OFF)
@@ -26,7 +27,6 @@ endif()
 #--------------------------------------------------------------------------------------------------#
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/src/platform")
 #--------------------------------------------------------------------------------------------------#
-project(pxit)
 add_executable(pxit "${CMAKE_CURRENT_LIST_DIR}/src/main.c")
 target_link_libraries(pxit PUBLIC px_platform)
 #--------------------------------------------------------------------------------------------------#
