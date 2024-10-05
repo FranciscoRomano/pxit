@@ -27,6 +27,9 @@ endif()
 #--------------------------------------------------------------------------------------------------#
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/src/platform")
 #--------------------------------------------------------------------------------------------------#
-add_executable(pxit "${CMAKE_CURRENT_LIST_DIR}/src/main.c")
+add_executable(pxit
+  "${CMAKE_CURRENT_LIST_DIR}/src/main.c"
+  "${CMAKE_CURRENT_LIST_DIR}/src/core/display.c"
+)
 target_link_libraries(pxit PUBLIC px_platform)
 #--------------------------------------------------------------------------------------------------#

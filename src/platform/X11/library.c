@@ -1,27 +1,9 @@
 // -------------------------------------------------------------------------------------------------------------------------- //
-// The MIT License (MIT)
-// 
+// SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
-// 
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-// 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
 // -------------------------------------------------------------------------------------------------------------------------- //
 #include "library.h"
+#include <pxit/pxit.h>
 #include <dlfcn.h>
 #include <memory.h>
 #include <stdio.h>
@@ -38,7 +20,13 @@
 "/snap/gnome-42-2204/176/usr/lib/x86_64-linux-gnu/" NAME
 
 #define X11_LOAD_SYMBOL(NAME)\
-X11.NAME = dlsym(X11_LIBRARY, #NAME)
+X11.NAME = dlsym(X11_LIBRARY, #NAME);\
+if (X11.NAME == NULL) {\
+    printf(" - ERROR: Failed to load symbol '" #NAME "'\n");\
+    dlclose(X11_LIBRARY);\
+    X11_LIBRARY = NULL;\
+    continue;\
+}
 
 PxLibrary_X11 X11 = {};
 void* X11_LIBRARY = NULL;
@@ -54,19 +42,19 @@ const size_t X11_LIBRARY_PATH_COUNT = sizeof(X11_LIBRARY_PATH) / sizeof(X11_LIBR
 int pxFreeLibrary_X11()
 {
     // check if library is already loaded
-    if (X11_LIBRARY == NULL) return 1;
+    if (X11_LIBRARY == NULL) return PX_SUCCESS;
 
     // close the library and reset data to zeros.
     dlclose(X11_LIBRARY);
     X11_LIBRARY = NULL;
     memset(&X11, 0, sizeof(X11));
-    return 1;
+    return PX_SUCCESS;
 }
 // -------------------------------------------------------------------------------------------------------------------------- //
 int pxLoadLibrary_X11(PxLibrary_X11* library)
 {
     // check if library is already loaded
-    if (X11_LIBRARY != NULL) return 1;
+    if (X11_LIBRARY != NULL) return PX_SUCCESS;
 
     // iterate through all potential library paths
     for (size_t i = 0; i < X11_LIBRARY_PATH_COUNT; i++)
@@ -88,16 +76,27 @@ int pxLoadLibrary_X11(PxLibrary_X11* library)
         X11_LIBRARY = dlopen(X11_LIBRARY_PATH[i], RTLD_LAZY);
         if (X11_LIBRARY == NULL) { printf(" - ERROR\n"); continue; }
 
-        //DefaultRootWindow()
-        // 3) fetch all required library symbols/functions.
-        X11_LOAD_SYMBOL(XCreateColormap);
-        X11_LOAD_SYMBOL(XOpenDisplay);
-        X11_LOAD_SYMBOL(XScreenCount);
-        X11_LOAD_SYMBOL(XScreenOfDisplay);
+        // 3) fetch all required library symbols/functions
+        X11_LOAD_SYMBOL(XCreateColormap)
+        X11_LOAD_SYMBOL(XDefaultScreen)
+        X11_LOAD_SYMBOL(XDefaultScreenOfDisplay)
+        X11_LOAD_SYMBOL(XOpenDisplay)
+        X11_LOAD_SYMBOL(XScreenCount)
+        X11_LOAD_SYMBOL(XScreenOfDisplay)
+
+        // 4) finally, open the default X11 display and store it
+        X11.dpy = X11.XOpenDisplay(NULL);
+        if (X11.dpy == NULL)
+        {
+            printf(" - ERROR: Failed to connect to X server\n");
+            dlclose(X11_LIBRARY);
+            X11_LIBRARY = NULL;
+            continue;
+        }
         printf(" - DONE\n");
-        return 1;
+        return PX_SUCCESS;
     }
 
-    return 0;
+    return PX_FAILURE;
 }
 // -------------------------------------------------------------------------------------------------------------------------- //

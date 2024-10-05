@@ -10,7 +10,7 @@
 # GNU/Linux Operating System #######################################################################
 
   if(IS_PLATFORM_LINUX)
-    target_sources(px_platform PRIVATE "${CMAKE_CURRENT_LIST_DIR}/Linux/platform.c")
+    # target_sources(px_platform PRIVATE "${CMAKE_CURRENT_LIST_DIR}/Linux/platform.c")
     # X Windowing System (X11)
     find_package(X11)
     if(${X11_FOUND})
@@ -24,7 +24,7 @@
 # Microsoft Windows Operating System ###############################################################
 
   if(IS_PLATFORM_WINDOWS)
-    target_sources(px_platform PRIVATE "${CMAKE_CURRENT_LIST_DIR}/Windows/platform.c")
+    # target_sources(px_platform PRIVATE "${CMAKE_CURRENT_LIST_DIR}/Windows/platform.c")
   endif()
 
 #--------------------------------------------------------------------------------------------------#
