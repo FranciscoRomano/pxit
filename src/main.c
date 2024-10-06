@@ -1,40 +1,23 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <pxit/pxit.h>
+// https://wayland-book.com/wayland-display/creation.html
+#include "platform/WaylandClient/library.h"
 
 int main(int argc, char** argv)
 {
-    int count = 0;
-    if (pxGetDisplays(&count, NULL) != PX_SUCCESS)
+    if (pxLoadWaylandClient() == PX_SUCCESS)
     {
-        printf("Failed to fetch displays\n");
-        exit(EXIT_FAILURE);
-    }
-
-    PxDisplay* displays = malloc(sizeof(PxDisplay) * count);
-    if (pxGetDisplays(&count, displays) != PX_SUCCESS)
-    {
-        printf("Failed to fetch displays\n");
-        exit(EXIT_FAILURE);
-    }
-
-    for (int i = 0; i < count; i++)
-    {
-        PxDisplayInfo info = {};
-        if (pxGetDisplayInfo(displays[i], &info) != PX_SUCCESS)
+        struct wl_display* dpy = WaylandClient.wl_display_connect(NULL);
+        if (dpy != NULL)
         {
-            printf("Failed to fetch display[%i] information\n", i);
-            continue;
+            printf("Connected to wayland display\n");
+            WaylandClient.wl_display_disconnect(dpy);
+            pxFreeWaylandClient();
+            exit(EXIT_SUCCESS);
+            return 0;
         }
 
-        printf("Display_%i\n", i);
-        printf(" - ScreenX: %i\n", info.ScreenX);
-        printf(" - ScreenY: %i\n", info.ScreenY);
-        printf(" - ScreenW: %i\n", info.ScreenW);
-        printf(" - ScreenH: %i\n", info.ScreenH);
-        printf(" - Refresh: %i\n", info.Refresh);
-        printf(" - Scaling: %i\n", info.Scaling);
+        printf("Failed to connect to wayland display\n");
+        pxFreeWaylandClient();
     }
-
+    exit(EXIT_FAILURE);
     return 0;
 }

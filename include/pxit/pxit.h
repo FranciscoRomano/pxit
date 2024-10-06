@@ -33,6 +33,14 @@ extern "C" {
 //                   Useful for abstracting any platform specific libraries.
 #define PLATFORM_HANDLE(NAME) typedef struct NAME##_t* NAME;
 // ---------------------------------------------------------------------------------------------- //
+#ifndef __cplusplus
+#define BEGIN_EXTERN_C
+#define END_EXTERN_C
+#else
+#define BEGIN_EXTERN_C extern "C" {
+#define END_EXTERN_C }
+#endif//__cplusplus
+// ---------------------------------------------------------------------------------------------- //
 
 /// @brief Represent the result code
 typedef enum PxResult {
