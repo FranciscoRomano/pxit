@@ -1,0 +1,13 @@
+{
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.buildTask": true,
+    "cmake.configureArgs": [ "-DCMAKE_C_COMPILER=gcc", "-DCMAKE_CXX_COMPILER=g++" ],
+    "cmake.deleteBuildDirOnCleanConfigure": true,
+    "cmake.enableAutomaticKitScan": false,
+    "cmake.ignoreCMakeListsMissing": true,
+    "cmake.ignoreKitEnv": true,
+    "cmake.showSystemKits": false,
+    "cmake.useVsDeveloperEnvironment": "never",
+    "workbench.panel.showLabels": false,
+}
