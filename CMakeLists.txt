@@ -30,8 +30,8 @@ endif()
 
 # GNU Compiler Collection (GCC)
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  #target_compile_options(pxit PUBLIC -static)
-  #target_compile_options(pxit PUBLIC -mwindows)
+  #target_link_options(pxit PUBLIC -static)
+  #target_link_options(pxit PUBLIC -mwindows)
 endif()
 
 # Microsoft Visual C++ Compiler (MSVC)
@@ -44,6 +44,7 @@ endif()
 project(pxit)
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/src/platform")
 add_executable(pxit "${CMAKE_CURRENT_LIST_DIR}/src/main.c")
+#target_link_options(pxit PUBLIC -static -mwindows)
 target_link_libraries(pxit PUBLIC platform)
 
 #------------------------------------------------------------------------------------------------------------------------------#
