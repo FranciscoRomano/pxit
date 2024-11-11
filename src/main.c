@@ -1,23 +1,12 @@
-// https://wayland-book.com/wayland-display/creation.html
-#include "platform/WaylandClient/library.h"
+#include "platform/Win32/context.h"
 
 int main(int argc, char** argv)
 {
-    if (pxLoadWaylandClient() == PX_SUCCESS)
-    {
-        struct wl_display* dpy = WaylandClient.wl_display_connect(NULL);
-        if (dpy != NULL)
-        {
-            printf("Connected to wayland display\n");
-            WaylandClient.wl_display_disconnect(dpy);
-            pxFreeWaylandClient();
-            exit(EXIT_SUCCESS);
-            return 0;
-        }
+    // initialize a platform context
+    PlatformContextWin32 ctx;
+    InitPlatformContextWin32(&ctx);
 
-        printf("Failed to connect to wayland display\n");
-        pxFreeWaylandClient();
-    }
-    exit(EXIT_FAILURE);
+    // free the existing platform context
+    FreePlatformContextWin32(&ctx);
     return 0;
 }

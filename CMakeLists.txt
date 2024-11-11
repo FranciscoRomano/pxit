@@ -1,10 +1,11 @@
-#--------------------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------#
 # https://gitlab.kitware.com/cmake/community/-/wikis/doc/tutorials/How-To-Write-Platform-Checks
 # https://cmake.org/cmake/help/latest/variable/CMAKE_SYSTEM_NAME.html
 # https://gitlab.kitware.com/cmake/cmake
-#--------------------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------#
 cmake_minimum_required(VERSION 3.28 FATAL_ERROR)
-project(pxit)
+#------------------------------------------------------------------------------------------------------------------------------#
+# Platform #####################################################################################################################
 
 # GNU/Linux Operating System
 set(IS_PLATFORM_LINUX OFF)
@@ -24,12 +25,25 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows" OR WIN32)
   set(IS_PLATFORM_WINDOWS ON)
 endif()
 
-#--------------------------------------------------------------------------------------------------#
+#------------------------------------------------------------------------------------------------------------------------------#
+# C/C++ Compilers ##############################################################################################################
+
+# GNU Compiler Collection (GCC)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  #target_compile_options(pxit PUBLIC -static)
+  #target_compile_options(pxit PUBLIC -mwindows)
+endif()
+
+# Microsoft Visual C++ Compiler (MSVC)
+if(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+endif()
+
+#------------------------------------------------------------------------------------------------------------------------------#
+# Project Configuration ########################################################################################################
+
+project(pxit)
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/src/platform")
-#--------------------------------------------------------------------------------------------------#
-add_executable(pxit
-  "${CMAKE_CURRENT_LIST_DIR}/src/main.c"
-  "${CMAKE_CURRENT_LIST_DIR}/src/core/display.c"
-)
-target_link_libraries(pxit PUBLIC px_platform)
-#--------------------------------------------------------------------------------------------------#
+add_executable(pxit "${CMAKE_CURRENT_LIST_DIR}/src/main.c")
+target_link_libraries(pxit PUBLIC platform)
+
+#------------------------------------------------------------------------------------------------------------------------------#
