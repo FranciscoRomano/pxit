@@ -1,10 +1,13 @@
+// -------------------------------------------------------------------------------------------------------------------------- //
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
+// -------------------------------------------------------------------------------------------------------------------------- //
 #ifndef __pxit_platform_Win32_context_h__
 #define __pxit_platform_Win32_context_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
+// -------------------------------------------------------------------------------------------------------------------------- //
 
 #include <Windows.h>
 
@@ -20,7 +23,9 @@ void FreePlatformContextWin32(PlatformContextWin32* ctx);
 /// @brief Initializes the specified Win32 API platform context.
 void InitPlatformContextWin32(PlatformContextWin32* ctx);
 
+// -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
 }
 #endif
 #endif//__pxit_platform_Win32_context_h__
+// -------------------------------------------------------------------------------------------------------------------------- //
