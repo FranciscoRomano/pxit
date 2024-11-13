@@ -15,7 +15,7 @@ extern "C" {
 typedef struct PxitPlatformWin32 {
     BOOL      bExists;
     HINSTANCE hInstance;
-    LPCSTR    pClassName;
+    LPCSTR    lpClassName;
     CHAR      location[MAX_PATH];
 } PxitPlatformWin32;
 

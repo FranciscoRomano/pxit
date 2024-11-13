@@ -20,7 +20,7 @@ void FreePxitPlatformWin32()
     GWin32.bExists = FALSE;
 
     // unregister the window class
-    if (!UnregisterClassA(GWin32.pClassName, GWin32.hInstance))
+    if (!UnregisterClassA(GWin32.lpClassName, GWin32.hInstance))
     {
         printf("ERROR: Failed to unregister class\n");
         exit(EXIT_FAILURE);
@@ -45,8 +45,8 @@ void InitPxitPlatformWin32()
     wc.hIconSm       = LoadIcon(NULL, IDI_APPLICATION);
     wc.hInstance     = GWin32.hInstance = GetModuleHandleA(NULL);
     wc.lpfnWndProc   = WndProc;
-    wc.lpszMenuName  = "PxitMenu";
-    wc.lpszClassName = GWin32.pClassName = "PxitClass";
+    wc.lpszMenuName  = NULL;
+    wc.lpszClassName = GWin32.lpClassName = "PxitPlatformWin32Class";
     wc.style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     if (!RegisterClassExA(&wc))
     {
