@@ -1,12 +1,14 @@
 #include "platform/Win32/context.h"
+#include <stdio.h>
+
+extern PxitPlatformWin32 GWin32;
 
 int main(int argc, char** argv)
 {
-    // initialize a platform context
-    PlatformContextWin32 ctx;
-    InitPlatformContextWin32(&ctx);
+    InitPxitPlatformWin32();
 
-    // free the existing platform context
-    FreePlatformContextWin32(&ctx);
+    printf(" - location: %s", GWin32.location);
+
+    FreePxitPlatformWin32();
     return 0;
 }

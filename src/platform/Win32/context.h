@@ -11,17 +11,19 @@ extern "C" {
 
 #include <Windows.h>
 
-/// @brief Represents the Win32 API platform context.
-typedef struct PlatformContextWin32 {
+/// @brief Represents a Win32 platform.
+typedef struct PxitPlatformWin32 {
+    BOOL      bExists;
     HINSTANCE hInstance;
-    LPCSTR    lpszClassName;
-} PlatformContextWin32;
+    LPCSTR    pClassName;
+    CHAR      location[MAX_PATH];
+} PxitPlatformWin32;
 
-/// @brief Frees the specified Win32 API platform context.
-void FreePlatformContextWin32(PlatformContextWin32* ctx);
+/// @brief Releases the global Win32 platform.
+void FreePxitPlatformWin32();
 
-/// @brief Initializes the specified Win32 API platform context.
-void InitPlatformContextWin32(PlatformContextWin32* ctx);
+/// @brief Initializes the global Win32 platform.
+void InitPxitPlatformWin32();
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
