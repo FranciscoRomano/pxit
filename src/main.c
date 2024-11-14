@@ -1,43 +1,15 @@
-#include "platform/Win32/context.h"
+#include "platform/X11/context.h"
+#include <stdlib.h>
 #include <stdio.h>
 
-extern PxitPlatformWin32 GWin32;
-
-HWND CreatePxitWindowWin32(LPCSTR name, int x, int y, int width, int height)
-{
-    InitPxitPlatformWin32();
-
-    DWORD dwStyle = WS_POPUP | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
-    HWND hWnd = CreateWindowExA(
-        0,
-        GWin32.lpClassName,
-        name,
-        dwStyle,
-        x,
-        y,
-        width,
-        height,
-        NULL,
-        NULL,
-        GWin32.hInstance,
-        (LPVOID)NULL
-    );
-    return hWnd;
-}
-
-void DestroyPxitWindowWin32(HWND hWnd)
-{
-    DestroyWindow(hWnd);
-
-    FreePxitPlatformWin32();
-}
+extern PxitPlatformX11 GX11;
 
 int main(int argc, char** argv)
 {
-    HWND hWnd = CreatePxitWindowWin32("Hello World", 10, 10, 800, 600);
+    InitPxitPlatformX11();
 
-    printf(" - location: %s", GWin32.location);
+    if (GX11.lib) printf("X11 was initialized successfully\n");
 
-    DestroyPxitWindowWin32(hWnd);
+    FreePxitPlatformX11();
     return 0;
 }

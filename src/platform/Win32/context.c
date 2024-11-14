@@ -3,10 +3,11 @@
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
 #include "context.h"
+#include <stdlib.h>
 #include <stdio.h>
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-PxitPlatformWin32 GWin32 = { FALSE };
+PxitPlatformWin32 GWin32 = {};
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {

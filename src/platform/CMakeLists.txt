@@ -9,7 +9,7 @@ target_include_directories(platform PUBLIC "${CMAKE_SOURCE_DIR}/include")
 
 if(IS_PLATFORM_LINUX)
   find_package(X11 REQUIRED)
-  target_sources(platform PRIVATE "${CMAKE_CURRENT_LIST_DIR}/X11/library.c")
+  target_sources(platform PRIVATE "${CMAKE_CURRENT_LIST_DIR}/X11/context.c")
   target_include_directories(platform PRIVATE "${X11_INCLUDE_DIR}")
 endif()
 
