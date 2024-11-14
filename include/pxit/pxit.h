@@ -3,10 +3,7 @@
 // Copyright (c) 2024 Francisco Romano
 // ---------------------------------------------------------------------------------------------- //
 #ifndef __pxit_pxit_h__
-#define __pxit_pxit_h__ 1
-#ifdef __cplusplus
-extern "C" {
-#endif
+#define __pxit_pxit_h__
 // ---------------------------------------------------------------------------------------------- //
 // IS_PLATFORM_LINUX - Used to detect any GNU/Linux Operating System
 #if defined(linux) || defined(__linux) || defined(__linux__)
@@ -29,30 +26,6 @@ extern "C" {
     #define PLATFORM_CALL
   #endif
 #endif
-// PLATFORM_HANDLE - Used to declare a handle with the specified name.
-//                   Useful for abstracting any platform specific libraries.
-#define PLATFORM_HANDLE(NAME) typedef struct NAME##_t* NAME;
 // ---------------------------------------------------------------------------------------------- //
-#ifndef __cplusplus
-#define BEGIN_EXTERN_C
-#define END_EXTERN_C
-#else
-#define BEGIN_EXTERN_C extern "C" {
-#define END_EXTERN_C }
-#endif//__cplusplus
-// ---------------------------------------------------------------------------------------------- //
-
-/// @brief Represent the result code
-typedef enum PxResult {
-    PX_SUCCESS = 0,
-    PX_FAILURE = 1,
-} PxResult;
-
-#include "core/display.h"
-
-// ---------------------------------------------------------------------------------------------- //
-#ifdef __cplusplus
-}
-#endif
 #endif//__pxit_pxit_h__
 // ---------------------------------------------------------------------------------------------- //
