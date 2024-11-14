@@ -12,17 +12,24 @@ extern "C" {
 #include <X11/X.h>
 #include <X11/Xlib.h>
 
+typedef unsigned int  uint;
+typedef unsigned long ulong;
+
 /// @brief Represents a X11 platform.
 typedef struct PxitPlatformX11 {
     void*    lib;
     Display* dpy;
     int      (*XCloseDisplay)(Display*);
-    Colormap (*XCreateColormap)(Display*, Window, Visual*, int);
+    Colormap (*XCreateColormap)(Display*,Window,Visual*,int);
+    Window   (*XCreateWindow)(Display*,Window,int,int,uint,uint,uint,int,uint,Visual*,ulong,XSetWindowAttributes*);
+    Window   (*XDefaultRootWindow)(Display*);
     int      (*XDefaultScreen)(Display*);
     Screen   (*XDefaultScreenOfDisplay)(Display*);
+    int      (*XMapWindow)(Display*,Window);
+    int      (*XNextEvent)(Display*,XEvent*);
     Display* (*XOpenDisplay)(const char*);
     int      (*XScreenCount)(Display*);
-    Screen*  (*XScreenOfDisplay)(Display*, int);
+    Screen*  (*XScreenOfDisplay)(Display*,int);
 } PxitPlatformX11;
 
 /// @brief Releases the global X11 platform.
