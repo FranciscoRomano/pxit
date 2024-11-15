@@ -11,6 +11,7 @@ extern "C" {
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
+#include <X11/Xutil.h>
 
 typedef unsigned int  uint;
 typedef unsigned long ulong;
@@ -30,6 +31,7 @@ typedef struct PxitPlatformX11 {
     Display* (*XOpenDisplay)(const char*);
     int      (*XScreenCount)(Display*);
     Screen*  (*XScreenOfDisplay)(Display*,int);
+    KeyCode  (*XKeysymToKeycode)(Display*,KeySym);
 } PxitPlatformX11;
 
 /// @brief Releases the global X11 platform.

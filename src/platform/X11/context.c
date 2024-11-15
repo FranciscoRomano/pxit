@@ -66,6 +66,7 @@ void InitPxitPlatformX11()
         X11_LOAD_SYMBOL(XOpenDisplay)
         X11_LOAD_SYMBOL(XScreenCount)
         X11_LOAD_SYMBOL(XScreenOfDisplay)
+        X11_LOAD_SYMBOL(XKeysymToKeycode)
 
         // establish a new connection with the X server
         GX11.dpy = GX11.XOpenDisplay(NULL);
