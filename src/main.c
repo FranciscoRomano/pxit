@@ -1,97 +1,75 @@
+#include "platform/X11/library.h"
+#include "platform/X11/window.h"
+#include <stdlib.h>
 #include <stdio.h>
-#include <windows.h>
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-    switch (uMsg)
-    {
-        case WM_KEYUP:
-            if (wParam == VK_ESCAPE)
-            {
-                printf("The escape key is up\n");
-                PostQuitMessage(0);
-            }
-        case WM_KEYDOWN:
-            if (wParam == VK_ESCAPE)
-            {
-                printf("The escape key is down\n");
-            }
-            break;
-        case WM_CLOSE:
-            PostQuitMessage(0);
-            break;
-        default:
-            break;
-    }
-
-    return DefWindowProc(hwnd, uMsg, wParam, lParam);
-}
+extern LibraryX11 X11;
 
 int main(int argc, char** argv)
 {
-    HINSTANCE hInstance   = GetModuleHandleA(NULL);
-    char*     lpClassName = "PxitPlatformWin32Class";
-
-    // register a new window class
-    WNDCLASSEXA wc;
-    ZeroMemory(&wc, sizeof(WNDCLASSEXW));
-    wc.cbClsExtra    = 0;
-    wc.cbSize        = sizeof(WNDCLASSEXW);
-    wc.cbWndExtra    = 0;
-    wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
-    wc.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
-    wc.hIconSm       = LoadIcon(NULL, IDI_APPLICATION);
-    wc.hInstance     = hInstance;
-    wc.lpfnWndProc   = WndProc;
-    wc.lpszMenuName  = NULL;
-    wc.lpszClassName = lpClassName;
-    wc.style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-    if (!RegisterClassExA(&wc))
+    if (!LoadLibraryX11())
     {
-        printf("ERROR: Failed to register class\n");
+        printf("ERROR: failed to load X11 library\n");
         exit(EXIT_FAILURE);
     }
 
-    HWND hWnd = CreateWindowA(
-        lpClassName,
-        "GameEngine_Win32",
-        WS_POPUPWINDOW | WS_CAPTION | WS_SIZEBOX,
-        10,
-        10,
+    WindowContextX11 ws;
+    if (!CreateWindowContextX11(&ws))
+    {
+        printf("ERROR: failed to load X11 window context\n");
+        exit(EXIT_FAILURE);
+    }
+
+    XSetWindowAttributes attr = {};
+    attr.background_pixel = 0xffafe9af;
+    attr.event_mask = StructureNotifyMask | KeyPressMask | KeyReleaseMask | ExposureMask;
+
+    Window win = X11.XCreateWindow(
+        ws.hDisplay,
+        ws.hRootWindow,
+        0,
+        0,
         800,
         600,
-        NULL,
-        NULL,
-        hInstance,
-        NULL
+        0,                         // border width
+        CopyFromParent,            // window depth
+        CopyFromParent,            // window class
+        CopyFromParent,            // window visual
+        CWBackPixel | CWEventMask, // attribute mask
+        &attr
     );
-    if (hWnd == NULL)
-    {
-        printf("ERROR: Failed to create window\n");
-        exit(EXIT_FAILURE);
-    }
+    X11.XMapWindow(ws.hDisplay, win);
 
-    ShowWindow(hWnd, SW_NORMAL);
+    X11.XSetWMProtocols(ws.hDisplay, win, &ws.wmDeleteWindow, 1);
 
-    MSG msg = {};
-    while (1)
+    int is_window_open = 1;
+    while (is_window_open)
     {
-        if (PeekMessageA(&msg, NULL, 0, 0, PM_REMOVE))
+        XEvent evt = {};
+        X11.XNextEvent(ws.hDisplay, &evt);
+
+        switch(evt.type)
         {
-            TranslateMessage(&msg);
-            DispatchMessageA(&msg);
-            if (msg.message == WM_QUIT) break;
+            case KeyPress:
+            case KeyRelease:
+            {
+                XKeyPressedEvent *Event = (XKeyPressedEvent*)&evt;
+                if(Event->keycode == X11.XKeysymToKeycode(ws.hDisplay, XK_Escape))
+                {
+                    is_window_open = 0;
+                }
+                break;
+            }
+            case ClientMessage:
+            {
+                XClientMessageEvent* cm_evt = (XClientMessageEvent*)(&evt);
+                if (evt.xclient.data.l[0] == ws.wmDeleteWindow)
+                    is_window_open = 0;
+            }
         }
     }
 
-    DestroyWindow(hWnd);
-
-    if (!UnregisterClassA(lpClassName, hInstance))
-    {
-        printf("ERROR: Failed to unregister class\n");
-        exit(EXIT_FAILURE);
-    }
-
+    DestroyWindowContextX11(&ws);
+    FreeLibraryX11();
     return 0;
 }
