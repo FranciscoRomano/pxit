@@ -19,11 +19,12 @@ LibraryX11 X11 = {};
 bool FreeLibraryX11()
 {
     // check if library was unloaded
-    if (!X11.lib) return true;
+    if (!X11.lib) return false;
 
     // unload and reset X11 library handle
     dlclose(X11.lib);
     X11.lib = NULL;
+    return true;
 }
 
 bool LoadLibraryX11()
