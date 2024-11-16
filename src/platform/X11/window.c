@@ -10,29 +10,63 @@
 
 extern LibraryX11 X11;
 
-bool CreateWindowContextX11(WindowContextX11* ctx)
+bool CreateWindowX11(WindowContextX11* context, uint width, uint height, WindowX11* window)
 {
-    // open a connection to the X server
-    ctx->hDisplay = X11.XOpenDisplay(NULL);
-    if (!ctx->hDisplay)
-    {
-        printf("ERROR: failed to open connection to X server\n");
-        exit(EXIT_FAILURE);
-    }
+    // set window attributes
+    XSetWindowAttributes attributes = {};
+    attributes.event_mask |= ExposureMask;
+    attributes.event_mask |= KeyPressMask;
+    attributes.event_mask |= KeyReleaseMask;
+    attributes.event_mask |= StructureNotifyMask;
+    attributes.background_pixel = 0xff000000;
 
-    // get the display's default root window
-    ctx->hRootWindow = X11.XDefaultRootWindow(ctx->hDisplay);
-
-    // get the 'WM_DELETE_WINDOW' event handle
-    ctx->wmDeleteWindow = X11.XInternAtom(ctx->hDisplay, "WM_DELETE_WINDOW", False);
+    // create a new X11 window
+    window->hID = X11.XCreateWindow(
+        context->hDisplay,
+        context->hRootWindow,
+        0,
+        0,
+        width,
+        height,
+        0,
+        CopyFromParent,
+        CopyFromParent,
+        CopyFromParent,
+        CWBackPixel | CWEventMask,
+        &attributes
+    );
+    if (!window->hID) return false;
+    X11.XMapWindow(context->hDisplay, window->hID);
+    X11.XSetWMProtocols(context->hDisplay, window->hID, &context->wmDeleteWindow, 1);
     return true;
 }
 
-bool DestroyWindowContextX11(WindowContextX11* ctx)
+bool CreateWindowContextX11(WindowContextX11* context)
+{
+    // open a connection to the X server
+    context->hDisplay = X11.XOpenDisplay(NULL);
+    if (!context->hDisplay) return false;
+
+    // get the display's default root window
+    context->hRootWindow = X11.XDefaultRootWindow(context->hDisplay);
+
+    // get the 'WM_DELETE_WINDOW' event handle
+    context->wmDeleteWindow = X11.XInternAtom(context->hDisplay, "WM_DELETE_WINDOW", False);
+    return true;
+}
+
+bool DestroyWindow(WindowContextX11* context, WindowX11* window)
+{
+    // destroy the X11 window
+    X11.XDestroyWindow(context->hDisplay, window->hID);
+    return true;
+}
+
+bool DestroyWindowContextX11(WindowContextX11* context)
 {
     // close the connection to the X server
-    X11.XCloseDisplay(ctx->hDisplay);
-    ctx->hDisplay = NULL;
+    X11.XCloseDisplay(context->hDisplay);
+    context->hDisplay = NULL;
     return true;
 }
 

@@ -17,6 +17,11 @@ extern "C" {
 typedef unsigned int  uint;
 typedef unsigned long ulong;
 
+/// @brief Represents a X11 window handle.
+typedef struct WindowX11 {
+    Window hID; // A X11 window.
+} WindowX11;
+
 /// @brief Represents a X11 window context handle.
 typedef struct WindowContextX11 {
     Display* hDisplay;       // A X server connection
@@ -24,11 +29,17 @@ typedef struct WindowContextX11 {
     Atom     wmDeleteWindow; // The WM_DELETE_WINDOW event
 } WindowContextX11;
 
+/// @brief Returns true if the X11 window was created.
+bool CreateWindowX11(WindowContextX11* context, uint width, uint height, WindowX11* window);
+
 /// @brief Returns true if a X11 window context was created.
-bool CreateWindowContextX11(WindowContextX11* ctx);
+bool CreateWindowContextX11(WindowContextX11* context);
+
+/// @brief Returns true if the X11 window was destroyed.
+bool DestroyWindow(WindowContextX11* context, WindowX11* window);
 
 /// @brief Returns true if the X11 window context was destroyed.
-bool DestroyWindowContextX11(WindowContextX11* ctx);
+bool DestroyWindowContextX11(WindowContextX11* context);
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
