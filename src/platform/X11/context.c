@@ -61,11 +61,13 @@ void InitPxitPlatformX11()
         X11_LOAD_SYMBOL(XDefaultRootWindow)
         X11_LOAD_SYMBOL(XDefaultScreen)
         X11_LOAD_SYMBOL(XDefaultScreenOfDisplay)
+        X11_LOAD_SYMBOL(XInternAtom)
         X11_LOAD_SYMBOL(XMapWindow)
         X11_LOAD_SYMBOL(XNextEvent)
         X11_LOAD_SYMBOL(XOpenDisplay)
         X11_LOAD_SYMBOL(XScreenCount)
         X11_LOAD_SYMBOL(XScreenOfDisplay)
+        X11_LOAD_SYMBOL(XSetWMProtocols)
         X11_LOAD_SYMBOL(XKeysymToKeycode)
 
         // establish a new connection with the X server

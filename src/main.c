@@ -8,6 +8,8 @@ int main(int argc, char** argv)
 {
     InitPxitPlatformX11();
 
+    Atom wmDeleteMessage = GX11.XInternAtom(GX11.dpy, "WM_DELETE_WINDOW", False);
+
     XSetWindowAttributes attr = {};
     attr.background_pixel = 0xffafe9af;
     attr.event_mask = StructureNotifyMask | KeyPressMask | KeyReleaseMask | ExposureMask;
@@ -28,6 +30,8 @@ int main(int argc, char** argv)
     );
     GX11.XMapWindow(GX11.dpy, win);
 
+    GX11.XSetWMProtocols(GX11.dpy, win, &wmDeleteMessage, 1);
+
     int is_window_open = 1;
     while (is_window_open)
     {
@@ -45,6 +49,12 @@ int main(int argc, char** argv)
                     is_window_open = 0;
                 }
                 break;
+            }
+            case ClientMessage:
+            {
+                XClientMessageEvent* cm_evt = (XClientMessageEvent*)(&evt);
+                if (evt.xclient.data.l[0] == wmDeleteMessage)
+                    is_window_open = 0;
             }
         }
     }

@@ -26,11 +26,13 @@ typedef struct PxitPlatformX11 {
     Window   (*XDefaultRootWindow)(Display*);
     int      (*XDefaultScreen)(Display*);
     Screen   (*XDefaultScreenOfDisplay)(Display*);
+    Atom     (*XInternAtom)(Display*,const char*,Bool);
     int      (*XMapWindow)(Display*,Window);
     int      (*XNextEvent)(Display*,XEvent*);
     Display* (*XOpenDisplay)(const char*);
     int      (*XScreenCount)(Display*);
     Screen*  (*XScreenOfDisplay)(Display*,int);
+    Status   (*XSetWMProtocols)(Display*,Window,Atom*,int);
     KeyCode  (*XKeysymToKeycode)(Display*,KeySym);
 } PxitPlatformX11;
 
