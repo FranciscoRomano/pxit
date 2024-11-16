@@ -1,64 +1,97 @@
-#include "platform/X11/context.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <windows.h>
 
-extern PxitPlatformX11 GX11;
+LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    switch (uMsg)
+    {
+        case WM_KEYUP:
+            if (wParam == VK_ESCAPE)
+            {
+                printf("The escape key is up\n");
+                PostQuitMessage(0);
+            }
+        case WM_KEYDOWN:
+            if (wParam == VK_ESCAPE)
+            {
+                printf("The escape key is down\n");
+            }
+            break;
+        case WM_CLOSE:
+            PostQuitMessage(0);
+            break;
+        default:
+            break;
+    }
+
+    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+}
 
 int main(int argc, char** argv)
 {
-    InitPxitPlatformX11();
+    HINSTANCE hInstance   = GetModuleHandleA(NULL);
+    char*     lpClassName = "PxitPlatformWin32Class";
 
-    Atom wmDeleteMessage = GX11.XInternAtom(GX11.dpy, "WM_DELETE_WINDOW", False);
+    // register a new window class
+    WNDCLASSEXA wc;
+    ZeroMemory(&wc, sizeof(WNDCLASSEXW));
+    wc.cbClsExtra    = 0;
+    wc.cbSize        = sizeof(WNDCLASSEXW);
+    wc.cbWndExtra    = 0;
+    wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+    wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
+    wc.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
+    wc.hIconSm       = LoadIcon(NULL, IDI_APPLICATION);
+    wc.hInstance     = hInstance;
+    wc.lpfnWndProc   = WndProc;
+    wc.lpszMenuName  = NULL;
+    wc.lpszClassName = lpClassName;
+    wc.style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+    if (!RegisterClassExA(&wc))
+    {
+        printf("ERROR: Failed to register class\n");
+        exit(EXIT_FAILURE);
+    }
 
-    XSetWindowAttributes attr = {};
-    attr.background_pixel = 0xffafe9af;
-    attr.event_mask = StructureNotifyMask | KeyPressMask | KeyReleaseMask | ExposureMask;
-
-    Window win = GX11.XCreateWindow(
-        GX11.dpy,
-        GX11.XDefaultRootWindow(GX11.dpy),
-        0,
-        0,
+    HWND hWnd = CreateWindowA(
+        lpClassName,
+        "GameEngine_Win32",
+        WS_POPUPWINDOW | WS_CAPTION | WS_SIZEBOX,
+        10,
+        10,
         800,
         600,
-        0,                         // border width
-        CopyFromParent,            // window depth
-        CopyFromParent,            // window class
-        CopyFromParent,            // window visual
-        CWBackPixel | CWEventMask, // attribute mask
-        &attr
+        NULL,
+        NULL,
+        hInstance,
+        NULL
     );
-    GX11.XMapWindow(GX11.dpy, win);
-
-    GX11.XSetWMProtocols(GX11.dpy, win, &wmDeleteMessage, 1);
-
-    int is_window_open = 1;
-    while (is_window_open)
+    if (hWnd == NULL)
     {
-        XEvent evt = {};
-        GX11.XNextEvent(GX11.dpy, &evt);
+        printf("ERROR: Failed to create window\n");
+        exit(EXIT_FAILURE);
+    }
 
-        switch(evt.type)
+    ShowWindow(hWnd, SW_NORMAL);
+
+    MSG msg = {};
+    while (1)
+    {
+        if (PeekMessageA(&msg, NULL, 0, 0, PM_REMOVE))
         {
-            case KeyPress:
-            case KeyRelease:
-            {
-                XKeyPressedEvent *Event = (XKeyPressedEvent*)&evt;
-                if(Event->keycode == GX11.XKeysymToKeycode(GX11.dpy, XK_Escape))
-                {
-                    is_window_open = 0;
-                }
-                break;
-            }
-            case ClientMessage:
-            {
-                XClientMessageEvent* cm_evt = (XClientMessageEvent*)(&evt);
-                if (evt.xclient.data.l[0] == wmDeleteMessage)
-                    is_window_open = 0;
-            }
+            TranslateMessage(&msg);
+            DispatchMessageA(&msg);
+            if (msg.message == WM_QUIT) break;
         }
     }
 
-    FreePxitPlatformX11();
+    DestroyWindow(hWnd);
+
+    if (!UnregisterClassA(lpClassName, hInstance))
+    {
+        printf("ERROR: Failed to unregister class\n");
+        exit(EXIT_FAILURE);
+    }
+
     return 0;
 }
