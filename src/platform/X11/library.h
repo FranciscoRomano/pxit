@@ -26,6 +26,7 @@ typedef struct LibraryX11 {
     Window   (*XDefaultRootWindow)(Display*);
     int      (*XDefaultScreen)(Display*);
     Screen   (*XDefaultScreenOfDisplay)(Display*);
+    int      (*XDestroyWindow)(Display*,Window);
     Atom     (*XInternAtom)(Display*,const char*,Bool);
     int      (*XMapWindow)(Display*,Window);
     int      (*XNextEvent)(Display*,XEvent*);
