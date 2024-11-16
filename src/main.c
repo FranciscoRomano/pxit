@@ -13,63 +13,42 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
 
-    WindowContextX11 ws;
-    if (!CreateWindowContextX11(&ws))
+    WindowContextX11 ctx;
+    if (!CreateWindowContextX11(&ctx))
     {
-        printf("ERROR: failed to load X11 window context\n");
+        printf("ERROR: failed to create X11 window context\n");
         exit(EXIT_FAILURE);
     }
 
-    XSetWindowAttributes attr = {};
-    attr.background_pixel = 0xffafe9af;
-    attr.event_mask = StructureNotifyMask | KeyPressMask | KeyReleaseMask | ExposureMask;
-
-    Window win = X11.XCreateWindow(
-        ws.hDisplay,
-        ws.hRootWindow,
-        0,
-        0,
-        800,
-        600,
-        0,                         // border width
-        CopyFromParent,            // window depth
-        CopyFromParent,            // window class
-        CopyFromParent,            // window visual
-        CWBackPixel | CWEventMask, // attribute mask
-        &attr
-    );
-    X11.XMapWindow(ws.hDisplay, win);
-
-    X11.XSetWMProtocols(ws.hDisplay, win, &ws.wmDeleteWindow, 1);
+    WindowX11 win;
+    if (!CreateWindowX11(&ctx, 800, 600, &win))
+    {
+        printf("ERROR: failed to create X11 window\n");
+        exit(EXIT_FAILURE);
+    }
 
     int is_window_open = 1;
     while (is_window_open)
     {
         XEvent evt = {};
-        X11.XNextEvent(ws.hDisplay, &evt);
+        X11.XNextEvent(ctx.hDisplay, &evt);
 
         switch(evt.type)
         {
             case KeyPress:
             case KeyRelease:
-            {
-                XKeyPressedEvent *Event = (XKeyPressedEvent*)&evt;
-                if(Event->keycode == X11.XKeysymToKeycode(ws.hDisplay, XK_Escape))
-                {
+                if (evt.xkey.keycode == X11.XKeysymToKeycode(ctx.hDisplay, XK_Escape))
                     is_window_open = 0;
-                }
                 break;
-            }
             case ClientMessage:
-            {
-                XClientMessageEvent* cm_evt = (XClientMessageEvent*)(&evt);
-                if (evt.xclient.data.l[0] == ws.wmDeleteWindow)
+                if (evt.xclient.window == win.hID && evt.xclient.data.l[0] == ctx.wmDeleteWindow)
                     is_window_open = 0;
-            }
+                break;
         }
     }
 
-    DestroyWindowContextX11(&ws);
+    DestroyWindow(&ctx, &win);
+    DestroyWindowContextX11(&ctx);
     FreeLibraryX11();
     return 0;
 }
