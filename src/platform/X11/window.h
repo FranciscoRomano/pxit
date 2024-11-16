@@ -13,6 +13,7 @@ extern "C" {
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <X11/Xatom.h>
 
 typedef unsigned int  uint;
 typedef unsigned long ulong;
@@ -25,6 +26,7 @@ typedef struct WindowX11 {
 /// @brief Represents a X11 window context handle.
 typedef struct WindowContextX11 {
     Display* hDisplay;       // A X server connection
+    XContext hContext;       // A unique context handle
     Window   hRootWindow;    // The default root window
     Atom     wmDeleteWindow; // The WM_DELETE_WINDOW event
 } WindowContextX11;

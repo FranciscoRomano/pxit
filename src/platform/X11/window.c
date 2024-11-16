@@ -38,6 +38,7 @@ bool CreateWindowX11(WindowContextX11* context, uint width, uint height, WindowX
     if (!window->hID) return false;
     X11.XMapWindow(context->hDisplay, window->hID);
     X11.XSetWMProtocols(context->hDisplay, window->hID, &context->wmDeleteWindow, 1);
+    X11.XSaveContext(context->hDisplay, window->hID, context->hContext, (char*)window);
     return true;
 }
 
@@ -46,6 +47,9 @@ bool CreateWindowContextX11(WindowContextX11* context)
     // open a connection to the X server
     context->hDisplay = X11.XOpenDisplay(NULL);
     if (!context->hDisplay) return false;
+
+    // get a unique or the default context
+    context->hContext = (XContext)X11.XrmUniqueQuark();
 
     // get the display's default root window
     context->hRootWindow = X11.XDefaultRootWindow(context->hDisplay);
@@ -58,6 +62,8 @@ bool CreateWindowContextX11(WindowContextX11* context)
 bool DestroyWindow(WindowContextX11* context, WindowX11* window)
 {
     // destroy the X11 window
+    X11.XDeleteContext(context->hDisplay, window->hID, context->hContext);
+    X11.XUnmapWindow(context->hDisplay, window->hID);
     X11.XDestroyWindow(context->hDisplay, window->hID);
     return true;
 }
