@@ -55,7 +55,7 @@ int main(int argc, char** argv)
 
     HWND hWnd = CreateWindowA(
         lpClassName,
-        "GameEngine_Win32",
+        "",
         WS_POPUPWINDOW | WS_CAPTION | WS_SIZEBOX,
         10,
         10,
