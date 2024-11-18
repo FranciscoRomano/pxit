@@ -20,7 +20,7 @@ bool CreateWindowX11(WindowContextX11* context, uint width, uint height, WindowX
     attributes.event_mask |= StructureNotifyMask;
     attributes.background_pixel = 0xff000000;
 
-    // create a new X11 window
+    // create a new X server window
     window->hID = X11.XCreateWindow(
         context->hDisplay,
         context->hRootWindow,
@@ -61,7 +61,7 @@ bool CreateWindowContextX11(WindowContextX11* context)
 
 bool DestroyWindowX11(WindowContextX11* context, WindowX11* window)
 {
-    // destroy the X11 window
+    // destroy the X server window
     X11.XDeleteContext(context->hDisplay, window->hID, context->hContext);
     X11.XUnmapWindow(context->hDisplay, window->hID);
     X11.XDestroyWindow(context->hDisplay, window->hID);
@@ -73,6 +73,37 @@ bool DestroyWindowContextX11(WindowContextX11* context)
     // close the connection to the X server
     X11.XCloseDisplay(context->hDisplay);
     context->hDisplay = NULL;
+    return true;
+}
+
+bool ReadWindowEventsX11(WindowContextX11* context)
+{
+    // iterate through all queued X server messages
+    XEvent event;
+    WindowX11* window;
+    X11.XPending(context->hDisplay);
+    while (QLength(context->hDisplay))
+    {
+        // get the next X server event
+        X11.XNextEvent(context->hDisplay, &event);
+
+        // skip event that don't have a window
+        if (X11.XFindContext(context->hDisplay, event.xany.window, context->hContext, (XPointer*)&window)) continue;
+
+        // translate the current window event by type
+        switch (event.type)
+        {
+            case ClientMessage:
+                if (event.xclient.data.l[0] == context->wmDeleteWindow)
+                    return false;
+                break;
+            default:
+                break;
+        }
+    }
+
+    // flush all events in X server
+    X11.XFlush(context->hDisplay);
     return true;
 }
 

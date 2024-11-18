@@ -43,6 +43,9 @@ bool DestroyWindowX11(WindowContextX11* context, WindowX11* window);
 /// @brief Returns true if the X11 window context was destroyed.
 bool DestroyWindowContextX11(WindowContextX11* context);
 
+/// @brief Returns true if all X11 window events were read.
+bool ReadWindowEventsX11(WindowContextX11* context);
+
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
 }

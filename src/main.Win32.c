@@ -1,4 +1,5 @@
 #include "platform/Win32/window.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 int main(int argc, char** argv)
