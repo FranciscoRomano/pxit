@@ -59,7 +59,7 @@ bool CreateWindowContextX11(WindowContextX11* context)
     return true;
 }
 
-bool DestroyWindow(WindowContextX11* context, WindowX11* window)
+bool DestroyWindowX11(WindowContextX11* context, WindowX11* window)
 {
     // destroy the X11 window
     X11.XDeleteContext(context->hDisplay, window->hID, context->hContext);

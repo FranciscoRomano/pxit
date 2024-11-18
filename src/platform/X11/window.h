@@ -38,7 +38,7 @@ bool CreateWindowX11(WindowContextX11* context, uint width, uint height, WindowX
 bool CreateWindowContextX11(WindowContextX11* context);
 
 /// @brief Returns true if the X11 window was destroyed.
-bool DestroyWindow(WindowContextX11* context, WindowX11* window);
+bool DestroyWindowX11(WindowContextX11* context, WindowX11* window);
 
 /// @brief Returns true if the X11 window context was destroyed.
 bool DestroyWindowContextX11(WindowContextX11* context);

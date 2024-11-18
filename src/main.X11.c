@@ -63,7 +63,7 @@ int main(int argc, char** argv)
         ReadWindowEventsX11(&ctx);
     }
 
-    DestroyWindow(&ctx, &win);
+    DestroyWindowX11(&ctx, &win);
     DestroyWindowContextX11(&ctx);
     FreeLibraryX11();
     return 0;
