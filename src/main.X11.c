@@ -1,40 +1,8 @@
 #include "platform/X11/library.h"
 #include "platform/X11/window.h"
+#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-
-extern LibraryX11 X11;
-
-int is_window_open = 1;
-
-bool ReadWindowEventsX11(WindowContextX11* context)
-{
-    XEvent event;
-    WindowX11* window = NULL;
-
-    X11.XPending(context->hDisplay);
-
-    while (QLength(context->hDisplay))
-    {
-        X11.XNextEvent(context->hDisplay, &event);
-
-        if (X11.XFindContext(context->hDisplay, event.xany.window, context->hContext, (XPointer*)&window)) continue;
-
-        switch (event.type)
-        {
-            case KeyRelease:
-                if (event.xkey.keycode == X11.XKeysymToKeycode(context->hDisplay, XK_Escape))
-                    is_window_open = 0;
-                break;
-            case ClientMessage:
-                if (event.xclient.data.l[0] == context->wmDeleteWindow)
-                    is_window_open = 0;
-                break;
-        }
-    }
-
-    X11.XFlush(context->hDisplay);
-}
 
 int main(int argc, char** argv)
 {
@@ -58,9 +26,9 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
 
-    while (is_window_open)
+    while (ReadWindowEventsX11(&ctx))
     {
-        ReadWindowEventsX11(&ctx);
+        sleep(0);
     }
 
     DestroyWindowX11(&ctx, &win);
