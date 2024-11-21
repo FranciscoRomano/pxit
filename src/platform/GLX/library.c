@@ -17,7 +17,6 @@ bool FreeLibraryGLX(LibraryGLX* lib)
     if (!lib->handle) return false;
 
     // unload and reset library handle
-    dlclose(lib->handle);
     lib->handle = NULL;
     return true;
 }
