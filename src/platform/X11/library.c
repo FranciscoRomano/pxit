@@ -6,27 +6,26 @@
 #include <dlfcn.h>
 #include <stdio.h>
 #include <stdlib.h>
-#define X11_LIBRARY_SYMBOL(Name)\
-X11.Name = dlsym(X11.lib, #Name); if (!X11.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); exit(EXIT_FAILURE); }
+#define LOAD_LIBRARY_SYMBOL(Name)\
+library->Name = dlsym(library->handle, #Name);\
+if (!library->Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); exit(EXIT_FAILURE); }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-LibraryX11 X11 = {};
-
-bool FreeLibraryX11()
+bool FreeLibraryX11(LibraryX11* library)
 {
     // check if library was unloaded
-    if (!X11.lib) return false;
+    if (!library->handle) return false;
 
-    // unload and reset X11 library handle
-    dlclose(X11.lib);
-    X11.lib = NULL;
+    // unload and reset library handle
+    dlclose(library->handle);
+    library->handle = NULL;
     return true;
 }
 
-bool LoadLibraryX11()
+bool LoadLibraryX11(LibraryX11* library)
 {
     // check if library was loaded
-    if (X11.lib) return true;
+    if (library->handle) return true;
 
     // iterate through all library paths
     const char* paths[] = {
@@ -36,33 +35,33 @@ bool LoadLibraryX11()
     };
     for (size_t i = 0; paths[i]; i++)
     {
-        // try loading library and symbols from path
-        X11.lib = dlopen(paths[i], RTLD_LAZY);
-        if (X11.lib == NULL) continue;
-        X11_LIBRARY_SYMBOL(XInternAtom)
-        X11_LIBRARY_SYMBOL(XCreateColormap)
-        X11_LIBRARY_SYMBOL(XOpenDisplay)
-        X11_LIBRARY_SYMBOL(XChangeProperty)
-        X11_LIBRARY_SYMBOL(XCloseDisplay)
-        X11_LIBRARY_SYMBOL(XDefaultScreen)
-        X11_LIBRARY_SYMBOL(XDeleteContext)
-        X11_LIBRARY_SYMBOL(XDeleteProperty)
-        X11_LIBRARY_SYMBOL(XDestroyWindow)
-        X11_LIBRARY_SYMBOL(XFindContext)
-        X11_LIBRARY_SYMBOL(XFlush)
-        X11_LIBRARY_SYMBOL(XMapWindow)
-        X11_LIBRARY_SYMBOL(XPending)
-        X11_LIBRARY_SYMBOL(XNextEvent)
-        X11_LIBRARY_SYMBOL(XrmUniqueQuark)
-        X11_LIBRARY_SYMBOL(XSaveContext)
-        X11_LIBRARY_SYMBOL(XScreenCount)
-        X11_LIBRARY_SYMBOL(XUnmapWindow)
-        X11_LIBRARY_SYMBOL(XKeysymToKeycode)
-        X11_LIBRARY_SYMBOL(XDefaultScreenOfDisplay)
-        X11_LIBRARY_SYMBOL(XScreenOfDisplay)
-        X11_LIBRARY_SYMBOL(XSetWMProtocols)
-        X11_LIBRARY_SYMBOL(XCreateWindow)
-        X11_LIBRARY_SYMBOL(XDefaultRootWindow)
+        // try loading library and any symbols
+        library->handle = dlopen(paths[i], RTLD_LAZY);
+        if (library->handle == NULL) continue;
+        LOAD_LIBRARY_SYMBOL(XInternAtom)
+        LOAD_LIBRARY_SYMBOL(XCreateColormap)
+        LOAD_LIBRARY_SYMBOL(XOpenDisplay)
+        LOAD_LIBRARY_SYMBOL(XChangeProperty)
+        LOAD_LIBRARY_SYMBOL(XCloseDisplay)
+        LOAD_LIBRARY_SYMBOL(XDefaultScreen)
+        LOAD_LIBRARY_SYMBOL(XDeleteContext)
+        LOAD_LIBRARY_SYMBOL(XDeleteProperty)
+        LOAD_LIBRARY_SYMBOL(XDestroyWindow)
+        LOAD_LIBRARY_SYMBOL(XFindContext)
+        LOAD_LIBRARY_SYMBOL(XFlush)
+        LOAD_LIBRARY_SYMBOL(XMapWindow)
+        LOAD_LIBRARY_SYMBOL(XPending)
+        LOAD_LIBRARY_SYMBOL(XNextEvent)
+        LOAD_LIBRARY_SYMBOL(XrmUniqueQuark)
+        LOAD_LIBRARY_SYMBOL(XSaveContext)
+        LOAD_LIBRARY_SYMBOL(XScreenCount)
+        LOAD_LIBRARY_SYMBOL(XUnmapWindow)
+        LOAD_LIBRARY_SYMBOL(XKeysymToKeycode)
+        LOAD_LIBRARY_SYMBOL(XDefaultScreenOfDisplay)
+        LOAD_LIBRARY_SYMBOL(XScreenOfDisplay)
+        LOAD_LIBRARY_SYMBOL(XSetWMProtocols)
+        LOAD_LIBRARY_SYMBOL(XCreateWindow)
+        LOAD_LIBRARY_SYMBOL(XDefaultRootWindow)
         return true;
     }
     return false;

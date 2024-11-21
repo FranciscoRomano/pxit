@@ -9,14 +9,7 @@ extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-#include <stdbool.h>
-#include <X11/X.h>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/Xatom.h>
-
-typedef unsigned int  uint;
-typedef unsigned long ulong;
+#include "library.h"
 
 /// @brief Represents a X11 window handle.
 typedef struct WindowX11 {
@@ -32,19 +25,19 @@ typedef struct WindowContextX11 {
 } WindowContextX11;
 
 /// @brief Returns true if the X11 window was created.
-bool CreateWindowX11(WindowContextX11* context, uint width, uint height, WindowX11* window);
+bool CreateWindowX11(LibraryX11* library, WindowContextX11* context, uint width, uint height, WindowX11* window);
 
 /// @brief Returns true if a X11 window context was created.
-bool CreateWindowContextX11(WindowContextX11* context);
+bool CreateWindowContextX11(LibraryX11* library, WindowContextX11* context);
 
 /// @brief Returns true if the X11 window was destroyed.
-bool DestroyWindowX11(WindowContextX11* context, WindowX11* window);
+bool DestroyWindowX11(LibraryX11* library, WindowContextX11* context, WindowX11* window);
 
 /// @brief Returns true if the X11 window context was destroyed.
-bool DestroyWindowContextX11(WindowContextX11* context);
+bool DestroyWindowContextX11(LibraryX11* library, WindowContextX11* context);
 
 /// @brief Returns true if all X11 window events were read.
-bool ReadWindowEventsX11(WindowContextX11* context);
+bool ReadWindowEventsX11(LibraryX11* library, WindowContextX11* context);
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

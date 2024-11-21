@@ -21,7 +21,7 @@ typedef unsigned long ulong;
 
 /// @brief Represents the X11 library and supported functions.
 typedef struct LibraryX11 {
-    void*    lib;
+    void*    handle;
     Atom     (*XInternAtom)(Display*,const char*,Bool);
     Colormap (*XCreateColormap)(Display*,Window,Visual*,int);
     Display* (*XOpenDisplay)(const char*);
@@ -49,10 +49,10 @@ typedef struct LibraryX11 {
 } LibraryX11;
 
 /// @brief Returns true if the X11 library was freed successfully.
-bool FreeLibraryX11();
+bool FreeLibraryX11(LibraryX11* library);
 
 /// @brief Returns true if the X11 library was loaded successfully.
-bool LoadLibraryX11();
+bool LoadLibraryX11(LibraryX11* library);
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

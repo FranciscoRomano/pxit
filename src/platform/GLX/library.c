@@ -35,7 +35,7 @@ bool LoadLibraryGLX(LibraryGLX* lib)
     };
     for (size_t i = 0; paths[i]; i++)
     {
-        // try loading library and required symbols
+        // try loading library and any symbols
         lib->handle = dlopen(paths[i], RTLD_LAZY);
         if (lib->handle == NULL) continue;
         LOAD_LIBRARY_SYMBOL(glXChooseVisual)
