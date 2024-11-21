@@ -1,3 +1,4 @@
+#include "platform/GLX/library.h"
 #include "platform/X11/library.h"
 #include "platform/X11/window.h"
 #include <unistd.h>
@@ -7,6 +8,13 @@
 int main(int argc, char** argv)
 {
     if (!LoadLibraryX11())
+    {
+        printf("ERROR: failed to load X11 library\n");
+        exit(EXIT_FAILURE);
+    }
+
+    LibraryGLX glx;
+    if (!LoadLibraryGLX(&glx))
     {
         printf("ERROR: failed to load X11 library\n");
         exit(EXIT_FAILURE);
@@ -33,6 +41,7 @@ int main(int argc, char** argv)
 
     DestroyWindowX11(&ctx, &win);
     DestroyWindowContextX11(&ctx);
+    FreeLibraryGLX(&glx);
     FreeLibraryX11();
     return 0;
 }

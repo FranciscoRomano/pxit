@@ -6,7 +6,6 @@
 #include <dlfcn.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/stat.h>
 #define X11_LIBRARY_SYMBOL(Name)\
 X11.Name = dlsym(X11.lib, #Name); if (!X11.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); exit(EXIT_FAILURE); }
 // -------------------------------------------------------------------------------------------------------------------------- //
