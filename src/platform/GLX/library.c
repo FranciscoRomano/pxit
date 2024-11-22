@@ -11,7 +11,7 @@ GLX.Name = dlsym(GLX.handle, #Name);\
 if (!GLX.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); exit(EXIT_FAILURE); }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-struct LibraryGLX GLX;
+struct LibraryGLX GLX = { NULL };
 
 bool FreeLibraryGLX()
 {

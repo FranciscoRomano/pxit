@@ -11,7 +11,7 @@ X11.Name = dlsym(X11.handle, #Name);\
 if (!X11.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); exit(EXIT_FAILURE); }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-struct LibraryX11 X11;
+struct LibraryX11 X11 = { NULL };
 
 bool FreeLibraryX11()
 {
