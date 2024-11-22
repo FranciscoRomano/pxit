@@ -7,37 +7,41 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define LOAD_LIBRARY_SYMBOL(Name)\
-library->Name = dlsym(library->handle, #Name);\
-if (!library->Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); exit(EXIT_FAILURE); }
+X11.Name = dlsym(X11.handle, #Name);\
+if (!X11.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); exit(EXIT_FAILURE); }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-bool FreeLibraryX11(LibraryX11* library)
+struct LibraryX11 X11;
+
+bool FreeLibraryX11()
 {
     // check if library was unloaded
-    if (!library->handle) return false;
+    if (!X11.handle) return false;
 
     // unload and reset library handle
-    dlclose(library->handle);
-    library->handle = NULL;
+    dlclose(X11.handle);
+    X11.handle = NULL;
     return true;
 }
 
-bool LoadLibraryX11(LibraryX11* library)
+bool LoadLibraryX11()
 {
     // check if library was loaded
-    if (library->handle) return true;
+    if (X11.handle) return true;
 
     // iterate through all library paths
     const char* paths[] = {
         "libX11.so.6.4.0",
         "libX11.so.6.4",
+        "libX11.so.6",
+        "libX11.so",
         NULL
     };
     for (size_t i = 0; paths[i]; i++)
     {
         // try loading library and any symbols
-        library->handle = dlopen(paths[i], RTLD_LAZY);
-        if (library->handle == NULL) continue;
+        X11.handle = dlopen(paths[i], RTLD_LAZY);
+        if (X11.handle == NULL) continue;
         LOAD_LIBRARY_SYMBOL(XInternAtom)
         LOAD_LIBRARY_SYMBOL(XCreateColormap)
         LOAD_LIBRARY_SYMBOL(XOpenDisplay)
