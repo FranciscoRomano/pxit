@@ -55,33 +55,6 @@ bool FreeLibraryX11();
 bool LoadLibraryX11();
 
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifdef DEFINE_SYMBOLS_GLX
-#define XInternAtom             X11.XInternAtom
-#define XCreateColormap         X11.XCreateColormap
-#define XOpenDisplay            X11.XOpenDisplay
-#define XChangeProperty         X11.XChangeProperty
-#define XCloseDisplay           X11.XCloseDisplay
-#define XDefaultScreen          X11.XDefaultScreen
-#define XDeleteContext          X11.XDeleteContext
-#define XDeleteProperty         X11.XDeleteProperty
-#define XDestroyWindow          X11.XDestroyWindow
-#define XFindContext            X11.XFindContext
-#define XFlush                  X11.XFlush
-#define XMapWindow              X11.XMapWindow
-#define XNextEvent              X11.XNextEvent
-#define XPending                X11.XPending
-#define XrmUniqueQuark          X11.XrmUniqueQuark
-#define XSaveContext            X11.XSaveContext
-#define XScreenCount            X11.XScreenCount
-#define XUnmapWindow            X11.XUnmapWindow
-#define XKeysymToKeycode        X11.XKeysymToKeycode
-#define XDefaultScreenOfDisplay X11.XDefaultScreenOfDisplay
-#define XScreenOfDisplay        X11.XScreenOfDisplay
-#define XSetWMProtocols         X11.XSetWMProtocols
-#define XCreateWindow           X11.XCreateWindow
-#define XDefaultRootWindow      X11.XDefaultRootWindow
-#endif//DEFINE_SYMBOLS_GLX
-// -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
 }
 #endif

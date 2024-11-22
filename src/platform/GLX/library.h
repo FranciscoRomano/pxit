@@ -68,49 +68,6 @@ bool FreeLibraryGLX();
 bool LoadLibraryGLX();
 
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifdef DEFINE_SYMBOLS_GLX
-#define glXChooseVisual           GLX.glXChooseVisual
-#define glXCreateContext          GLX.glXCreateContext
-#define glXDestroyContext         GLX.glXDestroyContext
-#define glXMakeCurrent            GLX.glXMakeCurrent
-#define glXCopyContext            GLX.glXCopyContext
-#define glXSwapBuffers            GLX.glXSwapBuffers
-#define glXCreateGLXPixmap        GLX.glXCreateGLXPixmap
-#define glXDestroyGLXPixmap       GLX.glXDestroyGLXPixmap
-#define glXQueryExtension         GLX.glXQueryExtension
-#define glXQueryVersion           GLX.glXQueryVersion
-#define glXIsDirect               GLX.glXIsDirect
-#define glXGetConfig              GLX.glXGetConfig
-#define glXGetCurrentContext      GLX.glXGetCurrentContext
-#define glXGetCurrentDrawable     GLX.glXGetCurrentDrawable
-#define glXWaitGL                 GLX.glXWaitGL
-#define glXWaitX                  GLX.glXWaitX
-#define glXUseXFont               GLX.glXUseXFont
-#define glXQueryExtensionsString  GLX.glXQueryExtensionsString
-#define glXQueryServerString      GLX.glXQueryServerString
-#define glXGetClientString        GLX.glXGetClientString
-#define glXGetCurrentDisplay      GLX.glXGetCurrentDisplay
-#define glXChooseFBConfig         GLX.glXChooseFBConfig
-#define glXGetFBConfigAttrib      GLX.glXGetFBConfigAttrib
-#define glXGetFBConfigs           GLX.glXGetFBConfigs
-#define glXGetVisualFromFBConfig  GLX.glXGetVisualFromFBConfig
-#define glXCreateWindow           GLX.glXCreateWindow
-#define glXDestroyWindow          GLX.glXDestroyWindow
-#define glXCreatePixmap           GLX.glXCreatePixmap
-#define glXDestroyPixmap          GLX.glXDestroyPixmap
-#define glXCreatePbuffer          GLX.glXCreatePbuffer
-#define glXDestroyPbuffer         GLX.glXDestroyPbuffer
-#define glXQueryDrawable          GLX.glXQueryDrawable
-#define glXCreateNewContext       GLX.glXCreateNewContext
-#define glXMakeContextCurrent     GLX.glXMakeContextCurrent
-#define glXGetCurrentReadDrawable GLX.glXGetCurrentReadDrawable
-#define glXQueryContext           GLX.glXQueryContext
-#define glXSelectEvent            GLX.glXSelectEvent
-#define glXGetSelectedEvent       GLX.glXGetSelectedEvent
-#define glXGetProcAddressARB      GLX.glXGetProcAddressARB
-#define glXGetProcAddress         GLX.glXGetProcAddress
-#endif//DEFINE_SYMBOLS_GLX
-// -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
 }
 #endif
