@@ -1,5 +1,4 @@
 #include "platform/GLX/library.h"
-#include "platform/X11/library.h"
 #include "platform/X11/window.h"
 #include <unistd.h>
 #include <stdlib.h>
