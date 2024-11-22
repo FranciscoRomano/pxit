@@ -17,7 +17,7 @@ typedef unsigned char uchar;
 typedef unsigned long ulong;
 
 /// @brief Represents the GLX library and supported functions.
-typedef struct LibraryGLX {    
+extern struct LibraryGLX {    
     void*           handle;
     XVisualInfo*    (*glXChooseVisual)(Display*,int,int*);
     GLXContext      (*glXCreateContext)(Display*,XVisualInfo*,GLXContext,Bool);
@@ -59,27 +59,57 @@ typedef struct LibraryGLX {
     void            (*glXGetSelectedEvent)(Display*,GLXDrawable,ulong*);
     __GLXextFuncPtr (*glXGetProcAddressARB)(const uchar*);
     void*           (*glXGetProcAddress)(const uchar*);
-    void*           (*glXAllocateMemoryNV)(GLsizei,float,float,float);
-    void            (*glXFreeMemoryNV)(GLvoid*);
-    Bool            (*glXBindTexImageARB)(Display*,GLXPbuffer,int);
-    Bool            (*glXReleaseTexImageARB)(Display*,GLXPbuffer,int);
-    Bool            (*glXDrawableAttribARB)(Display*,GLXDrawable,const int*);
-    int             (*glXGetFrameUsageMESA)(Display*,GLXDrawable,float*);
-    int             (*glXBeginFrameTrackingMESA)(Display*,GLXDrawable);
-    int             (*glXEndFrameTrackingMESA)(Display*,GLXDrawable);
-    int             (*glXQueryFrameTrackingMESA)(Display*,GLXDrawable,int64_t*,int64_t*,float*);
-    int             (*glXSwapIntervalMESA)(uint);
-    int             (*glXGetSwapIntervalMESA)();
-    void            (*glXBindTexImageEXT)(Display*,GLXDrawable,int,const int*);
-    void            (*glXReleaseTexImageEXT)(Display*,GLXDrawable,int);
-} LibraryGLX;
+} GLX;
 
 /// @brief Returns true if the GLX library was freed successfully.
-bool FreeLibraryGLX(LibraryGLX* lib);
+bool FreeLibraryGLX();
 
 /// @brief Returns true if the GLX library was loaded successfully.
-bool LoadLibraryGLX(LibraryGLX* lib);
+bool LoadLibraryGLX();
 
+// -------------------------------------------------------------------------------------------------------------------------- //
+#ifdef DEFINE_SYMBOLS_GLX
+#define glXChooseVisual           GLX.glXChooseVisual
+#define glXCreateContext          GLX.glXCreateContext
+#define glXDestroyContext         GLX.glXDestroyContext
+#define glXMakeCurrent            GLX.glXMakeCurrent
+#define glXCopyContext            GLX.glXCopyContext
+#define glXSwapBuffers            GLX.glXSwapBuffers
+#define glXCreateGLXPixmap        GLX.glXCreateGLXPixmap
+#define glXDestroyGLXPixmap       GLX.glXDestroyGLXPixmap
+#define glXQueryExtension         GLX.glXQueryExtension
+#define glXQueryVersion           GLX.glXQueryVersion
+#define glXIsDirect               GLX.glXIsDirect
+#define glXGetConfig              GLX.glXGetConfig
+#define glXGetCurrentContext      GLX.glXGetCurrentContext
+#define glXGetCurrentDrawable     GLX.glXGetCurrentDrawable
+#define glXWaitGL                 GLX.glXWaitGL
+#define glXWaitX                  GLX.glXWaitX
+#define glXUseXFont               GLX.glXUseXFont
+#define glXQueryExtensionsString  GLX.glXQueryExtensionsString
+#define glXQueryServerString      GLX.glXQueryServerString
+#define glXGetClientString        GLX.glXGetClientString
+#define glXGetCurrentDisplay      GLX.glXGetCurrentDisplay
+#define glXChooseFBConfig         GLX.glXChooseFBConfig
+#define glXGetFBConfigAttrib      GLX.glXGetFBConfigAttrib
+#define glXGetFBConfigs           GLX.glXGetFBConfigs
+#define glXGetVisualFromFBConfig  GLX.glXGetVisualFromFBConfig
+#define glXCreateWindow           GLX.glXCreateWindow
+#define glXDestroyWindow          GLX.glXDestroyWindow
+#define glXCreatePixmap           GLX.glXCreatePixmap
+#define glXDestroyPixmap          GLX.glXDestroyPixmap
+#define glXCreatePbuffer          GLX.glXCreatePbuffer
+#define glXDestroyPbuffer         GLX.glXDestroyPbuffer
+#define glXQueryDrawable          GLX.glXQueryDrawable
+#define glXCreateNewContext       GLX.glXCreateNewContext
+#define glXMakeContextCurrent     GLX.glXMakeContextCurrent
+#define glXGetCurrentReadDrawable GLX.glXGetCurrentReadDrawable
+#define glXQueryContext           GLX.glXQueryContext
+#define glXSelectEvent            GLX.glXSelectEvent
+#define glXGetSelectedEvent       GLX.glXGetSelectedEvent
+#define glXGetProcAddressARB      GLX.glXGetProcAddressARB
+#define glXGetProcAddress         GLX.glXGetProcAddress
+#endif//DEFINE_SYMBOLS_GLX
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
 }

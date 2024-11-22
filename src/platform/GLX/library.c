@@ -7,28 +7,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #define LOAD_LIBRARY_SYMBOL(Name)\
-lib->Name = dlsym(lib->handle, #Name);\
-if (!lib->Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); exit(EXIT_FAILURE); }
+GLX.Name = dlsym(GLX.handle, #Name);\
+if (!GLX.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); exit(EXIT_FAILURE); }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-bool FreeLibraryGLX(LibraryGLX* lib)
+struct LibraryGLX GLX;
+
+bool FreeLibraryGLX()
 {
     // check if library was unloaded
-    if (!lib->handle) return false;
+    if (!GLX.handle) return false;
 
     // unload and reset library handle
-    lib->handle = NULL;
+    GLX.handle = NULL;
     return true;
 }
 
-bool LoadLibraryGLX(LibraryGLX* lib)
+bool LoadLibraryGLX()
 {
     // check if library was loaded
-    if (lib->handle) return true;
+    if (GLX.handle) return true;
 
     // iterate through all library paths
     const char* paths[] = {
         "libGLX.so.0.0.0",
+        "libGLX.so.0.0",
         "libGLX.so.0",
         "libGLX.so",
         NULL
@@ -36,8 +39,8 @@ bool LoadLibraryGLX(LibraryGLX* lib)
     for (size_t i = 0; paths[i]; i++)
     {
         // try loading library and any symbols
-        lib->handle = dlopen(paths[i], RTLD_LAZY);
-        if (lib->handle == NULL) continue;
+        GLX.handle = dlopen(paths[i], RTLD_LAZY);
+        if (GLX.handle == NULL) continue;
         LOAD_LIBRARY_SYMBOL(glXChooseVisual)
         LOAD_LIBRARY_SYMBOL(glXCreateContext)
         LOAD_LIBRARY_SYMBOL(glXDestroyContext)
@@ -78,19 +81,6 @@ bool LoadLibraryGLX(LibraryGLX* lib)
         LOAD_LIBRARY_SYMBOL(glXGetSelectedEvent)
         LOAD_LIBRARY_SYMBOL(glXGetProcAddressARB)
         LOAD_LIBRARY_SYMBOL(glXGetProcAddress)
-        LOAD_LIBRARY_SYMBOL(glXAllocateMemoryNV)
-        LOAD_LIBRARY_SYMBOL(glXFreeMemoryNV)
-        LOAD_LIBRARY_SYMBOL(glXBindTexImageARB)
-        LOAD_LIBRARY_SYMBOL(glXReleaseTexImageARB)
-        LOAD_LIBRARY_SYMBOL(glXDrawableAttribARB)
-        LOAD_LIBRARY_SYMBOL(glXGetFrameUsageMESA)
-        LOAD_LIBRARY_SYMBOL(glXBeginFrameTrackingMESA)
-        LOAD_LIBRARY_SYMBOL(glXEndFrameTrackingMESA)
-        LOAD_LIBRARY_SYMBOL(glXQueryFrameTrackingMESA)
-        LOAD_LIBRARY_SYMBOL(glXSwapIntervalMESA)
-        LOAD_LIBRARY_SYMBOL(glXGetSwapIntervalMESA)
-        LOAD_LIBRARY_SYMBOL(glXBindTexImageEXT)
-        LOAD_LIBRARY_SYMBOL(glXReleaseTexImageEXT)
         return true;
     }
     return false;
