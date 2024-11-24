@@ -1,4 +1,4 @@
-#include "platform/Win32/window.h"
+#include "core/Win32/window.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <GL/GL.h>
