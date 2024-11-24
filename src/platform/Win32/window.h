@@ -18,6 +18,7 @@ typedef unsigned long ulong;
 /// @brief Represents a Win32 window handle.
 typedef struct WindowWin32 {
     HWND hWnd; // A Win32 window.
+    HDC  hDC;  // A Win32 device context.
 } WindowWin32;
 
 /// @brief Represents a Win32 window context handle.

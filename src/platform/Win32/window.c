@@ -48,7 +48,13 @@ bool CreateWindowWin32(WindowContextWin32* context, uint width, uint height, Win
         context->hInstance,
         (LPVOID)window
     );
-    return window->hWnd ? true : false;
+    if (!window->hWnd) return false;
+
+    // get the window device context
+    window->hDC = GetDC(window->hWnd);
+    if (!window->hDC) return false;
+
+    return true;
 }
 
 bool CreateWindowContextWin32(WindowContextWin32* context)
@@ -79,6 +85,9 @@ bool CreateWindowContextWin32(WindowContextWin32* context)
 
 bool DestroyWindowWin32(WindowContextWin32* context, WindowWin32* window)
 {
+    // release the window device context
+    if (ReleaseDC(window->hWnd, window->hDC) == FALSE) return false;
+
     // destroy the Win32 window
     return DestroyWindow(window->hWnd);
 }
