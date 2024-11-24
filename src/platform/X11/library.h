@@ -22,32 +22,35 @@ typedef unsigned long ulong;
 /// @brief Represents the X11 library and supported functions.
 extern struct LibraryX11 {
     void*    handle;
-    Atom     (*XInternAtom)(Display*,const char*,Bool);
-    Colormap (*XCreateColormap)(Display*,Window,Visual*,int);
-    Display* (*XOpenDisplay)(const char*);
     int      (*XChangeProperty)(Display*,Window,Atom,Atom,int,int,const uchar*,int);
+    int      (*XChangeWindowAttributes)(Display*,Window,ulong,XSetWindowAttributes*);
     int      (*XCloseDisplay)(Display*);
+    Colormap (*XCreateColormap)(Display*,Window,Visual*,int);
+    Window   (*XCreateWindow)(Display*,Window,int,int,uint,uint,uint,int,uint,Visual*,ulong,XSetWindowAttributes*);
+    Window   (*XDefaultRootWindow)(Display*);
     int      (*XDefaultScreen)(Display*);
+    Screen   (*XDefaultScreenOfDisplay)(Display*);
     int      (*XDeleteContext)(Display*, XID, XContext);
     int      (*XDeleteProperty)(Display*,Window,Atom);
     int      (*XDestroyWindow)(Display*,Window);
     int      (*XFindContext)(Display*,XID,XContext,XPointer*);
     int      (*XFlush)(Display*);
+    int      (*XFree)(void*);
+    Atom     (*XInternAtom)(Display*,const char*,Bool);
+    KeyCode  (*XKeysymToKeycode)(Display*,KeySym);
     int      (*XMapWindow)(Display*,Window);
     int      (*XNextEvent)(Display*,XEvent*);
+    Display* (*XOpenDisplay)(const char*);
     int      (*XPending)(Display*);
     int      (*XrmUniqueQuark)();
     int      (*XSaveContext)(Display*,XID,XContext,const char*);
     int      (*XScreenCount)(Display*);
-    int      (*XUnmapWindow)(Display*,Window);
-    KeyCode  (*XKeysymToKeycode)(Display*,KeySym);
-    Screen   (*XDefaultScreenOfDisplay)(Display*);
     Screen*  (*XScreenOfDisplay)(Display*,int);
     Status   (*XSetWMProtocols)(Display*,Window,Atom*,int);
-    Window   (*XCreateWindow)(Display*,Window,int,int,uint,uint,uint,int,uint,Visual*,ulong,XSetWindowAttributes*);
-    Window   (*XDefaultRootWindow)(Display*);
+    int      (*XUnmapWindow)(Display*,Window);
 } X11;
 
+                      
 /// @brief Returns true if the X11 library was freed successfully.
 bool FreeLibraryX11();
 
