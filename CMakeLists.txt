@@ -42,9 +42,9 @@ endif()
 #------------------------------------------------------------------------------------------------------------------------------#
 # Project Configuration ########################################################################################################
 
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/src/platform")
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/src/core")
 add_executable(pxit "${CMAKE_CURRENT_LIST_DIR}/src/main.c")
-target_link_libraries(pxit PUBLIC platform)
+target_link_libraries(pxit PUBLIC core)
 
 if(IS_PLATFORM_LINUX)
   target_compile_definitions(pxit PRIVATE "IS_PLATFORM_LINUX")
