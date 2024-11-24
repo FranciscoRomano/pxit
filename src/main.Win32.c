@@ -1,6 +1,7 @@
 #include "platform/Win32/window.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <GL/GL.h>
 
 int main(int argc, char** argv)
 {
@@ -18,33 +19,35 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
 
-    HDC hDC = GetDC(win.hWnd);
-    if (hDC == NULL)
-    {
-        printf("ERROR: failed to get device context from window\n");
-        exit(EXIT_FAILURE);
-    }
-
     PIXELFORMATDESCRIPTOR pfd;
     ZeroMemory(&pfd, sizeof(PIXELFORMATDESCRIPTOR));
-    pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
-    pfd.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-    pfd.iPixelType = PFD_TYPE_RGBA;
+    pfd.nSize        = sizeof(PIXELFORMATDESCRIPTOR);
+    pfd.dwFlags      = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+    pfd.iPixelType   = PFD_TYPE_RGBA;
     pfd.cColorBits   = 32;
     pfd.cDepthBits   = 24;
     pfd.cStencilBits = 8;
-    pfd.iLayerType = PFD_MAIN_PLANE;
-    int format = ChoosePixelFormat(hDC, &pfd);
-    if (format == 0 || SetPixelFormat(hDC, format, &pfd) == FALSE)
+    int format = ChoosePixelFormat(win.hDC, &pfd);
+    if (format == 0 || SetPixelFormat(win.hDC, format, &pfd) == FALSE)
     {
         printf("ERROR: failed to set pixel format\n");
         exit(EXIT_FAILURE);
     }
 
+    HGLRC wgl_ctx = wglCreateContext(win.hDC);
+    wglMakeCurrent(win.hDC, wgl_ctx);
+    printf("- context: %lu", (UINT64)wgl_ctx);
+
     while (ReadWindowEventsWin32(&ctx))
     {
-        Sleep(0);
+        glClearColor(1, 0, 0, 1);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        SwapBuffers(win.hDC);
     }
+
+    wglMakeCurrent(win.hDC, NULL);
+    wglDeleteContext(wgl_ctx);
 
     DestroyWindowWin32(&ctx, &win);
     DestroyWindowContextWin32(&ctx);
