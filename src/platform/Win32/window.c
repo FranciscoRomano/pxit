@@ -9,11 +9,21 @@
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+    WindowWin32* window = (WindowWin32*)GetWindowLongPtrA(hwnd, 0);
+
     switch (uMsg)
     {
         case WM_CLOSE:
+        {
             PostQuitMessage(0);
+            return 0;
+        }
+        case WM_NCCREATE:
+        {
+            CREATESTRUCT* cs = (CREATESTRUCT*)lParam;
+            SetWindowLongPtrA(hwnd, 0, (LONG_PTR)cs->lpCreateParams);
             break;
+        }
         default:
             break;
     }
@@ -36,7 +46,7 @@ bool CreateWindowWin32(WindowContextWin32* context, uint width, uint height, Win
         NULL,
         NULL,
         context->hInstance,
-        NULL
+        (LPVOID)window
     );
     return window->hWnd ? true : false;
 }
@@ -54,7 +64,7 @@ bool CreateWindowContextWin32(WindowContextWin32* context)
     ZeroMemory(&wc, sizeof(WNDCLASSEXW));
     wc.cbClsExtra    = 0;
     wc.cbSize        = sizeof(WNDCLASSEXW);
-    wc.cbWndExtra    = 0;
+    wc.cbWndExtra    = sizeof(void*);
     wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
     wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
     wc.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
@@ -81,6 +91,9 @@ bool DestroyWindowContextWin32(WindowContextWin32* context)
 
 bool ReadWindowEventsWin32(WindowContextWin32* context)
 {
+    // release the process to the OS for a bit
+    Sleep(0);
+
     // iterate through all queued Win32 messages
     MSG msg;
     while (PeekMessageA(&msg, NULL, 0, 0, PM_REMOVE))
