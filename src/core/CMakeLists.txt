@@ -6,6 +6,7 @@ cmake_minimum_required(VERSION 3.28 FATAL_ERROR)
 project(core)
 add_library(core)
 target_include_directories(core PUBLIC "${CMAKE_SOURCE_DIR}/include")
+target_sources(core PRIVATE "${CMAKE_CURRENT_LIST_DIR}/GLES3/library.c")
 
 if(IS_PLATFORM_LINUX)
   find_package(X11 REQUIRED)

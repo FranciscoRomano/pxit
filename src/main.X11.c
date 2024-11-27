@@ -1,3 +1,4 @@
+#include "core/GLES3/library.h"
 #include "core/GLX/library.h"
 #include "core/X11/window.h"
 #include <unistd.h>
@@ -88,15 +89,18 @@ int main(int argc, char** argv)
         printf("-- direct GLX context obtained\n");
     }
 
-    void (*pfn_glClearColor)(float,float,float,float) = GLX.glXGetProcAddress("glClearColor");
-    void (*pfn_glClear)(unsigned int) = GLX.glXGetProcAddress("glClear");
+    if (!LoadLibraryGLES32((void*(*)(const char*))GLX.glXGetProcAddress))
+    {
+        printf("ERROR: Failed to load GLES3 library");
+        exit(EXIT_FAILURE);
+    }
     
     while (ReadWindowEventsX11(&ctx))
     {
         GLX.glXMakeCurrent(ctx.hDisplay, win.hID, glx_ctx);
 
-        pfn_glClearColor(1, 0, 0, 1);
-        pfn_glClear(GL_COLOR_BUFFER_BIT);
+        GLES20.glClearColor(1, 0, 0, 1);
+        GLES20.glClear(GL_COLOR_BUFFER_BIT);
 
         GLX.glXSwapBuffers(ctx.hDisplay, win.hID);
         sleep(0);

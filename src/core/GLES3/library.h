@@ -1,0 +1,408 @@
+// -------------------------------------------------------------------------------------------------------------------------- //
+// SPDX-License-Identifier: MIT
+// Copyright (c) 2024 Francisco Romano
+// -------------------------------------------------------------------------------------------------------------------------- //
+#ifndef __core_GLES3_library_h__
+#define __core_GLES3_library_h__
+#ifdef __cplusplus
+extern "C" {
+#endif
+// -------------------------------------------------------------------------------------------------------------------------- //
+
+#include <stdbool.h>
+#define GL_APIENTRY
+#define GL_GLES_PROTOTYPES 0
+#include <GLES3/gl32.h>
+
+/// @brief Represents the GLES 2.0 library and supported functions.
+extern struct LibraryGLES20 {
+    PFNGLACTIVETEXTUREPROC                       glActiveTexture;
+    PFNGLATTACHSHADERPROC                        glAttachShader;
+    PFNGLBINDATTRIBLOCATIONPROC                  glBindAttribLocation;
+    PFNGLBINDBUFFERPROC                          glBindBuffer;
+    PFNGLBINDFRAMEBUFFERPROC                     glBindFramebuffer;
+    PFNGLBINDRENDERBUFFERPROC                    glBindRenderbuffer;
+    PFNGLBINDTEXTUREPROC                         glBindTexture;
+    PFNGLBLENDCOLORPROC                          glBlendColor;
+    PFNGLBLENDEQUATIONPROC                       glBlendEquation;
+    PFNGLBLENDEQUATIONSEPARATEPROC               glBlendEquationSeparate;
+    PFNGLBLENDFUNCPROC                           glBlendFunc;
+    PFNGLBLENDFUNCSEPARATEPROC                   glBlendFuncSeparate;
+    PFNGLBUFFERDATAPROC                          glBufferData;
+    PFNGLBUFFERSUBDATAPROC                       glBufferSubData;
+    PFNGLCHECKFRAMEBUFFERSTATUSPROC              glCheckFramebufferStatus;
+    PFNGLCLEARCOLORPROC                          glClearColor;
+    PFNGLCLEARDEPTHFPROC                         glClearDepthf;
+    PFNGLCLEARPROC                               glClear;
+    PFNGLCLEARSTENCILPROC                        glClearStencil;
+    PFNGLCOLORMASKPROC                           glColorMask;
+    PFNGLCOMPILESHADERPROC                       glCompileShader;
+    PFNGLCOMPRESSEDTEXIMAGE2DPROC                glCompressedTexImage2D;
+    PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC             glCompressedTexSubImage2D;
+    PFNGLCOPYTEXIMAGE2DPROC                      glCopyTexImage2D;
+    PFNGLCOPYTEXSUBIMAGE2DPROC                   glCopyTexSubImage2D;
+    PFNGLCREATEPROGRAMPROC                       glCreateProgram;
+    PFNGLCREATESHADERPROC                        glCreateShader;
+    PFNGLCULLFACEPROC                            glCullFace;
+    PFNGLDELETEBUFFERSPROC                       glDeleteBuffers;
+    PFNGLDELETEFRAMEBUFFERSPROC                  glDeleteFramebuffers;
+    PFNGLDELETEPROGRAMPROC                       glDeleteProgram;
+    PFNGLDELETERENDERBUFFERSPROC                 glDeleteRenderbuffers;
+    PFNGLDELETESHADERPROC                        glDeleteShader;
+    PFNGLDELETETEXTURESPROC                      glDeleteTextures;
+    PFNGLDEPTHFUNCPROC                           glDepthFunc;
+    PFNGLDEPTHMASKPROC                           glDepthMask;
+    PFNGLDEPTHRANGEFPROC                         glDepthRangef;
+    PFNGLDETACHSHADERPROC                        glDetachShader;
+    PFNGLDISABLEPROC                             glDisable;
+    PFNGLDISABLEVERTEXATTRIBARRAYPROC            glDisableVertexAttribArray;
+    PFNGLDRAWARRAYSPROC                          glDrawArrays;
+    PFNGLDRAWELEMENTSPROC                        glDrawElements;
+    PFNGLENABLEPROC                              glEnable;
+    PFNGLENABLEVERTEXATTRIBARRAYPROC             glEnableVertexAttribArray;
+    PFNGLFINISHPROC                              glFinish;
+    PFNGLFLUSHPROC                               glFlush;
+    PFNGLFRAMEBUFFERRENDERBUFFERPROC             glFramebufferRenderbuffer;
+    PFNGLFRAMEBUFFERTEXTURE2DPROC                glFramebufferTexture2D;
+    PFNGLFRONTFACEPROC                           glFrontFace;
+    PFNGLGENBUFFERSPROC                          glGenBuffers;
+    PFNGLGENERATEMIPMAPPROC                      glGenerateMipmap;
+    PFNGLGENFRAMEBUFFERSPROC                     glGenFramebuffers;
+    PFNGLGENRENDERBUFFERSPROC                    glGenRenderbuffers;
+    PFNGLGENTEXTURESPROC                         glGenTextures;
+    PFNGLGETACTIVEATTRIBPROC                     glGetActiveAttrib;
+    PFNGLGETACTIVEUNIFORMPROC                    glGetActiveUniform;
+    PFNGLGETATTACHEDSHADERSPROC                  glGetAttachedShaders;
+    PFNGLGETATTRIBLOCATIONPROC                   glGetAttribLocation;
+    PFNGLGETBOOLEANVPROC                         glGetBooleanv;
+    PFNGLGETBUFFERPARAMETERIVPROC                glGetBufferParameteriv;
+    PFNGLGETERRORPROC                            glGetError;
+    PFNGLGETFLOATVPROC                           glGetFloatv;
+    PFNGLGETFRAMEBUFFERATTACHMENTPARAMETERIVPROC glGetFramebufferAttachmentParameteriv;
+    PFNGLGETINTEGERVPROC                         glGetIntegerv;
+    PFNGLGETPROGRAMINFOLOGPROC                   glGetProgramInfoLog;
+    PFNGLGETPROGRAMIVPROC                        glGetProgramiv;
+    PFNGLGETRENDERBUFFERPARAMETERIVPROC          glGetRenderbufferParameteriv;
+    PFNGLGETSHADERINFOLOGPROC                    glGetShaderInfoLog;
+    PFNGLGETSHADERIVPROC                         glGetShaderiv;
+    PFNGLGETSHADERPRECISIONFORMATPROC            glGetShaderPrecisionFormat;
+    PFNGLGETSHADERSOURCEPROC                     glGetShaderSource;
+    PFNGLGETSTRINGPROC                           glGetString;
+    PFNGLGETTEXPARAMETERFVPROC                   glGetTexParameterfv;
+    PFNGLGETTEXPARAMETERIVPROC                   glGetTexParameteriv;
+    PFNGLGETUNIFORMFVPROC                        glGetUniformfv;
+    PFNGLGETUNIFORMIVPROC                        glGetUniformiv;
+    PFNGLGETUNIFORMLOCATIONPROC                  glGetUniformLocation;
+    PFNGLGETVERTEXATTRIBFVPROC                   glGetVertexAttribfv;
+    PFNGLGETVERTEXATTRIBIVPROC                   glGetVertexAttribiv;
+    PFNGLGETVERTEXATTRIBPOINTERVPROC             glGetVertexAttribPointerv;
+    PFNGLHINTPROC                                glHint;
+    PFNGLISBUFFERPROC                            glIsBuffer;
+    PFNGLISENABLEDPROC                           glIsEnabled;
+    PFNGLISFRAMEBUFFERPROC                       glIsFramebuffer;
+    PFNGLISPROGRAMPROC                           glIsProgram;
+    PFNGLISRENDERBUFFERPROC                      glIsRenderbuffer;
+    PFNGLISSHADERPROC                            glIsShader;
+    PFNGLISTEXTUREPROC                           glIsTexture;
+    PFNGLLINEWIDTHPROC                           glLineWidth;
+    PFNGLLINKPROGRAMPROC                         glLinkProgram;
+    PFNGLPIXELSTOREIPROC                         glPixelStorei;
+    PFNGLPOLYGONOFFSETPROC                       glPolygonOffset;
+    PFNGLREADPIXELSPROC                          glReadPixels;
+    PFNGLRELEASESHADERCOMPILERPROC               glReleaseShaderCompiler;
+    PFNGLRENDERBUFFERSTORAGEPROC                 glRenderbufferStorage;
+    PFNGLSAMPLECOVERAGEPROC                      glSampleCoverage;
+    PFNGLSCISSORPROC                             glScissor;
+    PFNGLSHADERBINARYPROC                        glShaderBinary;
+    PFNGLSHADERSOURCEPROC                        glShaderSource;
+    PFNGLSTENCILFUNCPROC                         glStencilFunc;
+    PFNGLSTENCILFUNCSEPARATEPROC                 glStencilFuncSeparate;
+    PFNGLSTENCILMASKPROC                         glStencilMask;
+    PFNGLSTENCILMASKSEPARATEPROC                 glStencilMaskSeparate;
+    PFNGLSTENCILOPPROC                           glStencilOp;
+    PFNGLSTENCILOPSEPARATEPROC                   glStencilOpSeparate;
+    PFNGLTEXIMAGE2DPROC                          glTexImage2D;
+    PFNGLTEXPARAMETERFPROC                       glTexParameterf;
+    PFNGLTEXPARAMETERFVPROC                      glTexParameterfv;
+    PFNGLTEXPARAMETERIPROC                       glTexParameteri;
+    PFNGLTEXPARAMETERIVPROC                      glTexParameteriv;
+    PFNGLTEXSUBIMAGE2DPROC                       glTexSubImage2D;
+    PFNGLUNIFORM1FPROC                           glUniform1f;
+    PFNGLUNIFORM1FVPROC                          glUniform1fv;
+    PFNGLUNIFORM1IPROC                           glUniform1i;
+    PFNGLUNIFORM1IVPROC                          glUniform1iv;
+    PFNGLUNIFORM2FPROC                           glUniform2f;
+    PFNGLUNIFORM2FVPROC                          glUniform2fv;
+    PFNGLUNIFORM2IPROC                           glUniform2i;
+    PFNGLUNIFORM2IVPROC                          glUniform2iv;
+    PFNGLUNIFORM3FPROC                           glUniform3f;
+    PFNGLUNIFORM3FVPROC                          glUniform3fv;
+    PFNGLUNIFORM3IPROC                           glUniform3i;
+    PFNGLUNIFORM3IVPROC                          glUniform3iv;
+    PFNGLUNIFORM4FPROC                           glUniform4f;
+    PFNGLUNIFORM4FVPROC                          glUniform4fv;
+    PFNGLUNIFORM4IPROC                           glUniform4i;
+    PFNGLUNIFORM4IVPROC                          glUniform4iv;
+    PFNGLUNIFORMMATRIX2FVPROC                    glUniformMatrix2fv;
+    PFNGLUNIFORMMATRIX3FVPROC                    glUniformMatrix3fv;
+    PFNGLUNIFORMMATRIX4FVPROC                    glUniformMatrix4fv;
+    PFNGLUSEPROGRAMPROC                          glUseProgram;
+    PFNGLVALIDATEPROGRAMPROC                     glValidateProgram;
+    PFNGLVERTEXATTRIB1FPROC                      glVertexAttrib1f;
+    PFNGLVERTEXATTRIB1FVPROC                     glVertexAttrib1fv;
+    PFNGLVERTEXATTRIB2FPROC                      glVertexAttrib2f;
+    PFNGLVERTEXATTRIB2FVPROC                     glVertexAttrib2fv;
+    PFNGLVERTEXATTRIB3FPROC                      glVertexAttrib3f;
+    PFNGLVERTEXATTRIB3FVPROC                     glVertexAttrib3fv;
+    PFNGLVERTEXATTRIB4FPROC                      glVertexAttrib4f;
+    PFNGLVERTEXATTRIB4FVPROC                     glVertexAttrib4fv;
+    PFNGLVERTEXATTRIBPOINTERPROC                 glVertexAttribPointer;
+    PFNGLVIEWPORTPROC                            glViewport;
+} GLES20;
+
+/// @brief Represents the GLES 3.0 library and supported functions.
+extern struct LibraryGLES30 {
+    PFNGLBEGINQUERYPROC                     glBeginQuery;
+    PFNGLBEGINTRANSFORMFEEDBACKPROC         glBeginTransformFeedback;
+    PFNGLBINDBUFFERBASEPROC                 glBindBufferBase;
+    PFNGLBINDBUFFERRANGEPROC                glBindBufferRange;
+    PFNGLBINDSAMPLERPROC                    glBindSampler;
+    PFNGLBINDTRANSFORMFEEDBACKPROC          glBindTransformFeedback;
+    PFNGLBINDVERTEXARRAYPROC                glBindVertexArray;
+    PFNGLBLITFRAMEBUFFERPROC                glBlitFramebuffer;
+    PFNGLCLEARBUFFERFIPROC                  glClearBufferfi;
+    PFNGLCLEARBUFFERFVPROC                  glClearBufferfv;
+    PFNGLCLEARBUFFERIVPROC                  glClearBufferiv;
+    PFNGLCLEARBUFFERUIVPROC                 glClearBufferuiv;
+    PFNGLCLIENTWAITSYNCPROC                 glClientWaitSync;
+    PFNGLCOMPRESSEDTEXIMAGE3DPROC           glCompressedTexImage3D;
+    PFNGLCOMPRESSEDTEXSUBIMAGE3DPROC        glCompressedTexSubImage3D;
+    PFNGLCOPYBUFFERSUBDATAPROC              glCopyBufferSubData;
+    PFNGLCOPYTEXSUBIMAGE3DPROC              glCopyTexSubImage3D;
+    PFNGLDELETEQUERIESPROC                  glDeleteQueries;
+    PFNGLDELETESAMPLERSPROC                 glDeleteSamplers;
+    PFNGLDELETESYNCPROC                     glDeleteSync;
+    PFNGLDELETETRANSFORMFEEDBACKSPROC       glDeleteTransformFeedbacks;
+    PFNGLDELETEVERTEXARRAYSPROC             glDeleteVertexArrays;
+    PFNGLDRAWARRAYSINSTANCEDPROC            glDrawArraysInstanced;
+    PFNGLDRAWBUFFERSPROC                    glDrawBuffers;
+    PFNGLDRAWELEMENTSINSTANCEDPROC          glDrawElementsInstanced;
+    PFNGLDRAWRANGEELEMENTSPROC              glDrawRangeElements;
+    PFNGLENDQUERYPROC                       glEndQuery;
+    PFNGLENDTRANSFORMFEEDBACKPROC           glEndTransformFeedback;
+    PFNGLFENCESYNCPROC                      glFenceSync;
+    PFNGLFLUSHMAPPEDBUFFERRANGEPROC         glFlushMappedBufferRange;
+    PFNGLFRAMEBUFFERTEXTURELAYERPROC        glFramebufferTextureLayer;
+    PFNGLGENQUERIESPROC                     glGenQueries;
+    PFNGLGENSAMPLERSPROC                    glGenSamplers;
+    PFNGLGENTRANSFORMFEEDBACKSPROC          glGenTransformFeedbacks;
+    PFNGLGENVERTEXARRAYSPROC                glGenVertexArrays;
+    PFNGLGETACTIVEUNIFORMBLOCKIVPROC        glGetActiveUniformBlockiv;
+    PFNGLGETACTIVEUNIFORMBLOCKNAMEPROC      glGetActiveUniformBlockName;
+    PFNGLGETACTIVEUNIFORMSIVPROC            glGetActiveUniformsiv;
+    PFNGLGETBUFFERPARAMETERI64VPROC         glGetBufferParameteri64v;
+    PFNGLGETBUFFERPOINTERVPROC              glGetBufferPointerv;
+    PFNGLGETFRAGDATALOCATIONPROC            glGetFragDataLocation;
+    PFNGLGETINTEGER64I_VPROC                glGetInteger64i_v;
+    PFNGLGETINTEGER64VPROC                  glGetInteger64v;
+    PFNGLGETINTEGERI_VPROC                  glGetIntegeri_v;
+    PFNGLGETINTERNALFORMATIVPROC            glGetInternalformativ;
+    PFNGLGETPROGRAMBINARYPROC               glGetProgramBinary;
+    PFNGLGETQUERYIVPROC                     glGetQueryiv;
+    PFNGLGETQUERYOBJECTUIVPROC              glGetQueryObjectuiv;
+    PFNGLGETSAMPLERPARAMETERFVPROC          glGetSamplerParameterfv;
+    PFNGLGETSAMPLERPARAMETERIVPROC          glGetSamplerParameteriv;
+    PFNGLGETSTRINGIPROC                     glGetStringi;
+    PFNGLGETSYNCIVPROC                      glGetSynciv;
+    PFNGLGETTRANSFORMFEEDBACKVARYINGPROC    glGetTransformFeedbackVarying;
+    PFNGLGETUNIFORMBLOCKINDEXPROC           glGetUniformBlockIndex;
+    PFNGLGETUNIFORMINDICESPROC              glGetUniformIndices;
+    PFNGLGETUNIFORMUIVPROC                  glGetUniformuiv;
+    PFNGLGETVERTEXATTRIBIIVPROC             glGetVertexAttribIiv;
+    PFNGLGETVERTEXATTRIBIUIVPROC            glGetVertexAttribIuiv;
+    PFNGLINVALIDATEFRAMEBUFFERPROC          glInvalidateFramebuffer;
+    PFNGLINVALIDATESUBFRAMEBUFFERPROC       glInvalidateSubFramebuffer;
+    PFNGLISQUERYPROC                        glIsQuery;
+    PFNGLISSAMPLERPROC                      glIsSampler;
+    PFNGLISSYNCPROC                         glIsSync;
+    PFNGLISTRANSFORMFEEDBACKPROC            glIsTransformFeedback;
+    PFNGLISVERTEXARRAYPROC                  glIsVertexArray;
+    PFNGLMAPBUFFERRANGEPROC                 glMapBufferRange;
+    PFNGLPAUSETRANSFORMFEEDBACKPROC         glPauseTransformFeedback;
+    PFNGLPROGRAMBINARYPROC                  glProgramBinary;
+    PFNGLPROGRAMPARAMETERIPROC              glProgramParameteri;
+    PFNGLREADBUFFERPROC                     glReadBuffer;
+    PFNGLRENDERBUFFERSTORAGEMULTISAMPLEPROC glRenderbufferStorageMultisample;
+    PFNGLRESUMETRANSFORMFEEDBACKPROC        glResumeTransformFeedback;
+    PFNGLSAMPLERPARAMETERFPROC              glSamplerParameterf;
+    PFNGLSAMPLERPARAMETERFVPROC             glSamplerParameterfv;
+    PFNGLSAMPLERPARAMETERIPROC              glSamplerParameteri;
+    PFNGLSAMPLERPARAMETERIVPROC             glSamplerParameteriv;
+    PFNGLTEXIMAGE3DPROC                     glTexImage3D;
+    PFNGLTEXSTORAGE2DPROC                   glTexStorage2D;
+    PFNGLTEXSTORAGE3DPROC                   glTexStorage3D;
+    PFNGLTEXSUBIMAGE3DPROC                  glTexSubImage3D;
+    PFNGLTRANSFORMFEEDBACKVARYINGSPROC      glTransformFeedbackVaryings;
+    PFNGLUNIFORM1UIPROC                     glUniform1ui;
+    PFNGLUNIFORM1UIVPROC                    glUniform1uiv;
+    PFNGLUNIFORM2UIPROC                     glUniform2ui;
+    PFNGLUNIFORM2UIVPROC                    glUniform2uiv;
+    PFNGLUNIFORM3UIPROC                     glUniform3ui;
+    PFNGLUNIFORM3UIVPROC                    glUniform3uiv;
+    PFNGLUNIFORM4UIPROC                     glUniform4ui;
+    PFNGLUNIFORM4UIVPROC                    glUniform4uiv;
+    PFNGLUNIFORMBLOCKBINDINGPROC            glUniformBlockBinding;
+    PFNGLUNIFORMMATRIX2X3FVPROC             glUniformMatrix2x3fv;
+    PFNGLUNIFORMMATRIX2X4FVPROC             glUniformMatrix2x4fv;
+    PFNGLUNIFORMMATRIX3X2FVPROC             glUniformMatrix3x2fv;
+    PFNGLUNIFORMMATRIX3X4FVPROC             glUniformMatrix3x4fv;
+    PFNGLUNIFORMMATRIX4X2FVPROC             glUniformMatrix4x2fv;
+    PFNGLUNIFORMMATRIX4X3FVPROC             glUniformMatrix4x3fv;
+    PFNGLUNMAPBUFFERPROC                    glUnmapBuffer;
+    PFNGLVERTEXATTRIBDIVISORPROC            glVertexAttribDivisor;
+    PFNGLVERTEXATTRIBI4IPROC                glVertexAttribI4i;
+    PFNGLVERTEXATTRIBI4IVPROC               glVertexAttribI4iv;
+    PFNGLVERTEXATTRIBI4UIPROC               glVertexAttribI4ui;
+    PFNGLVERTEXATTRIBI4UIVPROC              glVertexAttribI4uiv;
+    PFNGLVERTEXATTRIBIPOINTERPROC           glVertexAttribIPointer;
+    PFNGLWAITSYNCPROC                       glWaitSync;
+} GLES30;
+
+/// @brief Represents the GLES 3.1 library and supported functions.
+extern struct LibraryGLES31 {
+    PFNGLACTIVESHADERPROGRAMPROC        glActiveShaderProgram;
+    PFNGLBINDIMAGETEXTUREPROC           glBindImageTexture;
+    PFNGLBINDPROGRAMPIPELINEPROC        glBindProgramPipeline;
+    PFNGLBINDVERTEXBUFFERPROC           glBindVertexBuffer;
+    PFNGLCREATESHADERPROGRAMVPROC       glCreateShaderProgramv;
+    PFNGLDELETEPROGRAMPIPELINESPROC     glDeleteProgramPipelines;
+    PFNGLDISPATCHCOMPUTEINDIRECTPROC    glDispatchComputeIndirect;
+    PFNGLDISPATCHCOMPUTEPROC            glDispatchCompute;
+    PFNGLDRAWARRAYSINDIRECTPROC         glDrawArraysIndirect;
+    PFNGLDRAWELEMENTSINDIRECTPROC       glDrawElementsIndirect;
+    PFNGLFRAMEBUFFERPARAMETERIPROC      glFramebufferParameteri;
+    PFNGLGENPROGRAMPIPELINESPROC        glGenProgramPipelines;
+    PFNGLGETBOOLEANI_VPROC              glGetBooleani_v;
+    PFNGLGETFRAMEBUFFERPARAMETERIVPROC  glGetFramebufferParameteriv;
+    PFNGLGETMULTISAMPLEFVPROC           glGetMultisamplefv;
+    PFNGLGETPROGRAMINTERFACEIVPROC      glGetProgramInterfaceiv;
+    PFNGLGETPROGRAMPIPELINEINFOLOGPROC  glGetProgramPipelineInfoLog;
+    PFNGLGETPROGRAMPIPELINEIVPROC       glGetProgramPipelineiv;
+    PFNGLGETPROGRAMRESOURCEINDEXPROC    glGetProgramResourceIndex;
+    PFNGLGETPROGRAMRESOURCEIVPROC       glGetProgramResourceiv;
+    PFNGLGETPROGRAMRESOURCELOCATIONPROC glGetProgramResourceLocation;
+    PFNGLGETPROGRAMRESOURCENAMEPROC     glGetProgramResourceName;
+    PFNGLGETTEXLEVELPARAMETERFVPROC     glGetTexLevelParameterfv;
+    PFNGLGETTEXLEVELPARAMETERIVPROC     glGetTexLevelParameteriv;
+    PFNGLISPROGRAMPIPELINEPROC          glIsProgramPipeline;
+    PFNGLMEMORYBARRIERBYREGIONPROC      glMemoryBarrierByRegion;
+    PFNGLMEMORYBARRIERPROC              glMemoryBarrier;
+    PFNGLPROGRAMUNIFORM1FPROC           glProgramUniform1f;
+    PFNGLPROGRAMUNIFORM1FVPROC          glProgramUniform1fv;
+    PFNGLPROGRAMUNIFORM1IPROC           glProgramUniform1i;
+    PFNGLPROGRAMUNIFORM1IVPROC          glProgramUniform1iv;
+    PFNGLPROGRAMUNIFORM1UIPROC          glProgramUniform1ui;
+    PFNGLPROGRAMUNIFORM1UIVPROC         glProgramUniform1uiv;
+    PFNGLPROGRAMUNIFORM2FPROC           glProgramUniform2f;
+    PFNGLPROGRAMUNIFORM2FVPROC          glProgramUniform2fv;
+    PFNGLPROGRAMUNIFORM2IPROC           glProgramUniform2i;
+    PFNGLPROGRAMUNIFORM2IVPROC          glProgramUniform2iv;
+    PFNGLPROGRAMUNIFORM2UIPROC          glProgramUniform2ui;
+    PFNGLPROGRAMUNIFORM2UIVPROC         glProgramUniform2uiv;
+    PFNGLPROGRAMUNIFORM3FPROC           glProgramUniform3f;
+    PFNGLPROGRAMUNIFORM3FVPROC          glProgramUniform3fv;
+    PFNGLPROGRAMUNIFORM3IPROC           glProgramUniform3i;
+    PFNGLPROGRAMUNIFORM3IVPROC          glProgramUniform3iv;
+    PFNGLPROGRAMUNIFORM3UIPROC          glProgramUniform3ui;
+    PFNGLPROGRAMUNIFORM3UIVPROC         glProgramUniform3uiv;
+    PFNGLPROGRAMUNIFORM4FPROC           glProgramUniform4f;
+    PFNGLPROGRAMUNIFORM4FVPROC          glProgramUniform4fv;
+    PFNGLPROGRAMUNIFORM4IPROC           glProgramUniform4i;
+    PFNGLPROGRAMUNIFORM4IVPROC          glProgramUniform4iv;
+    PFNGLPROGRAMUNIFORM4UIPROC          glProgramUniform4ui;
+    PFNGLPROGRAMUNIFORM4UIVPROC         glProgramUniform4uiv;
+    PFNGLPROGRAMUNIFORMMATRIX2FVPROC    glProgramUniformMatrix2fv;
+    PFNGLPROGRAMUNIFORMMATRIX2X3FVPROC  glProgramUniformMatrix2x3fv;
+    PFNGLPROGRAMUNIFORMMATRIX2X4FVPROC  glProgramUniformMatrix2x4fv;
+    PFNGLPROGRAMUNIFORMMATRIX3FVPROC    glProgramUniformMatrix3fv;
+    PFNGLPROGRAMUNIFORMMATRIX3X2FVPROC  glProgramUniformMatrix3x2fv;
+    PFNGLPROGRAMUNIFORMMATRIX3X4FVPROC  glProgramUniformMatrix3x4fv;
+    PFNGLPROGRAMUNIFORMMATRIX4FVPROC    glProgramUniformMatrix4fv;
+    PFNGLPROGRAMUNIFORMMATRIX4X2FVPROC  glProgramUniformMatrix4x2fv;
+    PFNGLPROGRAMUNIFORMMATRIX4X3FVPROC  glProgramUniformMatrix4x3fv;
+    PFNGLSAMPLEMASKIPROC                glSampleMaski;
+    PFNGLTEXSTORAGE2DMULTISAMPLEPROC    glTexStorage2DMultisample;
+    PFNGLUSEPROGRAMSTAGESPROC           glUseProgramStages;
+    PFNGLVALIDATEPROGRAMPIPELINEPROC    glValidateProgramPipeline;
+    PFNGLVERTEXATTRIBBINDINGPROC        glVertexAttribBinding;
+    PFNGLVERTEXATTRIBFORMATPROC         glVertexAttribFormat;
+    PFNGLVERTEXATTRIBIFORMATPROC        glVertexAttribIFormat;
+    PFNGLVERTEXBINDINGDIVISORPROC       glVertexBindingDivisor;
+} GLES31;
+
+/// @brief Represents the GLES 3.2 library and supported functions.
+extern struct LibraryGLES32 {
+    PFNGLBLENDBARRIERPROC                    glBlendBarrier;
+    PFNGLBLENDEQUATIONIPROC                  glBlendEquationi;
+    PFNGLBLENDEQUATIONSEPARATEIPROC          glBlendEquationSeparatei;
+    PFNGLBLENDFUNCIPROC                      glBlendFunci;
+    PFNGLBLENDFUNCSEPARATEIPROC              glBlendFuncSeparatei;
+    PFNGLCOLORMASKIPROC                      glColorMaski;
+    PFNGLCOPYIMAGESUBDATAPROC                glCopyImageSubData;
+    PFNGLDEBUGMESSAGECALLBACKPROC            glDebugMessageCallback;
+    PFNGLDEBUGMESSAGECONTROLPROC             glDebugMessageControl;
+    PFNGLDEBUGMESSAGEINSERTPROC              glDebugMessageInsert;
+    PFNGLDISABLEIPROC                        glDisablei;
+    PFNGLDRAWELEMENTSBASEVERTEXPROC          glDrawElementsBaseVertex;
+    PFNGLDRAWELEMENTSINSTANCEDBASEVERTEXPROC glDrawElementsInstancedBaseVertex;
+    PFNGLDRAWRANGEELEMENTSBASEVERTEXPROC     glDrawRangeElementsBaseVertex;
+    PFNGLENABLEIPROC                         glEnablei;
+    PFNGLFRAMEBUFFERTEXTUREPROC              glFramebufferTexture;
+    PFNGLGETDEBUGMESSAGELOGPROC              glGetDebugMessageLog;
+    PFNGLGETGRAPHICSRESETSTATUSPROC          glGetGraphicsResetStatus;
+    PFNGLGETNUNIFORMFVPROC                   glGetnUniformfv;
+    PFNGLGETNUNIFORMIVPROC                   glGetnUniformiv;
+    PFNGLGETNUNIFORMUIVPROC                  glGetnUniformuiv;
+    PFNGLGETOBJECTLABELPROC                  glGetObjectLabel;
+    PFNGLGETOBJECTPTRLABELPROC               glGetObjectPtrLabel;
+    PFNGLGETPOINTERVPROC                     glGetPointerv;
+    PFNGLGETSAMPLERPARAMETERIIVPROC          glGetSamplerParameterIiv;
+    PFNGLGETSAMPLERPARAMETERIUIVPROC         glGetSamplerParameterIuiv;
+    PFNGLGETTEXPARAMETERIIVPROC              glGetTexParameterIiv;
+    PFNGLGETTEXPARAMETERIUIVPROC             glGetTexParameterIuiv;
+    PFNGLISENABLEDIPROC                      glIsEnabledi;
+    PFNGLMINSAMPLESHADINGPROC                glMinSampleShading;
+    PFNGLOBJECTLABELPROC                     glObjectLabel;
+    PFNGLOBJECTPTRLABELPROC                  glObjectPtrLabel;
+    PFNGLPATCHPARAMETERIPROC                 glPatchParameteri;
+    PFNGLPOPDEBUGGROUPPROC                   glPopDebugGroup;
+    PFNGLPRIMITIVEBOUNDINGBOXPROC            glPrimitiveBoundingBox;
+    PFNGLPUSHDEBUGGROUPPROC                  glPushDebugGroup;
+    PFNGLREADNPIXELSPROC                     glReadnPixels;
+    PFNGLSAMPLERPARAMETERIIVPROC             glSamplerParameterIiv;
+    PFNGLSAMPLERPARAMETERIUIVPROC            glSamplerParameterIuiv;
+    PFNGLTEXBUFFERPROC                       glTexBuffer;
+    PFNGLTEXBUFFERRANGEPROC                  glTexBufferRange;
+    PFNGLTEXPARAMETERIIVPROC                 glTexParameterIiv;
+    PFNGLTEXPARAMETERIUIVPROC                glTexParameterIuiv;
+    PFNGLTEXSTORAGE3DMULTISAMPLEPROC         glTexStorage3DMultisample;
+} GLES32;
+
+/// @brief Returns true if the GLES 2.0 library was loaded successfully.
+bool LoadLibraryGLES20(void* (*loader)(const char*));
+
+/// @brief Returns true if the GLES 3.0 library was loaded successfully.
+bool LoadLibraryGLES30(void* (*loader)(const char*));
+
+/// @brief Returns true if the GLES 3.1 library was loaded successfully.
+bool LoadLibraryGLES31(void* (*loader)(const char*));
+
+/// @brief Returns true if the GLES 3.2 library was loaded successfully.
+bool LoadLibraryGLES32(void* (*loader)(const char*));
+
+// -------------------------------------------------------------------------------------------------------------------------- //
+#ifdef __cplusplus
+}
+#endif
+#endif//__core_GLES3_library_h__
+// -------------------------------------------------------------------------------------------------------------------------- //
