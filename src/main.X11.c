@@ -89,7 +89,7 @@ int main(int argc, char** argv)
         printf("-- direct GLX context obtained\n");
     }
 
-    if (!LoadLibraryGLES32((void*(*)(const char*))GLX.glXGetProcAddress))
+    if (!LoadLibraryGLES32(GLX.glXGetProcAddress))
     {
         printf("ERROR: Failed to load GLES3 library");
         exit(EXIT_FAILURE);

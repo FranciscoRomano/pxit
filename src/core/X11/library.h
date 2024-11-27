@@ -16,13 +16,12 @@ extern "C" {
 #include <X11/Xatom.h>
 
 typedef unsigned int  uint;
-typedef unsigned char uchar;
 typedef unsigned long ulong;
 
 /// @brief Represents the X11 library and supported functions.
 extern struct LibraryX11 {
     void*    handle;
-    int      (*XChangeProperty)(Display*,Window,Atom,Atom,int,int,const uchar*,int);
+    int      (*XChangeProperty)(Display*,Window,Atom,Atom,int,int,const char*,int);
     int      (*XChangeWindowAttributes)(Display*,Window,ulong,XSetWindowAttributes*);
     int      (*XCloseDisplay)(Display*);
     Colormap (*XCreateColormap)(Display*,Window,Visual*,int);

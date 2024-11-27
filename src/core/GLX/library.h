@@ -13,7 +13,6 @@ extern "C" {
 #include <GL/glx.h>
 
 typedef unsigned int  uint;
-typedef unsigned char uchar;
 typedef unsigned long ulong;
 
 /// @brief Represents the GLX library and supported functions.
@@ -57,8 +56,8 @@ extern struct LibraryGLX {
     int             (*glXQueryContext)(Display*,GLXContext,int,int*);
     void            (*glXSelectEvent)(Display*,GLXDrawable,ulong);
     void            (*glXGetSelectedEvent)(Display*,GLXDrawable,ulong*);
-    __GLXextFuncPtr (*glXGetProcAddressARB)(const uchar*);
-    void*           (*glXGetProcAddress)(const uchar*);
+    __GLXextFuncPtr (*glXGetProcAddressARB)(const char*);
+    void*           (*glXGetProcAddress)(const char*);
 } GLX;
 
 /// @brief Returns true if the GLX library was freed successfully.
