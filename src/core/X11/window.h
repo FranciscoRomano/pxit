@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __platform_X11_window_h__
-#define __platform_X11_window_h__
+#ifndef __core_X11_window_h__
+#define __core_X11_window_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -43,5 +43,5 @@ bool ReadWindowEventsX11(WindowContextX11* context);
 #ifdef __cplusplus
 }
 #endif
-#endif//__platform_X11_window_h__
+#endif//__core_X11_window_h__
 // -------------------------------------------------------------------------------------------------------------------------- //

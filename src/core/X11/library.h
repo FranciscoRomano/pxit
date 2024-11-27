@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __platform_X11_library_h__
-#define __platform_X11_library_h__
+#ifndef __core_X11_library_h__
+#define __core_X11_library_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -60,5 +60,5 @@ bool LoadLibraryX11();
 #ifdef __cplusplus
 }
 #endif
-#endif//__platform_X11_library_h__
+#endif//__core_X11_library_h__
 // -------------------------------------------------------------------------------------------------------------------------- //
