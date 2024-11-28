@@ -9,6 +9,30 @@
 // https://alexvia.com/post/002_initializing_opengl_on_x11/
 // https://github.com/gamedevtech/X11OpenGLWindow
 
+const char* vshader_glsl =
+"#version 300 es\n"
+"precision mediump float;\n"
+"layout (location = 0) in vec2 vb_position;\n"
+"void main()\n"
+"{\n"
+"    gl_Position = vec4(vb_position, 0.0, 1.0);\n"
+"}\0";
+
+const char* fshader_glsl =
+"#version 300 es\n"
+"precision mediump float;\n"
+"layout(location = 0) out vec4 fb_color;\n"
+"void main()\n"
+"{\n"
+"    fb_color = vec4(1.0, 1.0, 1.0, 1.0);\n"
+"}\0";
+
+const float geometry_vbo[] = {
+    -0.5f, -0.5f,
+     0.0f,  0.5f,
+     0.5f, -0.5f,
+};
+
 int main(int argc, char** argv)
 {
     if (!LoadLibraryX11())
@@ -37,20 +61,6 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
 
-    int major_version;
-    int minor_version;
-    if (!GLX.glXQueryVersion(ctx.hDisplay, &major_version, &minor_version))
-    {
-        printf("ERROR: failed to query GLX library version");
-        exit(EXIT_FAILURE);
-    }
-    if ((major_version == 1 && minor_version < 3) || major_version < 1)
-    {
-        printf("ERROR: GLX library version must be 1.3 or greater");
-        exit(EXIT_FAILURE);
-    }
-    printf("-- using GLX v%i.%i\n", major_version, minor_version);
-
     int fbc_count;
     static int fbc_attribs[] = {
       GLX_X_RENDERABLE,  True,
@@ -72,7 +82,6 @@ int main(int argc, char** argv)
         printf("ERROR: failed to retrieve GLX framebuffer config\n");
         exit(EXIT_FAILURE);
     }
-    printf("-- found %i matching FB configs.\n", fbc_count);
     GLXFBConfig best_fbc = fbc[0];
     X11.XFree(fbc);
 
@@ -84,23 +93,79 @@ int main(int argc, char** argv)
     X11.XChangeWindowAttributes(ctx.hDisplay, win.hID, CWColormap, &swa);
 
     GLXContext glx_ctx = GLX.glXCreateNewContext(ctx.hDisplay, best_fbc, GLX_RGBA_TYPE, 0, True);
-    if (GLX.glXIsDirect(ctx.hDisplay, glx_ctx))
+    GLX.glXMakeCurrent(ctx.hDisplay, win.hID, glx_ctx);
+    if (!GLX.glXIsDirect(ctx.hDisplay, glx_ctx))
     {
-        printf("-- direct GLX context obtained\n");
-    }
-
-    if (!LoadLibraryGLES32(GLX.glXGetProcAddress))
-    {
-        printf("ERROR: Failed to load GLES3 library");
+        printf("ERROR: failed to get direct GLX context\n");
         exit(EXIT_FAILURE);
     }
-    
+
+    GLES20.glDisable(GL_DEPTH_TEST);
+    GLES20.glDisable(GL_CULL_FACE);
+
+    int success;
+
+    GLuint vshader = GLES20.glCreateShader(GL_VERTEX_SHADER);
+    GLES20.glShaderSource(vshader, 1, &vshader_glsl, NULL);
+    GLES20.glCompileShader(vshader);
+    GLES20.glGetShaderiv(vshader, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        printf("ERROR: failed to compile vertex shader\n");
+        exit(EXIT_FAILURE);
+    }
+
+    GLuint fshader = GLES20.glCreateShader(GL_FRAGMENT_SHADER);
+    GLES20.glShaderSource(fshader, 1, &fshader_glsl, NULL);
+    GLES20.glCompileShader(fshader);
+    GLES20.glGetShaderiv(fshader, GL_COMPILE_STATUS, &success);
+    if (!success)
+    {
+        printf("ERROR: failed to compile fragment shader\n");
+        exit(EXIT_FAILURE);
+    }
+
+    GLuint program = GLES20.glCreateProgram();
+    GLES20.glAttachShader(program, vshader);
+    GLES20.glAttachShader(program, fshader);
+    GLES20.glLinkProgram(program);
+    GLES20.glGetProgramiv(program, GL_LINK_STATUS, &success);
+    if (!success)
+    {
+        printf("ERROR: failed to link program\n");
+        exit(EXIT_FAILURE);
+    }
+    GLES20.glValidateProgram(program);
+    GLES20.glGetProgramiv(program, GL_VALIDATE_STATUS, &success);
+    if (!success)
+    {
+        printf("ERROR: failed to validate program\n");
+        exit(EXIT_FAILURE);
+    }
+
+    GLuint vao;
+    GLES30.glGenVertexArrays(1, &vao);
+    GLES30.glBindVertexArray(vao);
+
+    GLuint vbo;
+    GLES20.glGenBuffers(1, &vbo);
+    GLES20.glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    GLES20.glBufferData(GL_ARRAY_BUFFER, sizeof(geometry_vbo), geometry_vbo, GL_STATIC_DRAW);
+
+    GLES20.glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+    GLES20.glEnableVertexAttribArray(0);
+
+    GLES30.glBindVertexArray(0);
+    GLES20.glBindBuffer(GL_ARRAY_BUFFER, 0);
+
     while (ReadWindowEventsX11(&ctx))
     {
-        GLX.glXMakeCurrent(ctx.hDisplay, win.hID, glx_ctx);
-
         GLES20.glClearColor(1, 0, 0, 1);
         GLES20.glClear(GL_COLOR_BUFFER_BIT);
+
+        GLES20.glUseProgram(program);
+        GLES30.glBindVertexArray(vao);
+        GLES20.glDrawArrays(GL_TRIANGLES, 0, 3);
 
         GLX.glXSwapBuffers(ctx.hDisplay, win.hID);
         sleep(0);
