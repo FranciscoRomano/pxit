@@ -1,7 +1,20 @@
+#include "core/GLES3/library.h"
 #include "core/Win32/window.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <GL/GL.h>
+
+void* opengl32_lib = NULL;
+void* get_opengl32_proc(const char* name)
+{
+    void* p = (void*)wglGetProcAddress(name);
+    if (p == (void*) 0) return (void*)GetProcAddress(opengl32_lib, name);
+    if (p == (void*) 1) return (void*)GetProcAddress(opengl32_lib, name);
+    if (p == (void*) 2) return (void*)GetProcAddress(opengl32_lib, name);
+    if (p == (void*) 3) return (void*)GetProcAddress(opengl32_lib, name);
+    if (p == (void*)-1) return (void*)GetProcAddress(opengl32_lib, name);
+    return p;
+}
 
 int main(int argc, char** argv)
 {
@@ -36,12 +49,18 @@ int main(int argc, char** argv)
 
     HGLRC wgl_ctx = wglCreateContext(win.hDC);
     wglMakeCurrent(win.hDC, wgl_ctx);
-    printf("- context: %lu", (UINT64)wgl_ctx);
+
+    opengl32_lib = LoadLibraryA("Opengl32.dll");
+    if (!opengl32_lib || !LoadLibraryGLES32(get_opengl32_proc))
+    {
+        printf("ERROR: failed to load GLES32 library\n");
+        exit(EXIT_FAILURE);
+    }
 
     while (ReadWindowEventsWin32(&ctx))
     {
-        glClearColor(1, 0, 0, 1);
-        glClear(GL_COLOR_BUFFER_BIT);
+        GLES20.glClearColor(1, 0, 0, 1);
+        GLES20.glClear(GL_COLOR_BUFFER_BIT);
 
         SwapBuffers(win.hDC);
     }
