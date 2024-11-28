@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #define LOAD_LIBRARY_SYMBOL(Name)\
 X11.Name = dlsym(X11.handle, #Name);\
-if (!X11.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); exit(EXIT_FAILURE); }
+if (!X11.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 struct LibraryX11 X11 = { NULL };
