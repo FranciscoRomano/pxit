@@ -33,16 +33,21 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 bool CreateWindowWin32(WindowContextWin32* context, uint width, uint height, WindowWin32* window)
 {
+    // calculate window rect
+    RECT rect = { 0, 0, width, height };
+    DWORD dwStyle = WS_POPUPWINDOW | WS_CAPTION | WS_SIZEBOX | WS_VISIBLE | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+    AdjustWindowRect(&rect, dwStyle, FALSE);
+
     // create a new Win32 window
     window->hWnd = CreateWindowExA(
         0,
         context->lpClassName,
         "",
-        WS_POPUPWINDOW | WS_CAPTION | WS_SIZEBOX | WS_VISIBLE | WS_MINIMIZEBOX | WS_MAXIMIZEBOX,
+        dwStyle,
         0,
         0,
-        width,
-        height,
+        rect.right - rect.left,
+        rect.bottom - rect.top,
         NULL,
         NULL,
         context->hInstance,
