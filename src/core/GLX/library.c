@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#include "../GLES3/library.h"
 #include "library.h"
 #include <dlfcn.h>
 #include <stdio.h>
