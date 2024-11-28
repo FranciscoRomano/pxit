@@ -2,16 +2,28 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
+#include "../GLES3/library.h"
 #include "library.h"
 #include <dlfcn.h>
 #include <stdio.h>
 #include <stdlib.h>
 #define LOAD_LIBRARY_SYMBOL(Name)\
 GLX.Name = dlsym(GLX.handle, #Name);\
-if (!GLX.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); exit(EXIT_FAILURE); }
+if (!GLX.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 struct LibraryGLX GLX = { NULL };
+
+void* private_loader_GLX(const char* name)
+{
+    void* p = (void*)GLX.glXGetProcAddress(name);
+    if (p == (void*) 0) return (void*)dlsym(GLX.handle, name);
+    if (p == (void*) 1) return (void*)dlsym(GLX.handle, name);
+    if (p == (void*) 2) return (void*)dlsym(GLX.handle, name);
+    if (p == (void*) 3) return (void*)dlsym(GLX.handle, name);
+    if (p == (void*)-1) return (void*)dlsym(GLX.handle, name);
+    return p;
+}
 
 bool FreeLibraryGLX()
 {
@@ -81,7 +93,7 @@ bool LoadLibraryGLX()
         LOAD_LIBRARY_SYMBOL(glXGetSelectedEvent)
         LOAD_LIBRARY_SYMBOL(glXGetProcAddressARB)
         LOAD_LIBRARY_SYMBOL(glXGetProcAddress)
-        return true;
+        return LoadLibraryGLES32(private_loader_GLX);
     }
     return false;
 }
