@@ -1,8 +1,5 @@
-#include "core/GLES3/library.h"
+#include "main.GLES3.c"
 #include "core/Win32/window.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <GL/GL.h>
 
 void* opengl32_lib = NULL;
 void* get_opengl32_proc(const char* name)
@@ -57,10 +54,11 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
 
+    Init_GLES3();
+
     while (ReadWindowEventsWin32(&ctx))
     {
-        GLES20.glClearColor(1, 0, 0, 1);
-        GLES20.glClear(GL_COLOR_BUFFER_BIT);
+        Draw_GLES3();
 
         SwapBuffers(win.hDC);
     }
