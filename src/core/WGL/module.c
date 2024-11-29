@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#include "../GLES3/library.h"
+#include "../GLES/module.h"
 #include "../Win32/module.h"
 #include "module.h"
 #include <stdio.h>
@@ -134,10 +134,20 @@ bool LoadModuleWGL()
             DestroyWindow(hWnd);
             return false;
         }
-        printf("WARNING: currently no WGL extensions were loaded\n");
+        printf("WARNING: skipping WGL extensions\n");
 
-        // finally, load the OpenGL ES 3.2 module and symbols
-        return LoadLibraryGLES32(private_loader_WGL);
+        // finally, load the OpenGL ES module and all symbols
+        if (!LoadModuleGLES(private_loader_WGL))
+        {
+            printf("ERROR: failed to load GLES module\n");
+            WGL.wglDeleteContext(hGLRC);
+            ReleaseDC(hWnd, hDC);
+            DestroyWindow(hWnd);
+            return false;
+        }
+
+        DestroyWindow(hWnd);
+        return true;
     }
     return false;
 }

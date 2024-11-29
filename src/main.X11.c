@@ -1,4 +1,4 @@
-#include "main.GLES3.c"
+#include "main.GLES.c"
 #include "core/GLX/library.h"
 #include "core/X11/window.h"
 #include <unistd.h>

@@ -1,5 +1,5 @@
 #define WIN32_LEAN_AND_MEAN 1
-#include "main.GLES3.c"
+#include "main.GLES.c"
 #include "core/WGL/module.h"
 #include "core/Win32/module.h"
 #include "core/Win32/window.h"

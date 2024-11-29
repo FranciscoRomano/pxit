@@ -11,11 +11,10 @@ extern "C" {
 
 #include <stdbool.h>
 #define GL_APIENTRY
-#define GL_GLES_PROTOTYPES 0
 #include <GLES3/gl32.h>
 
 /// @brief Represents the GLES 2.0 library and supported functions.
-extern struct LibraryGLES20 {
+extern struct ModuleGLES20 {
     PFNGLACTIVETEXTUREPROC                       glActiveTexture;
     PFNGLATTACHSHADERPROC                        glAttachShader;
     PFNGLBINDATTRIBLOCATIONPROC                  glBindAttribLocation;
@@ -161,7 +160,7 @@ extern struct LibraryGLES20 {
 } GLES20;
 
 /// @brief Represents the GLES 3.0 library and supported functions.
-extern struct LibraryGLES30 {
+extern struct ModuleGLES30 {
     PFNGLBEGINQUERYPROC                     glBeginQuery;
     PFNGLBEGINTRANSFORMFEEDBACKPROC         glBeginTransformFeedback;
     PFNGLBINDBUFFERBASEPROC                 glBindBufferBase;
@@ -269,7 +268,7 @@ extern struct LibraryGLES30 {
 } GLES30;
 
 /// @brief Represents the GLES 3.1 library and supported functions.
-extern struct LibraryGLES31 {
+extern struct ModuleGLES31 {
     PFNGLACTIVESHADERPROGRAMPROC        glActiveShaderProgram;
     PFNGLBINDIMAGETEXTUREPROC           glBindImageTexture;
     PFNGLBINDPROGRAMPIPELINEPROC        glBindProgramPipeline;
@@ -341,7 +340,7 @@ extern struct LibraryGLES31 {
 } GLES31;
 
 /// @brief Represents the GLES 3.2 library and supported functions.
-extern struct LibraryGLES32 {
+extern struct ModuleGLES32 {
     PFNGLBLENDBARRIERPROC                    glBlendBarrier;
     PFNGLBLENDEQUATIONIPROC                  glBlendEquationi;
     PFNGLBLENDEQUATIONSEPARATEIPROC          glBlendEquationSeparatei;
@@ -388,17 +387,8 @@ extern struct LibraryGLES32 {
     PFNGLTEXSTORAGE3DMULTISAMPLEPROC         glTexStorage3DMultisample;
 } GLES32;
 
-/// @brief Returns true if the GLES 2.0 library was loaded successfully.
-bool LoadLibraryGLES20(void* (*loader)(const char*));
-
-/// @brief Returns true if the GLES 3.0 library was loaded successfully.
-bool LoadLibraryGLES30(void* (*loader)(const char*));
-
-/// @brief Returns true if the GLES 3.1 library was loaded successfully.
-bool LoadLibraryGLES31(void* (*loader)(const char*));
-
-/// @brief Returns true if the GLES 3.2 library was loaded successfully.
-bool LoadLibraryGLES32(void* (*loader)(const char*));
+/// @brief Returns true if the GLES mopdule was loaded successfully.
+bool LoadModuleGLES(void* (*loader)(const char*));
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

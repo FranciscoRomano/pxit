@@ -51,7 +51,7 @@ bool CreateWindowWin32(int width, int height, WindowWin32* window)
 bool DestroyWindowWin32(WindowWin32* window)
 {
     // release device context
-    if (!ReleaseDC(window->hWnd, window->hDC) == FALSE)
+    if (!ReleaseDC(window->hWnd, window->hDC))
     {
         printf("ERROR: failed to release device context\n");
         return false;
@@ -60,7 +60,7 @@ bool DestroyWindowWin32(WindowWin32* window)
     // destroy the Win32 window
     if (!DestroyWindow(window->hWnd))
     {
-        printf("ERROR: failed to destory window\n");
+        printf("ERROR: failed to destroy window\n");
         return false;
     }
 }
