@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_GLES3_library_h__
-#define __core_GLES3_library_h__
+#ifndef __core_GLES3_module_h__
+#define __core_GLES3_module_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -13,7 +13,7 @@ extern "C" {
 #define GL_APIENTRY
 #include <GLES3/gl32.h>
 
-/// @brief Represents the GLES 2.0 library and supported functions.
+/// @brief Represents the GLES 2.0 module and supported functions.
 extern struct ModuleGLES20 {
     PFNGLACTIVETEXTUREPROC                       glActiveTexture;
     PFNGLATTACHSHADERPROC                        glAttachShader;
@@ -159,7 +159,7 @@ extern struct ModuleGLES20 {
     PFNGLVIEWPORTPROC                            glViewport;
 } GLES20;
 
-/// @brief Represents the GLES 3.0 library and supported functions.
+/// @brief Represents the GLES 3.0 module and supported functions.
 extern struct ModuleGLES30 {
     PFNGLBEGINQUERYPROC                     glBeginQuery;
     PFNGLBEGINTRANSFORMFEEDBACKPROC         glBeginTransformFeedback;
@@ -267,7 +267,7 @@ extern struct ModuleGLES30 {
     PFNGLWAITSYNCPROC                       glWaitSync;
 } GLES30;
 
-/// @brief Represents the GLES 3.1 library and supported functions.
+/// @brief Represents the GLES 3.1 module and supported functions.
 extern struct ModuleGLES31 {
     PFNGLACTIVESHADERPROGRAMPROC        glActiveShaderProgram;
     PFNGLBINDIMAGETEXTUREPROC           glBindImageTexture;
@@ -339,7 +339,7 @@ extern struct ModuleGLES31 {
     PFNGLVERTEXBINDINGDIVISORPROC       glVertexBindingDivisor;
 } GLES31;
 
-/// @brief Represents the GLES 3.2 library and supported functions.
+/// @brief Represents the GLES 3.2 module and supported functions.
 extern struct ModuleGLES32 {
     PFNGLBLENDBARRIERPROC                    glBlendBarrier;
     PFNGLBLENDEQUATIONIPROC                  glBlendEquationi;
@@ -394,5 +394,5 @@ bool LoadModuleGLES(void* (*loader)(const char*));
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_GLES3_library_h__
+#endif//__core_GLES3_module_h__
 // -------------------------------------------------------------------------------------------------------------------------- //

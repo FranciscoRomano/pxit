@@ -2,12 +2,13 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
+#include "module.h"
 #include "window.h"
 #include <stdlib.h>
 #include <stdio.h>
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-bool CreateWindowX11(WindowContextX11* context, uint width, uint height, WindowX11* window)
+bool CreateWindowX11(int width, int height, WindowX11* window)
 {
     // set window attributes
     XSetWindowAttributes attributes = {};
@@ -19,8 +20,8 @@ bool CreateWindowX11(WindowContextX11* context, uint width, uint height, WindowX
 
     // create a new X server window
     window->hID = X11.XCreateWindow(
-        context->hDisplay,
-        context->hRootWindow,
+        X11.hDisplay,
+        X11.hRootWindow,
         0,
         0,
         width,
@@ -33,65 +34,40 @@ bool CreateWindowX11(WindowContextX11* context, uint width, uint height, WindowX
         &attributes
     );
     if (!window->hID) return false;
-    X11.XMapWindow(context->hDisplay, window->hID);
-    X11.XSetWMProtocols(context->hDisplay, window->hID, &context->wmDeleteWindow, 1);
-    X11.XSaveContext(context->hDisplay, window->hID, context->hContext, (char*)window);
+    X11.XMapWindow(X11.hDisplay, window->hID);
+    X11.XSetWMProtocols(X11.hDisplay, window->hID, &X11.wmDeleteWindow, 1);
+    X11.XSaveContext(X11.hDisplay, window->hID, X11.hContext, (char*)window);
     return true;
 }
 
-bool CreateWindowContextX11(WindowContextX11* context)
-{
-    // open a connection to the X server
-    context->hDisplay = X11.XOpenDisplay(NULL);
-    if (!context->hDisplay) return false;
-
-    // get a unique or the default context
-    context->hContext = (XContext)X11.XrmUniqueQuark();
-
-    // get the display's default root window
-    context->hRootWindow = X11.XDefaultRootWindow(context->hDisplay);
-
-    // get the 'WM_DELETE_WINDOW' event handle
-    context->wmDeleteWindow = X11.XInternAtom(context->hDisplay, "WM_DELETE_WINDOW", False);
-    return true;
-}
-
-bool DestroyWindowX11(WindowContextX11* context, WindowX11* window)
+bool DestroyWindowX11(WindowX11* window)
 {
     // destroy the X server window
-    X11.XDeleteContext(context->hDisplay, window->hID, context->hContext);
-    X11.XUnmapWindow(context->hDisplay, window->hID);
-    X11.XDestroyWindow(context->hDisplay, window->hID);
+    X11.XDeleteContext(X11.hDisplay, window->hID, X11.hContext);
+    X11.XUnmapWindow(X11.hDisplay, window->hID);
+    X11.XDestroyWindow(X11.hDisplay, window->hID);
     return true;
 }
 
-bool DestroyWindowContextX11(WindowContextX11* context)
-{
-    // close the connection to the X server
-    X11.XCloseDisplay(context->hDisplay);
-    context->hDisplay = NULL;
-    return true;
-}
-
-bool ReadWindowEventsX11(WindowContextX11* context)
+bool ReadWindowEventsX11()
 {
     // iterate through all queued X server messages
     XEvent event;
     WindowX11* window;
-    X11.XPending(context->hDisplay);
-    while (QLength(context->hDisplay))
+    X11.XPending(X11.hDisplay);
+    while (QLength(X11.hDisplay))
     {
         // get the next X server event
-        X11.XNextEvent(context->hDisplay, &event);
+        X11.XNextEvent(X11.hDisplay, &event);
 
         // skip event that don't have a window
-        if (X11.XFindContext(context->hDisplay, event.xany.window, context->hContext, (XPointer*)&window)) continue;
+        if (X11.XFindContext(X11.hDisplay, event.xany.window, X11.hContext, (XPointer*)&window)) continue;
 
         // translate the current window event by type
         switch (event.type)
         {
             case ClientMessage:
-                if (event.xclient.data.l[0] == context->wmDeleteWindow)
+                if (event.xclient.data.l[0] == X11.wmDeleteWindow)
                     return false;
                 break;
             default:
@@ -100,7 +76,7 @@ bool ReadWindowEventsX11(WindowContextX11* context)
     }
 
     // flush all events in X server
-    X11.XFlush(context->hDisplay);
+    X11.XFlush(X11.hDisplay);
     return true;
 }
 

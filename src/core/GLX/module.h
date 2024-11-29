@@ -2,22 +2,21 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_GLX_library_h__
-#define __core_GLX_library_h__
+#ifndef __core_GLX_module_h__
+#define __core_GLX_module_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-#include "../GLES3/library.h"
 #include <stdbool.h>
 #include <GL/glx.h>
 
 typedef unsigned int  uint;
 typedef unsigned long ulong;
 
-/// @brief Represents the GLX library and supported functions.
-extern struct LibraryGLX {    
+/// @brief Represents the GLX module and supported functions.
+extern struct ModuleGLX {    
     void*           handle;
     XVisualInfo*    (*glXChooseVisual)(Display*,int,int*);
     GLXContext      (*glXCreateContext)(Display*,XVisualInfo*,GLXContext,Bool);
@@ -61,15 +60,15 @@ extern struct LibraryGLX {
     void*           (*glXGetProcAddress)(const char*);
 } GLX;
 
-/// @brief Returns true if the GLX library was freed successfully.
-bool FreeLibraryGLX();
+/// @brief Returns true if the GLX module was freed successfully.
+bool FreeModuleGLX();
 
-/// @brief Returns true if the GLX library was loaded successfully.
-bool LoadLibraryGLX();
+/// @brief Returns true if the GLX module was loaded successfully.
+bool LoadModuleGLX();
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_GLX_library_h__
+#endif//__core_GLX_module_h__
 // -------------------------------------------------------------------------------------------------------------------------- //

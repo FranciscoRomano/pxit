@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_X11_library_h__
-#define __core_X11_library_h__
+#ifndef __core_X11_module_h__
+#define __core_X11_module_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -18,9 +18,13 @@ extern "C" {
 typedef unsigned int  uint;
 typedef unsigned long ulong;
 
-/// @brief Represents the X11 library and supported functions.
-extern struct LibraryX11 {
+/// @brief Represents the X11 module and supported functions.
+extern struct ModuleX11 {
     void*    handle;
+    Display* hDisplay;
+    XContext hContext;
+    Window   hRootWindow;
+    Atom     wmDeleteWindow;
     int      (*XChangeProperty)(Display*,Window,Atom,Atom,int,int,const char*,int);
     int      (*XChangeWindowAttributes)(Display*,Window,ulong,XSetWindowAttributes*);
     int      (*XCloseDisplay)(Display*);
@@ -50,15 +54,15 @@ extern struct LibraryX11 {
 } X11;
 
                       
-/// @brief Returns true if the X11 library was freed successfully.
-bool FreeLibraryX11();
+/// @brief Returns true if the X11 module was freed successfully.
+bool FreeModuleX11();
 
-/// @brief Returns true if the X11 library was loaded successfully.
-bool LoadLibraryX11();
+/// @brief Returns true if the X11 module was loaded successfully.
+bool LoadModuleX11();
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_X11_library_h__
+#endif//__core_X11_module_h__
 // -------------------------------------------------------------------------------------------------------------------------- //

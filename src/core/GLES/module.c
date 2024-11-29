@@ -21,6 +21,11 @@ struct ModuleGLES32 GLES32 = { NULL };
 
 bool LoadModuleGLES(void* (*loader)(const char*))
 {
+    // check GLES version
+    LOAD_REQUIRED_SYMBOL(GLES20, glGetString);
+    const GLubyte* version = GLES20.glGetString(GL_VERSION);
+    if (!version) version = "3.2";
+
     // load GLES 2.0 symbols
     LOAD_REQUIRED_SYMBOL(GLES20, glActiveTexture);
     LOAD_REQUIRED_SYMBOL(GLES20, glAttachShader);
@@ -164,8 +169,7 @@ bool LoadModuleGLES(void* (*loader)(const char*))
     LOAD_REQUIRED_SYMBOL(GLES20, glVertexAttrib4fv);
     LOAD_REQUIRED_SYMBOL(GLES20, glVertexAttribPointer);
     LOAD_REQUIRED_SYMBOL(GLES20, glViewport);
-    printf("LOG: %s\n", GLES20.glGetString(GL_VERSION));
-    if (strcmp(GLES20.glGetString(GL_VERSION), "2.0") <= 0)
+    if (strcmp(version, "2.0") <= 0)
     {
         printf("WARNING: loaded OpenGL ES 2.0 symbols\n");
         return true;
@@ -276,7 +280,7 @@ bool LoadModuleGLES(void* (*loader)(const char*))
     LOAD_REQUIRED_SYMBOL(GLES30, glVertexAttribI4uiv);
     LOAD_REQUIRED_SYMBOL(GLES30, glVertexAttribIPointer);
     LOAD_REQUIRED_SYMBOL(GLES30, glWaitSync);
-    if (strcmp(GLES20.glGetString(GL_VERSION), "3.0") <= 0)
+    if (strcmp(version, "3.0") <= 0)
     {
         printf("WARNING: loaded OpenGL ES 3.0 symbols\n");
         return true;
@@ -351,7 +355,7 @@ bool LoadModuleGLES(void* (*loader)(const char*))
     LOAD_REQUIRED_SYMBOL(GLES31, glVertexAttribFormat);
     LOAD_REQUIRED_SYMBOL(GLES31, glVertexAttribIFormat);
     LOAD_REQUIRED_SYMBOL(GLES31, glVertexBindingDivisor);
-    if (strcmp(GLES20.glGetString(GL_VERSION), "3.1") <= 0)
+    if (strcmp(version, "3.1") <= 0)
     {
         printf("WARNING: loaded OpenGL ES 3.1 symbols\n");
         return true;
@@ -402,7 +406,7 @@ bool LoadModuleGLES(void* (*loader)(const char*))
     LOAD_REQUIRED_SYMBOL(GLES32, glTexParameterIiv);
     LOAD_REQUIRED_SYMBOL(GLES32, glTexParameterIuiv);
     LOAD_REQUIRED_SYMBOL(GLES32, glTexStorage3DMultisample);
-    if (strcmp(GLES20.glGetString(GL_VERSION), "3.2") <= 0)
+    if (strcmp(version, "3.2") <= 0)
     {
         printf("WARNING: loaded OpenGL ES 3.2 symbols\n");
         return true;

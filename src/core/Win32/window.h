@@ -9,9 +9,7 @@ extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-#include <stdbool.h>
-#include <stdint.h>
-#include <windows.h>
+#include "module.h"
 
 /// @brief Represents a Win32 window handle.
 typedef struct WindowWin32 {
