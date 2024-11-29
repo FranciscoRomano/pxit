@@ -19,7 +19,7 @@ bool FreeModuleX11()
     if (!X11.handle) return false;
 
     // close the connection to the X server
-    if (!X11.XCloseDisplay(X11.hDisplay))
+    if (X11.XCloseDisplay(X11.hDisplay) != 0)
     {
         printf("ERROR: failed to close X11 display\n");
         return false;
@@ -63,6 +63,7 @@ bool LoadModuleX11()
         LOAD_REQUIRED_SYMBOL(XFindContext)
         LOAD_REQUIRED_SYMBOL(XFlush)
         LOAD_REQUIRED_SYMBOL(XFree)
+        LOAD_REQUIRED_SYMBOL(XFreeColormap)
         LOAD_REQUIRED_SYMBOL(XInternAtom)
         LOAD_REQUIRED_SYMBOL(XKeysymToKeycode)
         LOAD_REQUIRED_SYMBOL(XMapWindow)
@@ -93,7 +94,7 @@ bool LoadModuleX11()
         }
 
         // get the display's default root window
-        X11.hRootWindow = X11.XDefaultRootWindow(X11.hDisplay);
+        X11.hRootWindow = DefaultRootWindow(X11.hDisplay);
         if (!X11.hRootWindow)
         {
             printf("ERROR: failed to get X11 root window\n");

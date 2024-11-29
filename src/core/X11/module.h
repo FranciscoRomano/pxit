@@ -39,6 +39,7 @@ extern struct ModuleX11 {
     int      (*XFindContext)(Display*,XID,XContext,XPointer*);
     int      (*XFlush)(Display*);
     int      (*XFree)(void*);
+    int      (*XFreeColormap)(Display*,Colormap);
     Atom     (*XInternAtom)(Display*,const char*,Bool);
     KeyCode  (*XKeysymToKeycode)(Display*,KeySym);
     int      (*XMapWindow)(Display*,Window);
