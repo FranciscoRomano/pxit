@@ -1,7 +1,6 @@
 #include "main.GLES.c"
 #include "core/GLX/module.h"
 #include "core/X11/window.h"
-#include <unistd.h>
 
 int main(int argc, char** argv)
 {
@@ -48,6 +47,7 @@ int main(int argc, char** argv)
     XSetWindowAttributes swa;
     swa.colormap = cm;
     X11.XChangeWindowAttributes(X11.hDisplay, win.hID, CWColormap, &swa);
+    X11.XFree(vi);
 
     GLXContext glx_ctx = GLX.glXCreateNewContext(X11.hDisplay, best_fbc, GLX_RGBA_TYPE, 0, True);
     GLX.glXMakeCurrent(X11.hDisplay, win.hID, glx_ctx);
@@ -64,11 +64,12 @@ int main(int argc, char** argv)
         Draw_GLES3();
 
         GLX.glXSwapBuffers(X11.hDisplay, win.hID);
-        sleep(0);
     }
 
+    GLX.glXMakeCurrent(X11.hDisplay, 0, 0);
     GLX.glXDestroyContext(X11.hDisplay, glx_ctx);
     DestroyWindowX11(&win);
+    X11.XFreeColormap(X11.hDisplay, cm);
     FreeModuleGLX();
     FreeModuleX11();
     return 0;
