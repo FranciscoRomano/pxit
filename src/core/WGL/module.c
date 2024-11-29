@@ -2,15 +2,17 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#include "library.h"
+#include "../GLES3/library.h"
+#include "../Win32/module.h"
+#include "module.h"
 #include <stdio.h>
 #include <stdlib.h>
-#define LOAD_LIBRARY_SYMBOL(Name)\
+#define LOAD_REQUIRED_SYMBOL(Name)\
 WGL.Name = (void*)GetProcAddress(WGL.handle, #Name);\
 if (!WGL.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-struct LibraryWGL WGL = { NULL };
+struct ModuleWGL WGL = { NULL };
 
 void* private_loader_WGL(const char* name)
 {
@@ -23,68 +25,75 @@ void* private_loader_WGL(const char* name)
     return p;
 }
 
-bool FreeLibraryWGL()
+bool FreeModuleWGL()
 {
-    // check if library was unloaded
+    // check if module was unloaded
     if (!WGL.handle) return false;
 
-    // unload and reset library handle
+    // unload and reset module handle
     WGL.handle = NULL;
     return true;
 }
 
-bool LoadLibraryWGL(HINSTANCE hInstance, const char* lpClassName)
+bool LoadModuleWGL()
 {
-    // check if library was loaded
+    // check if module was loaded
     if (WGL.handle) return true;
 
-    // iterate through all library paths
+    // load all module dependencies
+    if (!LoadModuleWin32())
+    {
+        printf("ERROR: failed to load Win32 module");
+        return false;
+    }
+
+    // iterate through all module paths
     const char* paths[] = {
         "opengl32.dll",
         NULL
     };
     for (size_t i = 0; paths[i]; i++)
     {
-        // try loading library and any symbols
+        // try loading module and any symbols
         WGL.handle = LoadLibraryA(paths[i]);
         if (WGL.handle == NULL) continue;
-        LOAD_LIBRARY_SYMBOL(wglCopyContext)
-        LOAD_LIBRARY_SYMBOL(wglCreateContext)
-        LOAD_LIBRARY_SYMBOL(wglCreateLayerContext)
-        LOAD_LIBRARY_SYMBOL(wglDeleteContext)
-        LOAD_LIBRARY_SYMBOL(wglDescribeLayerPlane)
-        LOAD_LIBRARY_SYMBOL(wglGetCurrentContext)
-        LOAD_LIBRARY_SYMBOL(wglGetCurrentDC)
-        LOAD_LIBRARY_SYMBOL(wglGetLayerPaletteEntries)
-        LOAD_LIBRARY_SYMBOL(wglGetProcAddress)
-        LOAD_LIBRARY_SYMBOL(wglMakeCurrent)
-        LOAD_LIBRARY_SYMBOL(wglRealizeLayerPalette)
-        LOAD_LIBRARY_SYMBOL(wglSetLayerPaletteEntries)
-        LOAD_LIBRARY_SYMBOL(wglShareLists)
-        LOAD_LIBRARY_SYMBOL(wglSwapLayerBuffers)
-        LOAD_LIBRARY_SYMBOL(wglUseFontBitmapsA)
-        LOAD_LIBRARY_SYMBOL(wglUseFontBitmapsW)
-        LOAD_LIBRARY_SYMBOL(wglUseFontOutlinesA)
-        LOAD_LIBRARY_SYMBOL(wglUseFontOutlinesW)
+        LOAD_REQUIRED_SYMBOL(wglCopyContext)
+        LOAD_REQUIRED_SYMBOL(wglCreateContext)
+        LOAD_REQUIRED_SYMBOL(wglCreateLayerContext)
+        LOAD_REQUIRED_SYMBOL(wglDeleteContext)
+        LOAD_REQUIRED_SYMBOL(wglDescribeLayerPlane)
+        LOAD_REQUIRED_SYMBOL(wglGetCurrentContext)
+        LOAD_REQUIRED_SYMBOL(wglGetCurrentDC)
+        LOAD_REQUIRED_SYMBOL(wglGetLayerPaletteEntries)
+        LOAD_REQUIRED_SYMBOL(wglGetProcAddress)
+        LOAD_REQUIRED_SYMBOL(wglMakeCurrent)
+        LOAD_REQUIRED_SYMBOL(wglRealizeLayerPalette)
+        LOAD_REQUIRED_SYMBOL(wglSetLayerPaletteEntries)
+        LOAD_REQUIRED_SYMBOL(wglShareLists)
+        LOAD_REQUIRED_SYMBOL(wglSwapLayerBuffers)
+        LOAD_REQUIRED_SYMBOL(wglUseFontBitmapsA)
+        LOAD_REQUIRED_SYMBOL(wglUseFontBitmapsW)
+        LOAD_REQUIRED_SYMBOL(wglUseFontOutlinesA)
+        LOAD_REQUIRED_SYMBOL(wglUseFontOutlinesW)
 
         // create a hidden window for loading WGL
         HWND hWnd = CreateWindowExA(
             0,
-            lpClassName,
+            Win32.lpClassName,
             "LoadLibraryWGL",
-            WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
+            WS_POPUP | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
             0,
             0,
             1,
             1,
             NULL,
             NULL,
-            hInstance,
+            Win32.hInstance,
             NULL
         );
         if (!hWnd)
         {
-            printf("Failed to create Win32 window\n");
+            printf("ERROR: failed to create Win32 window\n");
             return false;
         }
 
@@ -92,7 +101,7 @@ bool LoadLibraryWGL(HINSTANCE hInstance, const char* lpClassName)
         HDC hDC = GetDC(hWnd);
         if (!hDC)
         {
-            printf("Failed to get window device context\n");
+            printf("ERROR: failed to get window device context\n");
             DestroyWindow(hWnd);
             return false;
         }
@@ -127,7 +136,7 @@ bool LoadLibraryWGL(HINSTANCE hInstance, const char* lpClassName)
         }
         printf("WARNING: currently no WGL extensions were loaded\n");
 
-        // finally, load the OpenGL ES 3.2 library and symbols
+        // finally, load the OpenGL ES 3.2 module and symbols
         return LoadLibraryGLES32(private_loader_WGL);
     }
     return false;

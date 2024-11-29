@@ -1,24 +1,19 @@
+#define WIN32_LEAN_AND_MEAN 1
 #include "main.GLES3.c"
-#include "core/WGL/library.h"
+#include "core/WGL/module.h"
+#include "core/Win32/module.h"
 #include "core/Win32/window.h"
 
 int main(int argc, char** argv)
 {
-    WindowContextWin32 ctx;
-    if (!CreateWindowContextWin32(&ctx))
+    if (!LoadModuleWGL())
     {
-        printf("ERROR: failed to create Win32 window context\n");
-        exit(EXIT_FAILURE);
-    }
-
-    if (!LoadLibraryWGL(ctx.hInstance, ctx.lpClassName))
-    {
-        printf("ERROR: failed to load WGL library\n");
+        printf("ERROR: failed to load WGL module\n");
         exit(EXIT_FAILURE);
     }
 
     WindowWin32 win;
-    if (!CreateWindowWin32(&ctx, 800, 600, &win))
+    if (!CreateWindowWin32(800, 600, &win))
     {
         printf("ERROR: failed to create Win32 window\n");
         exit(EXIT_FAILURE);
@@ -44,7 +39,7 @@ int main(int argc, char** argv)
 
     Init_GLES3();
 
-    while (ReadWindowEventsWin32(&ctx))
+    while (ReadWindowEventsWin32())
     {
         Draw_GLES3();
 
@@ -54,7 +49,8 @@ int main(int argc, char** argv)
     WGL.wglMakeCurrent(win.hDC, NULL);
     WGL.wglDeleteContext(wgl_ctx);
 
-    DestroyWindowWin32(&ctx, &win);
-    DestroyWindowContextWin32(&ctx);
+    DestroyWindowWin32(&win);
+    FreeModuleWGL();
+    FreeModuleWin32();
     return 0;
 }

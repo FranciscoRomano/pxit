@@ -9,12 +9,11 @@ extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-#include "../GLES3/library.h"
 #include <GL/wgl.h>
 #include <stdbool.h>
 
-/// @brief Represents the WGL library and supported functions.
-extern struct LibraryWGL {    
+/// @brief Represents a WGL module and all supported functions.
+extern struct ModuleWGL {    
     void*                            handle;
     PFNWGLCOPYCONTEXTPROC            wglCopyContext;
     PFNWGLCREATECONTEXTPROC          wglCreateContext;
@@ -36,11 +35,11 @@ extern struct LibraryWGL {
     PFNWGLUSEFONTOUTLINESWPROC       wglUseFontOutlinesW;
 } WGL;
 
-/// @brief Returns true if the WGL library was freed successfully.
-bool FreeLibraryWGL();
+/// @brief Returns true if the WGL module was freed successfully.
+bool FreeModuleWGL();
 
-/// @brief Returns true if the WGL library was loaded successfully.
-bool LoadLibraryWGL(HINSTANCE hInstance, const char* lpClassName);
+/// @brief Returns true if the WGL module was loaded successfully.
+bool LoadModuleWGL();
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
