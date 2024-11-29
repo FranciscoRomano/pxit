@@ -6,6 +6,7 @@
 #include "window.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 bool CreateWindowX11(int width, int height, WindowX11* window)
@@ -51,6 +52,9 @@ bool DestroyWindowX11(WindowX11* window)
 
 bool ReadWindowEventsX11()
 {
+    // release the process to the OS for a bit
+    sleep(0);
+
     // iterate through all queued X server messages
     XEvent event;
     WindowX11* window;
