@@ -17,6 +17,7 @@ if(IS_PLATFORM_LINUX)
 endif()
 
 if(IS_PLATFORM_WINDOWS)
+  target_sources(core PRIVATE "${CMAKE_CURRENT_LIST_DIR}/WGL/library.c")
   target_sources(core PRIVATE "${CMAKE_CURRENT_LIST_DIR}/Win32/window.c")
 endif()
 

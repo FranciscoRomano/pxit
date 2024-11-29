@@ -10,6 +10,9 @@ extern "C" {
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 #include <stdbool.h>
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN 1
+#endif//WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 typedef unsigned int  uint;

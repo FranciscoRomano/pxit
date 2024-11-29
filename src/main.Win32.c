@@ -1,17 +1,6 @@
 #include "main.GLES3.c"
+#include "core/WGL/library.h"
 #include "core/Win32/window.h"
-
-void* opengl32_lib = NULL;
-void* get_opengl32_proc(const char* name)
-{
-    void* p = (void*)wglGetProcAddress(name);
-    if (p == (void*) 0) return (void*)GetProcAddress(opengl32_lib, name);
-    if (p == (void*) 1) return (void*)GetProcAddress(opengl32_lib, name);
-    if (p == (void*) 2) return (void*)GetProcAddress(opengl32_lib, name);
-    if (p == (void*) 3) return (void*)GetProcAddress(opengl32_lib, name);
-    if (p == (void*)-1) return (void*)GetProcAddress(opengl32_lib, name);
-    return p;
-}
 
 int main(int argc, char** argv)
 {
@@ -19,6 +8,12 @@ int main(int argc, char** argv)
     if (!CreateWindowContextWin32(&ctx))
     {
         printf("ERROR: failed to create Win32 window context\n");
+        exit(EXIT_FAILURE);
+    }
+
+    if (!LoadLibraryWGL(ctx.hInstance, ctx.lpClassName))
+    {
+        printf("ERROR: failed to load WGL library\n");
         exit(EXIT_FAILURE);
     }
 
@@ -44,15 +39,8 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
 
-    HGLRC wgl_ctx = wglCreateContext(win.hDC);
-    wglMakeCurrent(win.hDC, wgl_ctx);
-
-    opengl32_lib = LoadLibraryA("Opengl32.dll");
-    if (!opengl32_lib || !LoadLibraryGLES32(get_opengl32_proc))
-    {
-        printf("ERROR: failed to load GLES32 library\n");
-        exit(EXIT_FAILURE);
-    }
+    HGLRC wgl_ctx = WGL.wglCreateContext(win.hDC);
+    WGL.wglMakeCurrent(win.hDC, wgl_ctx);
 
     Init_GLES3();
 
@@ -63,8 +51,8 @@ int main(int argc, char** argv)
         SwapBuffers(win.hDC);
     }
 
-    wglMakeCurrent(win.hDC, NULL);
-    wglDeleteContext(wgl_ctx);
+    WGL.wglMakeCurrent(win.hDC, NULL);
+    WGL.wglDeleteContext(wgl_ctx);
 
     DestroyWindowWin32(&ctx, &win);
     DestroyWindowContextWin32(&ctx);

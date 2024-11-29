@@ -51,8 +51,7 @@ if(IS_PLATFORM_LINUX)
 endif()
 
 if(IS_PLATFORM_WINDOWS)
-  target_link_options(pxit PRIVATE -static -mwindows)
-  target_link_libraries(pxit PRIVATE "Opengl32.lib")
+  #target_link_options(pxit PRIVATE -static -mwindows)
   target_compile_definitions(pxit PRIVATE "IS_PLATFORM_WINDOWS")
 endif()
 
