@@ -118,10 +118,10 @@ extern "C" {
 #define KEY_NUMPAD_MULTIPLY 0x67
 #define KEY_NUMPAD_SUBTRACT 0x68
 #define KEY_NUM_LOCK        0x69
-#define MOUSE_NONE   0x00
-#define MOUSE_LEFT   0x01
-#define MOUSE_MIDDLE 0x02
-#define MOUSE_RIGHT  0x03
+#define MOUSE_NONE          0x00
+#define MOUSE_LEFT          0x01
+#define MOUSE_MIDDLE        0x02
+#define MOUSE_RIGHT         0x03
 
 /// @brief Represents the handle to a native window.
 typedef struct Window_t* Window;
