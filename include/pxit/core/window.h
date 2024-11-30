@@ -135,11 +135,8 @@ typedef struct WindowCallbacks {
     void (*OnMouseEnter)(Window,uint32_t,uint32_t);
     void (*OnMouseLeave)(Window,uint32_t,uint32_t);
     void (*OnMouseMove)(Window,uint32_t,uint32_t);
+    void (*OnMouseScroll)(Window,int32_t,int32_t);
     void (*OnMouseUp)(Window,uint32_t);
-    void (*OnScrollDown)(Window,uint32_t);
-    void (*OnScrollLeft)(Window,uint32_t);
-    void (*OnScrollRight)(Window,uint32_t);
-    void (*OnScrollUp)(Window,uint32_t);
     void (*OnWindowClose)(Window);
     void (*OnWindowCreate)(Window);
     void (*OnWindowDestroy)(Window);
