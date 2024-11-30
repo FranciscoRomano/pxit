@@ -6,32 +6,55 @@
 #include "window.h"
 #include <stdio.h>
 #include <stdlib.h>
+#define CALL_WINDOW_EVENT(Name, ...)\
+if (window->callbacks.Name) { window->callbacks.Name((Window)window,##__VA_ARGS__); }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 struct ModuleWin32 Win32 = { NULL };
 
-LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    WindowWin32* window = (WindowWin32*)GetWindowLongPtrA(hwnd, 0);
+    WindowWin32* window = (WindowWin32*)GetWindowLongPtrA(hWnd, 0);
 
     switch (uMsg)
     {
         case WM_CLOSE:
         {
-            PostQuitMessage(0);
+            if (!window) break;
+            CALL_WINDOW_EVENT(OnWindowClose)
             return 0;
+        }
+        case WM_CREATE:
+        {
+            if (!window) break;
+            CALL_WINDOW_EVENT(OnWindowCreate)
+            break;
+        }
+        case WM_DESTROY:
+        {
+            if (!window) break;
+            CALL_WINDOW_EVENT(OnWindowDestroy)
+            PostQuitMessage(0);
+            break;
         }
         case WM_NCCREATE:
         {
             CREATESTRUCT* cs = (CREATESTRUCT*)lParam;
-            SetWindowLongPtrA(hwnd, 0, (LONG_PTR)cs->lpCreateParams);
+            SetWindowLongPtrA(hWnd, 0, (LONG_PTR)cs->lpCreateParams);
             break;
+        }
+        case WM_PAINT:
+        {
+            if (!window) break;
+            CALL_WINDOW_EVENT(OnWindowPaint)
+            SwapBuffers(window->hDC);
+            return 0;
         }
         default:
             break;
     }
 
-    return DefWindowProc(hwnd, uMsg, wParam, lParam);
+    return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
 bool FreeModuleWin32()

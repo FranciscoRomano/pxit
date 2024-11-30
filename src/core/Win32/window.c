@@ -10,9 +10,36 @@
 
 bool CreateWindowWin32(const WindowCreateInfo* pCreateInfo, WindowWin32* pWindow)
 {
-    // adjust size to window style
+    // copy all window callbacks
+    if (pCreateInfo->pCallbacks)
+    {
+        pWindow->callbacks.OnCharacter      = pCreateInfo->pCallbacks->OnCharacter;
+        pWindow->callbacks.OnKeyDown        = pCreateInfo->pCallbacks->OnKeyDown;
+        pWindow->callbacks.OnKeyUp          = pCreateInfo->pCallbacks->OnKeyUp;
+        pWindow->callbacks.OnMouseDown      = pCreateInfo->pCallbacks->OnMouseDown;
+        pWindow->callbacks.OnMouseEnter     = pCreateInfo->pCallbacks->OnMouseEnter;
+        pWindow->callbacks.OnMouseLeave     = pCreateInfo->pCallbacks->OnMouseLeave;
+        pWindow->callbacks.OnMouseMove      = pCreateInfo->pCallbacks->OnMouseMove;
+        pWindow->callbacks.OnMouseScroll    = pCreateInfo->pCallbacks->OnMouseScroll;
+        pWindow->callbacks.OnMouseUp        = pCreateInfo->pCallbacks->OnMouseUp;
+        pWindow->callbacks.OnWindowClose    = pCreateInfo->pCallbacks->OnWindowClose;
+        pWindow->callbacks.OnWindowCreate   = pCreateInfo->pCallbacks->OnWindowCreate;
+        pWindow->callbacks.OnWindowDestroy  = pCreateInfo->pCallbacks->OnWindowDestroy;
+        pWindow->callbacks.OnWindowFocus    = pCreateInfo->pCallbacks->OnWindowFocus;
+        pWindow->callbacks.OnWindowHide     = pCreateInfo->pCallbacks->OnWindowHide;
+        pWindow->callbacks.OnWindowMaximize = pCreateInfo->pCallbacks->OnWindowMaximize;
+        pWindow->callbacks.OnWindowMinimize = pCreateInfo->pCallbacks->OnWindowMinimize;
+        pWindow->callbacks.OnWindowMove     = pCreateInfo->pCallbacks->OnWindowMove;
+        pWindow->callbacks.OnWindowPaint    = pCreateInfo->pCallbacks->OnWindowPaint;
+        pWindow->callbacks.OnWindowRestore  = pCreateInfo->pCallbacks->OnWindowRestore;
+        pWindow->callbacks.OnWindowShow     = pCreateInfo->pCallbacks->OnWindowShow;
+        pWindow->callbacks.OnWindowSize     = pCreateInfo->pCallbacks->OnWindowSize;
+    }
+    else memset(&pWindow->callbacks, 0, sizeof(WindowCallbacks));
+
+    // adjust region to window style
     RECT rect = { 0, 0, pCreateInfo->Width, pCreateInfo->Height };
-    DWORD dwStyle = WS_POPUPWINDOW | WS_CAPTION | WS_SIZEBOX | WS_VISIBLE | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+    DWORD dwStyle = WS_POPUPWINDOW | WS_CAPTION | WS_VISIBLE | WS_SIZEBOX | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
     AdjustWindowRect(&rect, dwStyle, FALSE);
 
     // create a new Win32 popup window
