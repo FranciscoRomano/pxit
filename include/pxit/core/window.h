@@ -12,6 +12,10 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
+#ifndef WINDOW_FUNCTIONS
+#define WINDOW_FUNCTIONS 1
+#endif//WINDOW_FUNCTIONS
+
 #define KEY_NONE            0x00
 #define KEY_0               0x01
 #define KEY_1               0x02
@@ -161,6 +165,7 @@ typedef struct WindowCreateInfo {
     WindowCallbacks* pCallbacks;
 } WindowCreateInfo;
 
+#if WINDOW_FUNCTIONS
 bool CloseWindow(Window window);
 bool CreateWindow(const WindowCreateInfo* pCreateInfo, Window* pWindow);
 bool DestroyWindow(Window window);
@@ -173,6 +178,7 @@ bool ReadWindowEvents();
 bool RestoreWindow(Window window);
 bool ShowWindow(Window window);
 bool SizeWindow(Window window, uint32_t width, uint32_t height);
+#endif//WINDOW_FUNCTIONS
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
