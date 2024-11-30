@@ -142,6 +142,7 @@ typedef struct WindowCallbacks {
     void (*OnScrollUp)(Window,uint32_t);
     void (*OnWindowClose)(Window);
     void (*OnWindowCreate)(Window);
+    void (*OnWindowDestroy)(Window);
     void (*OnWindowFocus)(Window,bool);
     void (*OnWindowFullscreen)(Window,uint32_t,uint32_t);
     void (*OnWindowHide)(Window);
