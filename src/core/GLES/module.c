@@ -171,7 +171,7 @@ bool LoadModuleGLES(void* (*loader)(const char*))
     LOAD_REQUIRED_SYMBOL(GLES20, glViewport);
     if (strcmp(version, "2.0") <= 0)
     {
-        printf("WARNING: loaded OpenGL ES 2.0 symbols\n");
+        printf("LOG: loaded OpenGL ES 2.0 symbols\n");
         return true;
     }
 
@@ -282,7 +282,7 @@ bool LoadModuleGLES(void* (*loader)(const char*))
     LOAD_REQUIRED_SYMBOL(GLES30, glWaitSync);
     if (strcmp(version, "3.0") <= 0)
     {
-        printf("WARNING: loaded OpenGL ES 3.0 symbols\n");
+        printf("LOG: loaded OpenGL ES 3.0 symbols\n");
         return true;
     }
 
@@ -357,7 +357,7 @@ bool LoadModuleGLES(void* (*loader)(const char*))
     LOAD_REQUIRED_SYMBOL(GLES31, glVertexBindingDivisor);
     if (strcmp(version, "3.1") <= 0)
     {
-        printf("WARNING: loaded OpenGL ES 3.1 symbols\n");
+        printf("LOG: loaded OpenGL ES 3.1 symbols\n");
         return true;
     }
 
@@ -408,7 +408,7 @@ bool LoadModuleGLES(void* (*loader)(const char*))
     LOAD_REQUIRED_SYMBOL(GLES32, glTexStorage3DMultisample);
     if (strcmp(version, "3.2") <= 0)
     {
-        printf("WARNING: loaded OpenGL ES 3.2 symbols\n");
+        printf("LOG: loaded OpenGL ES 3.2 symbols\n");
         return true;
     }
 

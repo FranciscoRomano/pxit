@@ -103,7 +103,14 @@ bool LoadModuleGLX()
         LOAD_REQUIRED_SYMBOL(glXGetProcAddress)
 
         // finally, load the OpenGL ES module and all symbols
-        return LoadModuleGLES(private_loader_GLX);
+        if (!LoadModuleGLES(private_loader_GLX))
+        {
+            printf("ERROR: failed to load GLES module\n");
+            return false;
+        }
+
+        return true;
     }
+
     return false;
 }
