@@ -144,7 +144,6 @@ typedef struct WindowCallbacks {
     void (*OnWindowCreate)(Window);
     void (*OnWindowDestroy)(Window);
     void (*OnWindowFocus)(Window,bool);
-    void (*OnWindowFullscreen)(Window,uint32_t,uint32_t);
     void (*OnWindowHide)(Window);
     void (*OnWindowMaximize)(Window,uint32_t,uint32_t);
     void (*OnWindowMinimize)(Window);
@@ -169,7 +168,6 @@ bool CloseWindow(Window window);
 bool CreateWindow(const WindowCreateInfo* pCreateInfo, Window* pWindow);
 bool DestroyWindow(Window window);
 bool FocusWindow(Window window, bool focus);
-bool FullscreenWindow(Window window);
 bool HideWindow(Window window);
 bool MaximizeWindow(Window window);
 bool MinimizeWindow(Window window);
