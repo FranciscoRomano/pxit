@@ -10,6 +10,8 @@ extern "C" {
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 #include "module.h"
+#define WINDOW_FUNCTIONS 0
+#include <pxit/core/window.h>
 
 /// @brief Represents a Win32 window handle.
 typedef struct WindowWin32 {
@@ -18,10 +20,10 @@ typedef struct WindowWin32 {
 } WindowWin32;
 
 /// @brief Returns true if the Win32 window was created.
-bool CreateWindowWin32(int width, int height, WindowWin32* window);
+bool CreateWindowWin32(const WindowCreateInfo* pCreateInfo, WindowWin32* pWindow);
 
 /// @brief Returns true if the Win32 window was destroyed.
-bool DestroyWindowWin32(WindowWin32* window);
+bool DestroyWindowWin32(WindowWin32* pWindow);
 
 /// @brief Returns true if all Win32 window events were read.
 bool ReadWindowEventsWin32();

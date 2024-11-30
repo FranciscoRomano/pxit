@@ -8,57 +8,57 @@
 #include <stdlib.h>
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-bool CreateWindowWin32(int width, int height, WindowWin32* window)
+bool CreateWindowWin32(const WindowCreateInfo* pCreateInfo, WindowWin32* pWindow)
 {
     // adjust size to window style
-    RECT rect = { 0, 0, width, height };
+    RECT rect = { 0, 0, pCreateInfo->Width, pCreateInfo->Height };
     DWORD dwStyle = WS_POPUPWINDOW | WS_CAPTION | WS_SIZEBOX | WS_VISIBLE | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
     AdjustWindowRect(&rect, dwStyle, FALSE);
 
     // create a new Win32 popup window
-    window->hWnd = CreateWindowExA(
+    pWindow->hWnd = CreateWindowExA(
         0,
         Win32.lpClassName,
-        "",
+        pCreateInfo->pTitle,
         dwStyle,
-        0,
-        0,
+        pCreateInfo->Left + rect.left,
+        pCreateInfo->Top + rect.top,
         rect.right - rect.left,
         rect.bottom - rect.top,
         NULL,
         NULL,
         Win32.hInstance,
-        (LPVOID)window
+        (LPVOID)pWindow
     );
-    if (!window->hWnd)
+    if (!pWindow->hWnd)
     {
         printf("ERROR: failed to create window\n");
         return false;
     }
 
     // get the window's default device context
-    window->hDC = GetDC(window->hWnd);
-    if (!window->hDC)
+    pWindow->hDC = GetDC(pWindow->hWnd);
+    if (!pWindow->hDC)
     {
         printf("ERROR: failed to get device context\n");
-        DestroyWindow(window->hWnd);
+        DestroyWindow(pWindow->hWnd);
         return false;
     }
 
     return true;
 }
 
-bool DestroyWindowWin32(WindowWin32* window)
+bool DestroyWindowWin32(WindowWin32* pWindow)
 {
     // release device context
-    if (!ReleaseDC(window->hWnd, window->hDC))
+    if (!ReleaseDC(pWindow->hWnd, pWindow->hDC))
     {
         printf("ERROR: failed to release device context\n");
         return false;
     }
 
     // destroy the Win32 window
-    if (!DestroyWindow(window->hWnd))
+    if (!DestroyWindow(pWindow->hWnd))
     {
         printf("ERROR: failed to destroy window\n");
         return false;

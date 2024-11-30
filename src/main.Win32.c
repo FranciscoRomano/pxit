@@ -11,11 +11,20 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
 
-    WindowWin32 win;
-    if (!CreateWindowWin32(800, 600, &win))
+    WindowWin32 window;
     {
-        printf("ERROR: failed to create Win32 window\n");
-        exit(EXIT_FAILURE);
+        WindowCreateInfo create_info;
+        create_info.Left       = 40;
+        create_info.Top        = 40;
+        create_info.Width      = 800;
+        create_info.Height     = 600;
+        create_info.pTitle     = "";
+        create_info.pCallbacks = NULL;
+        if (!CreateWindowWin32(&create_info, &window))
+        {
+            printf("ERROR: failed to create Win32 window\n");
+            exit(EXIT_FAILURE);
+        }
     }
 
     PIXELFORMATDESCRIPTOR pfd;
@@ -26,15 +35,15 @@ int main(int argc, char** argv)
     pfd.cColorBits   = 32;
     pfd.cDepthBits   = 24;
     pfd.cStencilBits = 8;
-    int format = ChoosePixelFormat(win.hDC, &pfd);
-    if (format == 0 || SetPixelFormat(win.hDC, format, &pfd) == FALSE)
+    int format = ChoosePixelFormat(window.hDC, &pfd);
+    if (format == 0 || SetPixelFormat(window.hDC, format, &pfd) == FALSE)
     {
         printf("ERROR: failed to set pixel format\n");
         exit(EXIT_FAILURE);
     }
 
-    HGLRC wgl_ctx = WGL.wglCreateContext(win.hDC);
-    WGL.wglMakeCurrent(win.hDC, wgl_ctx);
+    HGLRC wgl_ctx = WGL.wglCreateContext(window.hDC);
+    WGL.wglMakeCurrent(window.hDC, wgl_ctx);
 
     Init_GLES3();
 
@@ -42,13 +51,13 @@ int main(int argc, char** argv)
     {
         Draw_GLES3();
 
-        SwapBuffers(win.hDC);
+        SwapBuffers(window.hDC);
     }
 
-    WGL.wglMakeCurrent(win.hDC, NULL);
+    WGL.wglMakeCurrent(window.hDC, NULL);
     WGL.wglDeleteContext(wgl_ctx);
 
-    DestroyWindowWin32(&win);
+    DestroyWindowWin32(&window);
     FreeModuleWGL();
     FreeModuleWin32();
     return 0;
