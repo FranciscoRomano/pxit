@@ -153,12 +153,12 @@ typedef struct WindowCallbacks {
 
 /// @brief Represents the parameters for a new window.
 typedef struct WindowCreateInfo {
-    int32_t          Left;       // the horizontal offset in screen coordinates.
-    int32_t          Top;        // the vertical offset in screen coordinates.
-    uint32_t         Width;      // the initial horizontal client-region size in pixels.
-    uint32_t         Height;     // the initial vertical client-region size in pixels.
-    const char*      pTitle;     // the title bar name of the window.
-    WindowCallbacks* pCallbacks; // a pointer to any window callback overrides.
+    int32_t          Left;
+    int32_t          Top;
+    uint32_t         Width;
+    uint32_t         Height;
+    const char*      pTitle;
+    WindowCallbacks* pCallbacks;
 } WindowCreateInfo;
 
 bool CloseWindow(Window window);
