@@ -3,21 +3,21 @@
 #include <memory.h>
 #include <pxit/core/window.h>
 
-void on_key_down(Window win, uint32_t key)
+void on_key_down(Window window, uint32_t key)
 {
-    // close window is escape key is pressed
-    if (key == KEY_ESCAPE) CloseWindow(win);
+    // close window if escape key is pressed
+    if (key == KEY_ESCAPE) CloseWindow(window);
 }
 
-void on_window_paint(Window win)
+void on_window_paint(Window window)
 {
     // ... rendering code goes here ...
 }
 
-void on_window_close(Window win)
+void on_window_close(Window window)
 {
     // destroy window once it is closed
-    DestroyWindow(win);
+    DestroyWindow(window);
 }
 
 int main(int argc, char** argv)
@@ -30,16 +30,16 @@ int main(int argc, char** argv)
         callbacks.OnWindowClose = on_window_close;
         callbacks.OnWindowPaint = on_window_paint;
 
-        WindowCreateInfo info;
-        memset(&info, 0, sizeof(WindowCreateInfo));
-        info.Left       = 10;
-        info.Top        = 10;
-        info.Width      = 800;
-        info.Height     = 600;
-        info.pTitle     = "MyWindow1";
-        info.pCallbacks = &callbacks;
+        WindowCreateInfo create_info;
+        memset(&create_info, 0, sizeof(WindowCreateInfo));
+        create_info.Left       = 10;
+        create_info.Top        = 10;
+        create_info.Width      = 800;
+        create_info.Height     = 600;
+        create_info.pTitle     = "MyWindow1";
+        create_info.pCallbacks = &callbacks;
 
-        if (!CreateWindow(&info, NULL))
+        if (!CreateWindow(&create_info, NULL))
         {
             printf("ERROR: failed to create 1st window\n");
             exit(EXIT_FAILURE);
@@ -53,15 +53,15 @@ int main(int argc, char** argv)
         callbacks.OnWindowClose = on_window_close;
         callbacks.OnWindowPaint = on_window_paint;
 
-        WindowCreateInfo info;
-        memset(&info, 0, sizeof(WindowCreateInfo));
-        info.Left   = 80;
-        info.Top    = 80;
-        info.Width  = 300;
-        info.Height = 200;
-        info.pTitle = "MyWindow2";
+        WindowCreateInfo create_info;
+        memset(&create_info, 0, sizeof(WindowCreateInfo));
+        create_info.Left   = 80;
+        create_info.Top    = 80;
+        create_info.Width  = 300;
+        create_info.Height = 200;
+        create_info.pTitle = "MyWindow2";
 
-        if (!CreateWindow(&info, NULL))
+        if (!CreateWindow(&create_info, NULL))
         {
             printf("ERROR: failed to create 2nd window\n");
             exit(EXIT_FAILURE);
