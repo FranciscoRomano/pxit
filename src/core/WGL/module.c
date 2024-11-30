@@ -43,7 +43,7 @@ bool LoadModuleWGL()
     // load all module dependencies
     if (!LoadModuleWin32())
     {
-        printf("ERROR: failed to load Win32 module");
+        printf("ERROR: failed to load Win32 module\n");
         return false;
     }
 
@@ -93,7 +93,7 @@ bool LoadModuleWGL()
         );
         if (!hWnd)
         {
-            printf("ERROR: failed to create Win32 window\n");
+            printf("ERROR: failed to create window\n");
             return false;
         }
 
@@ -101,7 +101,7 @@ bool LoadModuleWGL()
         HDC hDC = GetDC(hWnd);
         if (!hDC)
         {
-            printf("ERROR: failed to get window device context\n");
+            printf("ERROR: failed to get device context\n");
             DestroyWindow(hWnd);
             return false;
         }
@@ -136,16 +136,21 @@ bool LoadModuleWGL()
         }
         printf("WARNING: skipping WGL extensions\n");
 
-        // finally, load the OpenGL ES module and all symbols
+        // load the OpenGL ES module with a custom loader
         if (!LoadModuleGLES(private_loader_WGL))
         {
             printf("ERROR: failed to load GLES module\n");
+            WGL.wglMakeCurrent(hDC, NULL);
             WGL.wglDeleteContext(hGLRC);
             ReleaseDC(hWnd, hDC);
             DestroyWindow(hWnd);
             return false;
         }
 
+        // cleanup all resources that will no longer be used
+        WGL.wglMakeCurrent(hDC, NULL);
+        WGL.wglDeleteContext(hGLRC);
+        ReleaseDC(hWnd, hDC);
         DestroyWindow(hWnd);
         return true;
     }

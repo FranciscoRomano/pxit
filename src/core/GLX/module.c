@@ -44,7 +44,7 @@ bool LoadModuleGLX()
     // load all module dependencies
     if (!LoadModuleX11())
     {
-        printf("ERROR: failed to load X11 module");
+        printf("ERROR: failed to load X11 module\n");
         return false;
     }
 

@@ -59,7 +59,7 @@ bool LoadModuleWin32()
     Win32.hInstance = GetModuleHandleA(NULL);
 
     // set the Win32 window class name
-    Win32.lpClassName = "WindowContextClassWin32";
+    Win32.lpClassName = "PxitWindowClass";
 
     // register a new Win32 window class
     WNDCLASSEXA wc;
