@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_GLX_module_h__
-#define __core_GLX_module_h__
+#ifndef __core_Linux_GLX_module_h__
+#define __core_Linux_GLX_module_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -70,5 +70,5 @@ bool LoadModuleGLX();
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_GLX_module_h__
+#endif//__core_Linux_GLX_module_h__
 // -------------------------------------------------------------------------------------------------------------------------- //
