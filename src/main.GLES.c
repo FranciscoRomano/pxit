@@ -1,6 +1,7 @@
 #include "core/GLES/module.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 // https://xcb.freedesktop.org/opengl/
 // https://alexvia.com/post/002_initializing_opengl_on_x11/
@@ -12,9 +13,10 @@ const char* vshader_glsl =
 "#version 300 es\n"
 "precision mediump float;\n"
 "layout (location = 0) in vec2 vb_position;\n"
+"uniform mat2 u_rotation;"
 "void main()\n"
 "{\n"
-"    gl_Position = vec4(vb_position, 0.0, 1.0);\n"
+"    gl_Position = vec4(u_rotation * vb_position, 0.0, 1.0);\n"
 "}\0";
 
 const char* fshader_glsl =
@@ -37,6 +39,8 @@ GLuint fshader;
 GLuint program;
 GLuint vao;
 GLuint vbo;
+
+double time = 0;
 
 void Init_GLES3()
 {
@@ -100,7 +104,18 @@ void Draw_GLES3()
     GLES20.glClearColor(1, 0, 0, 1);
     GLES20.glClear(GL_COLOR_BUFFER_BIT);
 
+    time += 0.01;
+    float mat2[] = {
+         cos(time),-sin(time),
+         sin(time), cos(time)
+    };
+
     GLES20.glUseProgram(program);
+
+
+    GLint u_rotation = GLES20.glGetUniformLocation(program, "u_rotation");
+    GLES20.glUniformMatrix2fv(u_rotation, 1, false, &mat2[0]);
+
     GLES30.glBindVertexArray(vao);
     GLES20.glDrawArrays(GL_TRIANGLES, 0, 3);
 }
