@@ -44,11 +44,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             if (window->pfnSwapBuffers) window->pfnSwapBuffers(window);
             return 0;
         }
+        case WM_ERASEBKGND:
+        {
+            return 0;
+        }
         case WM_EXITSIZEMOVE:
         {
             if (!window) break;
             CALL_WINDOW_EVENT(OnWindowPaint)
             if (window->pfnSwapBuffers) window->pfnSwapBuffers(window);
+            InvalidateRect(hWnd, 0, TRUE);
             return 0;
         }
         case WM_NCCREATE:
