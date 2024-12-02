@@ -5,38 +5,40 @@
 #include "window.h"
 #include <stdio.h>
 #include <stdlib.h>
+#define CALL_WINDOW_EVENT(Name, ...)\
+if (window->callbacks.Name) { window->callbacks.Name((Window)window,##__VA_ARGS__); }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-bool _InitContextWGL(_WindowWin32* pWindow);
+bool _InitContextWGL(_WindowWin32* window);
 
-bool _CreateWindowWin32(const WindowCreateInfo* pCreateInfo, _WindowWin32* pWindow)
+bool _CreateWindowWin32(const WindowCreateInfo* pCreateInfo, _WindowWin32* window)
 {
     // copy all window callbacks
     if (pCreateInfo->pCallbacks)
     {
-        pWindow->callbacks.OnCharacter      = pCreateInfo->pCallbacks->OnCharacter;
-        pWindow->callbacks.OnKeyDown        = pCreateInfo->pCallbacks->OnKeyDown;
-        pWindow->callbacks.OnKeyUp          = pCreateInfo->pCallbacks->OnKeyUp;
-        pWindow->callbacks.OnMouseDown      = pCreateInfo->pCallbacks->OnMouseDown;
-        pWindow->callbacks.OnMouseEnter     = pCreateInfo->pCallbacks->OnMouseEnter;
-        pWindow->callbacks.OnMouseLeave     = pCreateInfo->pCallbacks->OnMouseLeave;
-        pWindow->callbacks.OnMouseMove      = pCreateInfo->pCallbacks->OnMouseMove;
-        pWindow->callbacks.OnMouseScroll    = pCreateInfo->pCallbacks->OnMouseScroll;
-        pWindow->callbacks.OnMouseUp        = pCreateInfo->pCallbacks->OnMouseUp;
-        pWindow->callbacks.OnWindowClose    = pCreateInfo->pCallbacks->OnWindowClose;
-        pWindow->callbacks.OnWindowCreate   = pCreateInfo->pCallbacks->OnWindowCreate;
-        pWindow->callbacks.OnWindowDestroy  = pCreateInfo->pCallbacks->OnWindowDestroy;
-        pWindow->callbacks.OnWindowFocus    = pCreateInfo->pCallbacks->OnWindowFocus;
-        pWindow->callbacks.OnWindowHide     = pCreateInfo->pCallbacks->OnWindowHide;
-        pWindow->callbacks.OnWindowMaximize = pCreateInfo->pCallbacks->OnWindowMaximize;
-        pWindow->callbacks.OnWindowMinimize = pCreateInfo->pCallbacks->OnWindowMinimize;
-        pWindow->callbacks.OnWindowMove     = pCreateInfo->pCallbacks->OnWindowMove;
-        pWindow->callbacks.OnWindowPaint    = pCreateInfo->pCallbacks->OnWindowPaint;
-        pWindow->callbacks.OnWindowRestore  = pCreateInfo->pCallbacks->OnWindowRestore;
-        pWindow->callbacks.OnWindowShow     = pCreateInfo->pCallbacks->OnWindowShow;
-        pWindow->callbacks.OnWindowSize     = pCreateInfo->pCallbacks->OnWindowSize;
+        window->callbacks.OnCharacter      = pCreateInfo->pCallbacks->OnCharacter;
+        window->callbacks.OnKeyDown        = pCreateInfo->pCallbacks->OnKeyDown;
+        window->callbacks.OnKeyUp          = pCreateInfo->pCallbacks->OnKeyUp;
+        window->callbacks.OnMouseDown      = pCreateInfo->pCallbacks->OnMouseDown;
+        window->callbacks.OnMouseEnter     = pCreateInfo->pCallbacks->OnMouseEnter;
+        window->callbacks.OnMouseLeave     = pCreateInfo->pCallbacks->OnMouseLeave;
+        window->callbacks.OnMouseMove      = pCreateInfo->pCallbacks->OnMouseMove;
+        window->callbacks.OnMouseScroll    = pCreateInfo->pCallbacks->OnMouseScroll;
+        window->callbacks.OnMouseUp        = pCreateInfo->pCallbacks->OnMouseUp;
+        window->callbacks.OnWindowClose    = pCreateInfo->pCallbacks->OnWindowClose;
+        window->callbacks.OnWindowCreate   = pCreateInfo->pCallbacks->OnWindowCreate;
+        window->callbacks.OnWindowDestroy  = pCreateInfo->pCallbacks->OnWindowDestroy;
+        window->callbacks.OnWindowFocus    = pCreateInfo->pCallbacks->OnWindowFocus;
+        window->callbacks.OnWindowHide     = pCreateInfo->pCallbacks->OnWindowHide;
+        window->callbacks.OnWindowMaximize = pCreateInfo->pCallbacks->OnWindowMaximize;
+        window->callbacks.OnWindowMinimize = pCreateInfo->pCallbacks->OnWindowMinimize;
+        window->callbacks.OnWindowMove     = pCreateInfo->pCallbacks->OnWindowMove;
+        window->callbacks.OnWindowPaint    = pCreateInfo->pCallbacks->OnWindowPaint;
+        window->callbacks.OnWindowRestore  = pCreateInfo->pCallbacks->OnWindowRestore;
+        window->callbacks.OnWindowShow     = pCreateInfo->pCallbacks->OnWindowShow;
+        window->callbacks.OnWindowSize     = pCreateInfo->pCallbacks->OnWindowSize;
     }
-    else memset(&pWindow->callbacks, 0, sizeof(WindowCallbacks));
+    else memset(&window->callbacks, 0, sizeof(WindowCallbacks));
 
     // adjust region to window style
     RECT rect = { 0, 0, pCreateInfo->Width, pCreateInfo->Height };
@@ -44,7 +46,7 @@ bool _CreateWindowWin32(const WindowCreateInfo* pCreateInfo, _WindowWin32* pWind
     AdjustWindowRect(&rect, dwStyle, FALSE);
 
     // create a new Win32 popup window
-    pWindow->hWnd = CreateWindowExA(
+    window->hWnd = CreateWindowExA(
         0,
         Win32.lpClassName,
         pCreateInfo->pTitle,
@@ -56,32 +58,33 @@ bool _CreateWindowWin32(const WindowCreateInfo* pCreateInfo, _WindowWin32* pWind
         NULL,
         NULL,
         Win32.hInstance,
-        (LPVOID)pWindow
+        (LPVOID)window
     );
-    if (!pWindow->hWnd)
+    if (!window->hWnd)
     {
         printf("ERROR: failed to create window\n");
         return false;
     }
 
     // create a OpenGL ES 3.2 WGL context
-    if (!_InitContextWGL(pWindow))
+    if (!_InitContextWGL(window))
     {
         printf("ERROR: failed to create graphics context\n");
-        DestroyWindow(pWindow->hWnd);
+        DestroyWindow(window->hWnd);
         return false;
     }
 
+    CALL_WINDOW_EVENT(OnWindowCreate)
     return true;
 }
 
-bool _DestroyWindowWin32(_WindowWin32* pWindow)
+bool _DestroyWindowWin32(_WindowWin32* window)
 {
     // destroy context (impl)
-    pWindow->pfnFreeContext(pWindow);
+    window->pfnFreeContext(window);
 
     // destroy the Win32 window
-    if (!DestroyWindow(pWindow->hWnd))
+    if (!DestroyWindow(window->hWnd))
     {
         printf("ERROR: failed to destroy window\n");
         return false;

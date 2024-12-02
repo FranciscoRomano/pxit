@@ -24,12 +24,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             CALL_WINDOW_EVENT(OnWindowClose)
             return 0;
         }
-        case WM_CREATE:
-        {
-            if (!window) break;
-            CALL_WINDOW_EVENT(OnWindowCreate)
-            break;
-        }
         case WM_DESTROY:
         {
             if (!window) break;
