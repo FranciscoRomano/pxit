@@ -3,10 +3,14 @@
 #include "core/WGL/module.h"
 #include "core/Win32/window.h"
 
-
 void on_window_close(Window window)
 {
     _DestroyWindowWin32((_WindowWin32*)window);
+}
+
+void on_window_paint(Window window)
+{
+    Draw_GLES3();
 }
 
 int main(int argc, char** argv)
@@ -20,7 +24,8 @@ int main(int argc, char** argv)
     _WindowWin32 window;
     WindowCallbacks callbacks;
     memset(&callbacks, 0, sizeof(WindowCallbacks));
-    callbacks.OnWindowClose = on_window_close;
+    callbacks.OnWindowClose  = on_window_close;
+    callbacks.OnWindowPaint  = on_window_paint;
 
     WindowCreateInfo create_info;
     create_info.Left       = 40;
@@ -37,11 +42,7 @@ int main(int argc, char** argv)
 
     Init_GLES3();
 
-    while (_ReadWindowEventsWin32())
-    {
-        Draw_GLES3();
-        window.pfnSwapBuffers(&window);
-    }
+    while (_ReadWindowEventsWin32());
 
     FreeModuleWGL();
     FreeModuleWin32();

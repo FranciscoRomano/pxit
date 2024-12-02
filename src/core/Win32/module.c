@@ -37,28 +37,33 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             PostQuitMessage(0);
             break;
         }
+        case WM_ENTERSIZEMOVE:
+        {
+            if (!window) break;
+            CALL_WINDOW_EVENT(OnWindowPaint)
+            if (window->pfnSwapBuffers) window->pfnSwapBuffers(window);
+            return 0;
+        }
+        case WM_EXITSIZEMOVE:
+        {
+            if (!window) break;
+            CALL_WINDOW_EVENT(OnWindowPaint)
+            if (window->pfnSwapBuffers) window->pfnSwapBuffers(window);
+            return 0;
+        }
         case WM_NCCREATE:
         {
             CREATESTRUCT* cs = (CREATESTRUCT*)lParam;
             SetWindowLongPtrA(hWnd, 0, (LONG_PTR)cs->lpCreateParams);
             break;
         }
-        // case WM_EXITSIZEMOVE:
-        // {
-        //     break;
-        // }
-        // case WM_ENTERSIZEMOVE:
-        // {
-        //     break;
-        // }
-        // case WM_PAINT:
-        // {
-        //     if (!window) break;
-        //     if (window->pfnMakeCurrent) window->pfnMakeCurrent(window);
-        //     CALL_WINDOW_EVENT(OnWindowPaint)
-        //     if (window->pfnSwapBuffers) window->pfnSwapBuffers(window);
-        //     return 0;
-        // }
+        case WM_PAINT:
+        {
+            if (!window) break;
+            CALL_WINDOW_EVENT(OnWindowPaint)
+            if (window->pfnSwapBuffers) window->pfnSwapBuffers(window);
+            return 0;
+        }
         default:
             break;
     }
