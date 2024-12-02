@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_X11_module_h__
-#define __core_X11_module_h__
+#ifndef __core_Linux_X11_module_h__
+#define __core_Linux_X11_module_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -11,9 +11,9 @@ extern "C" {
 
 #include <stdbool.h>
 #include <X11/X.h>
+#include <X11/Xatom.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include <X11/Xatom.h>
 
 typedef unsigned int  uint;
 typedef unsigned long ulong;
@@ -65,5 +65,5 @@ bool LoadModuleX11();
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_X11_module_h__
+#endif//__core_Linux_X11_module_h__
 // -------------------------------------------------------------------------------------------------------------------------- //
