@@ -14,7 +14,7 @@ struct ModuleWin32 Win32 = { NULL };
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    WindowWin32* window = (WindowWin32*)GetWindowLongPtrA(hWnd, 0);
+    _WindowWin32* window = (_WindowWin32*)GetWindowLongPtrA(hWnd, 0);
 
     switch (uMsg)
     {
@@ -43,13 +43,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             SetWindowLongPtrA(hWnd, 0, (LONG_PTR)cs->lpCreateParams);
             break;
         }
-        case WM_PAINT:
-        {
-            if (!window) break;
-            CALL_WINDOW_EVENT(OnWindowPaint)
-            SwapBuffers(window->hDC);
-            return 0;
-        }
+        // case WM_EXITSIZEMOVE:
+        // {
+        //     break;
+        // }
+        // case WM_ENTERSIZEMOVE:
+        // {
+        //     break;
+        // }
+        // case WM_PAINT:
+        // {
+        //     if (!window) break;
+        //     if (window->pfnMakeCurrent) window->pfnMakeCurrent(window);
+        //     CALL_WINDOW_EVENT(OnWindowPaint)
+        //     if (window->pfnSwapBuffers) window->pfnSwapBuffers(window);
+        //     return 0;
+        // }
         default:
             break;
     }

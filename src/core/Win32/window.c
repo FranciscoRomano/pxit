@@ -2,13 +2,14 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#include "module.h"
 #include "window.h"
 #include <stdio.h>
 #include <stdlib.h>
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-bool CreateWindowWin32(const WindowCreateInfo* pCreateInfo, WindowWin32* pWindow)
+bool _InitContextWGL(_WindowWin32* pWindow);
+
+bool _CreateWindowWin32(const WindowCreateInfo* pCreateInfo, _WindowWin32* pWindow)
 {
     // copy all window callbacks
     if (pCreateInfo->pCallbacks)
@@ -63,11 +64,10 @@ bool CreateWindowWin32(const WindowCreateInfo* pCreateInfo, WindowWin32* pWindow
         return false;
     }
 
-    // get the window's default device context
-    pWindow->hDC = GetDC(pWindow->hWnd);
-    if (!pWindow->hDC)
+    // create a OpenGL ES 3.2 WGL context
+    if (!_InitContextWGL(pWindow))
     {
-        printf("ERROR: failed to get device context\n");
+        printf("ERROR: failed to create graphics context\n");
         DestroyWindow(pWindow->hWnd);
         return false;
     }
@@ -75,14 +75,10 @@ bool CreateWindowWin32(const WindowCreateInfo* pCreateInfo, WindowWin32* pWindow
     return true;
 }
 
-bool DestroyWindowWin32(WindowWin32* pWindow)
+bool _DestroyWindowWin32(_WindowWin32* pWindow)
 {
-    // release device context
-    if (!ReleaseDC(pWindow->hWnd, pWindow->hDC))
-    {
-        printf("ERROR: failed to release device context\n");
-        return false;
-    }
+    // destroy context (impl)
+    pWindow->pfnFreeContext(pWindow);
 
     // destroy the Win32 window
     if (!DestroyWindow(pWindow->hWnd))
@@ -90,9 +86,11 @@ bool DestroyWindowWin32(WindowWin32* pWindow)
         printf("ERROR: failed to destroy window\n");
         return false;
     }
+
+    return true;
 }
 
-bool ReadWindowEventsWin32()
+bool _ReadWindowEventsWin32()
 {
     // release the process to the OS for a bit
     Sleep(0);

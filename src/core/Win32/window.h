@@ -14,20 +14,25 @@ extern "C" {
 #include <pxit/core/window.h>
 
 /// @brief Represents a Win32 window handle.
-typedef struct WindowWin32 {
-    HWND            hWnd;      // A Win32 window.
-    HDC             hDC;       // A Win32 device context.
-    WindowCallbacks callbacks; // A structure with window callbacks.
-} WindowWin32;
+typedef struct _WindowWin32 {
+    HWND            hWnd;
+    WindowCallbacks callbacks;
+    union {
+        struct { HDC hDC; HGLRC hGLRC; } wgl;
+    };
+    bool (*pfnFreeContext)(struct _WindowWin32*);
+    bool (*pfnMakeCurrent)(struct _WindowWin32*);
+    bool (*pfnSwapBuffers)(struct _WindowWin32*);
+} _WindowWin32;
 
 /// @brief Returns true if the Win32 window was created.
-bool CreateWindowWin32(const WindowCreateInfo* pCreateInfo, WindowWin32* pWindow);
+bool _CreateWindowWin32(const WindowCreateInfo* pCreateInfo, _WindowWin32* pWindow);
 
 /// @brief Returns true if the Win32 window was destroyed.
-bool DestroyWindowWin32(WindowWin32* pWindow);
+bool _DestroyWindowWin32(_WindowWin32* pWindow);
 
 /// @brief Returns true if all Win32 window events were read.
-bool ReadWindowEventsWin32();
+bool _ReadWindowEventsWin32();
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

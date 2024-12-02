@@ -9,8 +9,7 @@ extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-#include <stdbool.h>
-#include <windows.h>
+#include "../WGL/module.h"
 
 /// @brief Represents a Win32 module and all supported functions.
 extern struct ModuleWin32 {

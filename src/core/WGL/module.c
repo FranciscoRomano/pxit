@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#include "../GLES/module.h"
 #include "../Win32/module.h"
 #include "module.h"
 #include <stdio.h>
@@ -14,7 +13,7 @@ if (!WGL.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return fa
 
 struct ModuleWGL WGL = { NULL };
 
-void* private_loader_WGL(const char* name)
+void* _LoaderWGL(const char* name)
 {
     void* p = (void*)WGL.wglGetProcAddress(name);
     if (p == (void*) 0) return (void*)GetProcAddress(WGL.handle, name);
@@ -137,7 +136,7 @@ bool LoadModuleWGL()
         printf("WARNING: skipping WGL extensions\n");
 
         // load the OpenGL ES module with a custom loader
-        if (!LoadModuleGLES(private_loader_WGL))
+        if (!LoadModuleGLES(_LoaderWGL))
         {
             printf("ERROR: failed to load GLES module\n");
             WGL.wglMakeCurrent(hDC, NULL);

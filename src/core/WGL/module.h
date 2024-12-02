@@ -9,8 +9,8 @@ extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
+#include "../GLES/module.h"
 #include <GL/wgl.h>
-#include <stdbool.h>
 
 /// @brief Represents a WGL module and all supported functions.
 extern struct ModuleWGL {    
