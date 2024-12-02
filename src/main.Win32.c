@@ -18,6 +18,11 @@ void on_window_paint(Window window)
     Draw_GLES3();
 }
 
+void on_window_size(Window window, uint32_t width, uint32_t height)
+{
+    GLES20.glViewport(0, 0, width, height);
+}
+
 int main(int argc, char** argv)
 {
     if (!LoadModuleWGL())
@@ -31,6 +36,7 @@ int main(int argc, char** argv)
     memset(&callbacks, 0, sizeof(WindowCallbacks));
     callbacks.OnWindowClose  = on_window_close;
     callbacks.OnWindowCreate = on_window_create;
+    callbacks.OnWindowSize   = on_window_size;
     callbacks.OnWindowPaint  = on_window_paint;
 
     WindowCreateInfo create_info;

@@ -63,6 +63,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             if (window->pfnSwapBuffers) window->pfnSwapBuffers(window);
             return 0;
         }
+        case WM_SIZE:
+        {
+            if (!window) break;
+            CALL_WINDOW_EVENT(OnWindowSize, LOWORD(lParam), HIWORD(lParam))
+            return 0;
+        }
         default:
             break;
     }
