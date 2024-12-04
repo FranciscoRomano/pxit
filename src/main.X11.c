@@ -1,6 +1,6 @@
 #include "main.GLES.c"
-#include "core/Linux/GLX/module.h"
-#include "core/Linux/X11/window.h"
+#include "core/GLX/module.h"
+#include "core/X11/window.h"
 
 int main(int argc, char** argv)
 {

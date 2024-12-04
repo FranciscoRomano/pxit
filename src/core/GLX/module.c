@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#include "../../GLES/module.h"
+#include "../GLES/module.h"
 #include "../X11/module.h"
 #include "module.h"
 #include <dlfcn.h>

@@ -31,8 +31,6 @@ endif()
 
 # GNU Compiler Collection (GCC)
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  #target_link_options(pxit PUBLIC -static)
-  #target_link_options(pxit PUBLIC -mwindows)
 endif()
 
 # Microsoft Visual C++ Compiler (MSVC)

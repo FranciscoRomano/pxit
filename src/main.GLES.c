@@ -40,8 +40,6 @@ GLuint program;
 GLuint vao;
 GLuint vbo;
 
-double time = 0;
-
 void Init_GLES3()
 {
     GLES20.glDisable(GL_DEPTH_TEST);
@@ -104,10 +102,9 @@ void Draw_GLES3()
     GLES20.glClearColor(1, 0, 0, 1);
     GLES20.glClear(GL_COLOR_BUFFER_BIT);
 
-    time += 0.01;
     float mat2[] = {
-         cos(time),-sin(time),
-         sin(time), cos(time)
+        1.0, 0.0,
+        0.0, 1.0
     };
 
     GLES20.glUseProgram(program);
