@@ -1,5 +1,7 @@
 {
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "C_Cpp.default.cppStandard": "gnu++23",
+    "C_Cpp.default.cStandard": "gnu23",
     "cmake.buildDirectory": "${workspaceFolder}/build",
     "cmake.buildTask": true,
     "cmake.configureArgs": [ "-DCMAKE_C_COMPILER=gcc", "-DCMAKE_CXX_COMPILER=g++" ],
