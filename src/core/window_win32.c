@@ -34,7 +34,7 @@ bool _FreeContext_OpenGL_Win32(Window window)
 bool _MakeCurrent_OpenGL_Win32(Window window)
 {
     // make WGL context current
-    if (_WGL.wglMakeCurrent(window->win32.hDC, window->win32.hGLRC))
+    if (!_WGL.wglMakeCurrent(window->win32.hDC, window->win32.hGLRC))
     {
         printf("ERROR: failed to make WGL context current\n");
         CloseWindow(window->win32.hWnd);
@@ -108,7 +108,6 @@ bool _InitContext_OpenGL_Win32(Window window)
     window->pfnMakeCurrent = _MakeCurrent_OpenGL_Win32;
     window->pfnSwapBuffers = _SwapBuffers_OpenGL_Win32;
     INVOKE_WINDOW_EVENT(OnWindowCreate)
-    ShowWindow(window->win32.hWnd, SW_SHOW);
     return true;
 }
 

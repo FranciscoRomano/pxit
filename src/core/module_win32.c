@@ -34,6 +34,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_ENTERSIZEMOVE:
         {
             if (!window) break;
+            INVOKE_WINDOW_IMPL(MakeCurrent)
             INVOKE_WINDOW_EVENT(OnWindowPaint)
             INVOKE_WINDOW_IMPL(SwapBuffers)
             return 0;
@@ -45,6 +46,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_EXITSIZEMOVE:
         {
             if (!window) break;
+            INVOKE_WINDOW_IMPL(MakeCurrent)
             INVOKE_WINDOW_EVENT(OnWindowPaint)
             INVOKE_WINDOW_IMPL(SwapBuffers)
             return 0;
@@ -58,6 +60,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_PAINT:
         {
             if (!window) break;
+            INVOKE_WINDOW_IMPL(MakeCurrent)
             INVOKE_WINDOW_EVENT(OnWindowPaint)
             INVOKE_WINDOW_IMPL(SwapBuffers)
             return 0;
