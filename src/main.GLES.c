@@ -1,4 +1,4 @@
-#include "core/GLES/module.h"
+#include "core/module_gles.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>

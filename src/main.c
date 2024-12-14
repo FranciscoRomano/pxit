@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <memory.h>
-//#include "main.GLES.c"
+#include "main.GLES.c"
 
 void on_window_close(Window window)
 {
@@ -14,12 +14,12 @@ void on_window_close(Window window)
 
 void on_window_create(Window window)
 {
-    //Init_GLES3();
+    Init_GLES3();
 }
 
 void on_window_paint(Window window)
 {
-    //Draw_GLES3();
+    Draw_GLES3();
 }
 
 int main(int argc, char** argv)
