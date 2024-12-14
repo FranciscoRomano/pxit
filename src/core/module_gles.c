@@ -3,9 +3,6 @@
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
 #include "module.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #define LOAD_OPTIONAL_SYMBOL(Version, Name)\
 Version.Name = loader(#Name);\
 if (!Version.Name) { printf("WARNING: failed to load symbol '" #Name "'\n"); }
@@ -19,7 +16,7 @@ struct ModuleGLES30 GLES30 = { NULL };
 struct ModuleGLES31 GLES31 = { NULL };
 struct ModuleGLES32 GLES32 = { NULL };
 
-bool LoadModuleGLES(void* (*loader)(const char*))
+bool _LoadModule_GLES(void* (*loader)(const char*))
 {
     // check GLES version
     LOAD_REQUIRED_SYMBOL(GLES20, glGetString);
@@ -406,11 +403,6 @@ bool LoadModuleGLES(void* (*loader)(const char*))
     LOAD_REQUIRED_SYMBOL(GLES32, glTexParameterIiv);
     LOAD_REQUIRED_SYMBOL(GLES32, glTexParameterIuiv);
     LOAD_REQUIRED_SYMBOL(GLES32, glTexStorage3DMultisample);
-    if (strcmp(version, "3.2") <= 0)
-    {
-        printf("LOG: loaded OpenGL ES 3.2 symbols\n");
-        return true;
-    }
-
+    printf("LOG: loaded OpenGL ES 3.2 symbols\n");
     return true;
 }

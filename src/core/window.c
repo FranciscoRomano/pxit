@@ -3,50 +3,43 @@
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
 #include "window.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#define INVOKE_FUNCTION(Name, ...)\
-if (window && window->pfn##Name) return window->pfn##Name(window->handle,##__VA_ARGS__); return false;
+#define INVOKE_WINDOW_IMPL(Name, ...)\
+if (window->pfn##Name) return window->pfn##Name(window,##__VA_ARGS__); return false;
 // -------------------------------------------------------------------------------------------------------------------------- //
-bool CloseWindow(Window window)                                 { INVOKE_FUNCTION(CloseWindow)               }
-bool DestroyWindow(Window window)                               { INVOKE_FUNCTION(DestroyWindow)             }
-bool FocusWindow(Window window, bool focus)                     { INVOKE_FUNCTION(FocusWindow, focus)        }
-bool HideWindow(Window window)                                  { INVOKE_FUNCTION(HideWindow)                }
-bool MaximizeWindow(Window window)                              { INVOKE_FUNCTION(MaximizeWindow)            }
-bool MinimizeWindow(Window window)                              { INVOKE_FUNCTION(MinimizeWindow)            }
-bool MoveWindow(Window window, int32_t left, int32_t top)       { INVOKE_FUNCTION(MoveWindow, left, top)     }
-bool RestoreWindow(Window window)                               { INVOKE_FUNCTION(RestoreWindow)             }
-bool ShowWindow(Window window)                                  { INVOKE_FUNCTION(ShowWindow)                }
-bool SizeWindow(Window window, uint32_t width, uint32_t height) { INVOKE_FUNCTION(SizeWindow, width, height) }
+bool _CloseWindow(Window window)                                 { INVOKE_WINDOW_IMPL(CloseWindow)               }
+bool _DestroyWindow(Window window)                               { INVOKE_WINDOW_IMPL(DestroyWindow)             }
+bool _FocusWindow(Window window, bool focus)                     { INVOKE_WINDOW_IMPL(FocusWindow, focus)        }
+bool _HideWindow(Window window)                                  { INVOKE_WINDOW_IMPL(HideWindow)                }
+bool _MaximizeWindow(Window window)                              { INVOKE_WINDOW_IMPL(MaximizeWindow)            }
+bool _MinimizeWindow(Window window)                              { INVOKE_WINDOW_IMPL(MinimizeWindow)            }
+bool _MoveWindow(Window window, int32_t left, int32_t top)       { INVOKE_WINDOW_IMPL(MoveWindow, left, top)     }
+bool _RestoreWindow(Window window)                               { INVOKE_WINDOW_IMPL(RestoreWindow)             }
+bool _ShowWindow(Window window)                                  { INVOKE_WINDOW_IMPL(ShowWindow)                }
+bool _SizeWindow(Window window, uint32_t width, uint32_t height) { INVOKE_WINDOW_IMPL(SizeWindow, width, height) }
 // -------------------------------------------------------------------------------------------------------------------------- //
-#if IS_PLATFORM_LINUX
-bool _CreateWindowX11(const WindowCreateInfo* pCreateInfo, Window* pWindow);
-#elif IS_PLATFORM_WINDOWS
-bool _CreateWindowWin32(const WindowCreateInfo* pCreateInfo, Window* pWindow);
-#endif
-bool CreateWindow(const WindowCreateInfo* pCreateInfo, Window* pWindow)
+bool _CreateWindow(const WindowCreateInfo* pCreateInfo, Window* pWindow)
 {
+    Window window = (Window)malloc(sizeof(Window_t));
+    memset(window, 0, sizeof(Window_t));
+    if (pWindow) (*pWindow) = window;
+
     #if IS_PLATFORM_LINUX
-    if (_CreateWindowX11(pCreateInfo, pWindow)) return true;
+    if (_CreateWindow_X11(pCreateInfo, window)) return true;
     #elif IS_PLATFORM_WINDOWS
-    if (_CreateWindowWin32(pCreateInfo, pWindow)) return true;
+    if (_CreateWindow_Win32(pCreateInfo, window)) return true;
     #endif
+
+    free(window);
     return false;
 }
 // -------------------------------------------------------------------------------------------------------------------------- //
-#if IS_PLATFORM_LINUX
-bool _ReadWindowEventsX11();
-#elif IS_PLATFORM_WINDOWS
-bool _ReadWindowEventsWin32();
-#endif
-bool ReadWindowEvents()
+bool _ReadWindowEvents()
 {
     bool result = false;
     #if IS_PLATFORM_LINUX
-    result |= _ReadWindowEventsX11();
+    result |= _ReadWindowEvents_X11();
     #elif IS_PLATFORM_WINDOWS
-    result |= _ReadWindowEventsWin32();
+    result |= _ReadWindowEvents_Win32();
     #endif
     return result;
 }

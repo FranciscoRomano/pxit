@@ -3,39 +3,39 @@
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
 #include "module.h"
-#include "window.h"
-#include <stdio.h>
-#include <stdlib.h>
-#define CALL_WINDOW_EVENT(Name, ...)\
-if (window->callbacks.Name) { window->callbacks.Name((Window)window,##__VA_ARGS__); }
+#define INVOKE_WINDOW_IMPL(Name, ...)\
+if (window->pfn##Name) { window->pfn##Name(window,##__VA_ARGS__); }
+#define INVOKE_WINDOW_EVENT(Name, ...)\
+if (window->callbacks.Name) { window->callbacks.Name(window,##__VA_ARGS__); }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-struct ModuleWin32 Win32 = { NULL };
+struct _Module_Win32 _Win32 = { NULL };
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    _WindowWin32* window = (_WindowWin32*)GetWindowLongPtrA(hWnd, 0);
+    Window window = (Window)GetWindowLongPtrA(hWnd, 0);
 
     switch (uMsg)
     {
         case WM_CLOSE:
         {
             if (!window) break;
-            CALL_WINDOW_EVENT(OnWindowClose)
+            INVOKE_WINDOW_EVENT(OnWindowClose)
             return 0;
         }
         case WM_DESTROY:
         {
             if (!window) break;
-            CALL_WINDOW_EVENT(OnWindowDestroy)
+            INVOKE_WINDOW_EVENT(OnWindowDestroy)
+            free(window);
             PostQuitMessage(0);
             break;
         }
         case WM_ENTERSIZEMOVE:
         {
             if (!window) break;
-            CALL_WINDOW_EVENT(OnWindowPaint)
-            if (window->pfnSwapBuffers) window->pfnSwapBuffers(window);
+            INVOKE_WINDOW_EVENT(OnWindowPaint)
+            INVOKE_WINDOW_IMPL(SwapBuffers)
             return 0;
         }
         case WM_ERASEBKGND:
@@ -45,9 +45,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_EXITSIZEMOVE:
         {
             if (!window) break;
-            CALL_WINDOW_EVENT(OnWindowPaint)
-            if (window->pfnSwapBuffers) window->pfnSwapBuffers(window);
-            InvalidateRect(hWnd, 0, TRUE);
+            INVOKE_WINDOW_EVENT(OnWindowPaint)
+            INVOKE_WINDOW_IMPL(SwapBuffers)
             return 0;
         }
         case WM_NCCREATE:
@@ -59,14 +58,14 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_PAINT:
         {
             if (!window) break;
-            CALL_WINDOW_EVENT(OnWindowPaint)
-            if (window->pfnSwapBuffers) window->pfnSwapBuffers(window);
+            INVOKE_WINDOW_EVENT(OnWindowPaint)
+            INVOKE_WINDOW_IMPL(SwapBuffers)
             return 0;
         }
         case WM_SIZE:
         {
             if (!window) break;
-            CALL_WINDOW_EVENT(OnWindowSize, LOWORD(lParam), HIWORD(lParam))
+            INVOKE_WINDOW_EVENT(OnWindowSize, LOWORD(lParam), HIWORD(lParam))
             return 0;
         }
         default:
@@ -76,32 +75,32 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-bool FreeModuleWin32()
+bool _FreeModule_Win32()
 {
     // check if module was unloaded
-    if (!Win32.handle) return false;
+    if (!_Win32.handle) return false;
 
     // unregister Win32 window class
-    if (!UnregisterClassA(Win32.lpClassName, Win32.hInstance))
+    if (!UnregisterClassA(_Win32.lpClassName, _Win32.hInstance))
     {
         printf("ERROR: failed to unregister window class\n");
         return false;
     }
 
-    Win32.handle = NULL;
+    _Win32.handle = NULL;
     return true;
 }
 
-bool LoadModuleWin32()
+bool _LoadModule_Win32()
 {
     // check if module was loaded
-    if (Win32.handle) return true;
+    if (_Win32.handle) return true;
 
     // get the Win32 instance handle
-    Win32.hInstance = GetModuleHandleA(NULL);
+    _Win32.hInstance = GetModuleHandleA(NULL);
 
     // set the Win32 window class name
-    Win32.lpClassName = "PxitWindowClass";
+    _Win32.lpClassName = "PxitWindowClass";
 
     // register a new Win32 window class
     WNDCLASSEXA wc;
@@ -113,10 +112,10 @@ bool LoadModuleWin32()
     wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
     wc.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
     wc.hIconSm       = LoadIcon(NULL, IDI_APPLICATION);
-    wc.hInstance     = Win32.hInstance;
+    wc.hInstance     = _Win32.hInstance;
     wc.lpfnWndProc   = WndProc;
     wc.lpszMenuName  = NULL;
-    wc.lpszClassName = Win32.lpClassName;
+    wc.lpszClassName = _Win32.lpClassName;
     wc.style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     if (!RegisterClassExA(&wc))
     {
@@ -124,7 +123,7 @@ bool LoadModuleWin32()
         return false;
     }
 
-    Win32.handle = (void*)TRUE;
+    _Win32.handle = (void*)TRUE;
     return true;
 }
 

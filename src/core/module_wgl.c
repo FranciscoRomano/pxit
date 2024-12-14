@@ -2,45 +2,42 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#include "../Win32/module.h"
 #include "module.h"
-#include <stdio.h>
-#include <stdlib.h>
 #define LOAD_REQUIRED_SYMBOL(Name)\
-WGL.Name = (void*)GetProcAddress(WGL.handle, #Name);\
-if (!WGL.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
+_WGL.Name = (void*)GetProcAddress(_WGL.handle, #Name);\
+if (!_WGL.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-struct ModuleWGL WGL = { NULL };
+struct _Module_WGL _WGL = { NULL };
 
-void* _LoaderWGL(const char* name)
+void* _Loader_WGL(const char* name)
 {
-    void* p = (void*)WGL.wglGetProcAddress(name);
-    if (p == (void*) 0) return (void*)GetProcAddress(WGL.handle, name);
-    if (p == (void*) 1) return (void*)GetProcAddress(WGL.handle, name);
-    if (p == (void*) 2) return (void*)GetProcAddress(WGL.handle, name);
-    if (p == (void*) 3) return (void*)GetProcAddress(WGL.handle, name);
-    if (p == (void*)-1) return (void*)GetProcAddress(WGL.handle, name);
+    void* p = (void*)_WGL.wglGetProcAddress(name);
+    if (p == (void*) 0) return (void*)GetProcAddress(_WGL.handle, name);
+    if (p == (void*) 1) return (void*)GetProcAddress(_WGL.handle, name);
+    if (p == (void*) 2) return (void*)GetProcAddress(_WGL.handle, name);
+    if (p == (void*) 3) return (void*)GetProcAddress(_WGL.handle, name);
+    if (p == (void*)-1) return (void*)GetProcAddress(_WGL.handle, name);
     return p;
 }
 
-bool FreeModuleWGL()
+bool _FreeModule_WGL()
 {
     // check if module was unloaded
-    if (!WGL.handle) return false;
+    if (!_WGL.handle) return false;
 
     // unload and reset module handle
-    WGL.handle = NULL;
+    _WGL.handle = NULL;
     return true;
 }
 
-bool LoadModuleWGL()
+bool _LoadModule_WGL()
 {
     // check if module was loaded
-    if (WGL.handle) return true;
+    if (_WGL.handle) return true;
 
     // load all module dependencies
-    if (!LoadModuleWin32())
+    if (!_LoadModule_Win32())
     {
         printf("ERROR: failed to load Win32 module\n");
         return false;
@@ -54,8 +51,8 @@ bool LoadModuleWGL()
     for (size_t i = 0; paths[i]; i++)
     {
         // try loading module and any symbols
-        WGL.handle = LoadLibraryA(paths[i]);
-        if (WGL.handle == NULL) continue;
+        _WGL.handle = LoadLibraryA(paths[i]);
+        if (_WGL.handle == NULL) continue;
         LOAD_REQUIRED_SYMBOL(wglCopyContext)
         LOAD_REQUIRED_SYMBOL(wglCreateContext)
         LOAD_REQUIRED_SYMBOL(wglCreateLayerContext)
@@ -78,8 +75,8 @@ bool LoadModuleWGL()
         // create a hidden window for loading WGL
         HWND hWnd = CreateWindowExA(
             0,
-            Win32.lpClassName,
-            "LoadLibraryWGL",
+            _Win32.lpClassName,
+            "LoadModuleWGL",
             WS_POPUP | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
             0,
             0,
@@ -87,7 +84,7 @@ bool LoadModuleWGL()
             1,
             NULL,
             NULL,
-            Win32.hInstance,
+            _Win32.hInstance,
             NULL
         );
         if (!hWnd)
@@ -124,11 +121,11 @@ bool LoadModuleWGL()
         }
 
         // create WGL context for loading all extensions
-        HGLRC hGLRC = WGL.wglCreateContext(hDC);
-        if (!hGLRC || !WGL.wglMakeCurrent(hDC, hGLRC))
+        HGLRC hGLRC = _WGL.wglCreateContext(hDC);
+        if (!hGLRC || !_WGL.wglMakeCurrent(hDC, hGLRC))
         {
             printf("ERROR: failed to create WGL context\n");
-            if (hGLRC) WGL.wglDeleteContext(hGLRC);
+            if (hGLRC) _WGL.wglDeleteContext(hGLRC);
             ReleaseDC(hWnd, hDC);
             DestroyWindow(hWnd);
             return false;
@@ -136,19 +133,19 @@ bool LoadModuleWGL()
         printf("WARNING: skipping WGL extensions\n");
 
         // load the OpenGL ES module with a custom loader
-        if (!LoadModuleGLES(_LoaderWGL))
+        if (!_LoadModule_GLES(_Loader_WGL))
         {
             printf("ERROR: failed to load GLES module\n");
-            WGL.wglMakeCurrent(hDC, NULL);
-            WGL.wglDeleteContext(hGLRC);
+            _WGL.wglMakeCurrent(hDC, NULL);
+            _WGL.wglDeleteContext(hGLRC);
             ReleaseDC(hWnd, hDC);
             DestroyWindow(hWnd);
             return false;
         }
 
         // cleanup all resources that will no longer be used
-        WGL.wglMakeCurrent(hDC, NULL);
-        WGL.wglDeleteContext(hGLRC);
+        _WGL.wglMakeCurrent(hDC, NULL);
+        _WGL.wglDeleteContext(hGLRC);
         ReleaseDC(hWnd, hDC);
         DestroyWindow(hWnd);
         return true;

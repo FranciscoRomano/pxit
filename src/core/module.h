@@ -2,31 +2,30 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_Win32_module_h__
-#define __core_Win32_module_h__
+#ifndef __core_module_h__
+#define __core_module_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-#include "../WGL/module.h"
+#if IS_PLATFORM_WINDOWS
+#define WIN32_LEAN_AND_MEAN 1
+#include <windows.h>
+#include "module_wgl.h"
+#include "module_win32.h"
+#endif
 
-/// @brief Represents a Win32 module and all supported functions.
-extern struct ModuleWin32 {
-    void*       handle;
-    HINSTANCE   hInstance;
-    const char* lpClassName;
-} Win32;
-
-/// @brief Returns true if the Win32 module was freed successfully.
-bool FreeModuleWin32();
-
-/// @brief Returns true if the Win32 module was loaded successfully.
-bool LoadModuleWin32();
+#include <memory.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "module_gles.h"
+#include "window.h"
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_Win32_module_h__
+#endif//__core_module_h__
 // -------------------------------------------------------------------------------------------------------------------------- //

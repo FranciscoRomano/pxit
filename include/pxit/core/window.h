@@ -166,18 +166,18 @@ typedef struct WindowCreateInfo {
 } WindowCreateInfo;
 
 #if WINDOW_FUNCTIONS
-bool CloseWindow(Window window);
-bool CreateWindow(const WindowCreateInfo* pCreateInfo, Window* pWindow);
-bool DestroyWindow(Window window);
-bool FocusWindow(Window window, bool focus);
-bool HideWindow(Window window);
-bool MaximizeWindow(Window window);
-bool MinimizeWindow(Window window);
-bool MoveWindow(Window window, int32_t left, int32_t top);
-bool ReadWindowEvents();
-bool RestoreWindow(Window window);
-bool ShowWindow(Window window);
-bool SizeWindow(Window window, uint32_t width, uint32_t height);
+bool _CloseWindow(Window window);
+bool _CreateWindow(const WindowCreateInfo* pCreateInfo, Window* pWindow);
+bool _DestroyWindow(Window window);
+bool _FocusWindow(Window window, bool focus);
+bool _HideWindow(Window window);
+bool _MaximizeWindow(Window window);
+bool _MinimizeWindow(Window window);
+bool _MoveWindow(Window window, int32_t left, int32_t top);
+bool _ReadWindowEvents();
+bool _RestoreWindow(Window window);
+bool _ShowWindow(Window window);
+bool _SizeWindow(Window window, uint32_t width, uint32_t height);
 #endif//WINDOW_FUNCTIONS
 
 // -------------------------------------------------------------------------------------------------------------------------- //

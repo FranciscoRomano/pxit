@@ -2,16 +2,18 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_GLES3_module_h__
-#define __core_GLES3_module_h__
+#ifndef __core_module_gles_h__
+#define __core_module_gles_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-#include <stdbool.h>
+#define GL_APICALL
 #define GL_APIENTRY
+#define GL_GLES_PROTOTYPES 0
 #include <GLES3/gl32.h>
+#include <stdbool.h>
 
 /// @brief Represents the GLES 2.0 module and supported functions.
 extern struct ModuleGLES20 {
@@ -387,12 +389,12 @@ extern struct ModuleGLES32 {
     PFNGLTEXSTORAGE3DMULTISAMPLEPROC         glTexStorage3DMultisample;
 } GLES32;
 
-/// @brief Returns true if the GLES mopdule was loaded successfully.
-bool LoadModuleGLES(void* (*loader)(const char*));
+/// @brief Returns true if the GLES module was loaded successfully.
+bool _LoadModule_GLES(void* (*loader)(const char*));
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_GLES3_module_h__
+#endif//__core_module_gles_h__
 // -------------------------------------------------------------------------------------------------------------------------- //
