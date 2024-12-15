@@ -2,47 +2,42 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#include "../GLES/module.h"
-#include "../X11/module.h"
 #include "module.h"
-#include <dlfcn.h>
-#include <stdio.h>
-#include <stdlib.h>
 #define LOAD_REQUIRED_SYMBOL(Name)\
-GLX.Name = dlsym(GLX.handle, #Name);\
-if (!GLX.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
+_GLX.Name = dlsym(_GLX.handle, #Name);\
+if (!_GLX.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-struct ModuleGLX GLX = { NULL };
+struct _Module_GLX _GLX = { NULL };
 
-void* private_loader_GLX(const char* name)
+void* _Loader_GLX(const char* name)
 {
-    void* p = (void*)GLX.glXGetProcAddress(name);
-    if (p == (void*) 0) return (void*)dlsym(GLX.handle, name);
-    if (p == (void*) 1) return (void*)dlsym(GLX.handle, name);
-    if (p == (void*) 2) return (void*)dlsym(GLX.handle, name);
-    if (p == (void*) 3) return (void*)dlsym(GLX.handle, name);
-    if (p == (void*)-1) return (void*)dlsym(GLX.handle, name);
+    void* p = (void*)_GLX.glXGetProcAddress(name);
+    if (p == (void*) 0) return (void*)dlsym(_GLX.handle, name);
+    if (p == (void*) 1) return (void*)dlsym(_GLX.handle, name);
+    if (p == (void*) 2) return (void*)dlsym(_GLX.handle, name);
+    if (p == (void*) 3) return (void*)dlsym(_GLX.handle, name);
+    if (p == (void*)-1) return (void*)dlsym(_GLX.handle, name);
     return p;
 }
 
-bool FreeModuleGLX()
+bool _FreeModule_GLX()
 {
     // check if module was unloaded
-    if (!GLX.handle) return false;
+    if (!_GLX.handle) return false;
 
     // unload and reset module handle
-    GLX.handle = NULL;
+    _GLX.handle = NULL;
     return true;
 }
 
-bool LoadModuleGLX()
+bool _LoadModule_GLX()
 {
     // check if module was loaded
-    if (GLX.handle) return true;
+    if (_GLX.handle) return true;
 
     // load all module dependencies
-    if (!LoadModuleX11())
+    if (!_LoadModule_X11())
     {
         printf("ERROR: failed to load X11 module\n");
         return false;
@@ -59,8 +54,8 @@ bool LoadModuleGLX()
     for (size_t i = 0; paths[i]; i++)
     {
         // try loading module and any symbols
-        GLX.handle = dlopen(paths[i], RTLD_LAZY);
-        if (GLX.handle == NULL) continue;
+        _GLX.handle = dlopen(paths[i], RTLD_LAZY);
+        if (_GLX.handle == NULL) continue;
         LOAD_REQUIRED_SYMBOL(glXChooseVisual)
         LOAD_REQUIRED_SYMBOL(glXCreateContext)
         LOAD_REQUIRED_SYMBOL(glXDestroyContext)
@@ -102,8 +97,34 @@ bool LoadModuleGLX()
         LOAD_REQUIRED_SYMBOL(glXGetProcAddressARB)
         LOAD_REQUIRED_SYMBOL(glXGetProcAddress)
 
+        // select best GLX framebuffer configuration
+        int count;
+        int screen = _X11.XDefaultScreen(_X11.dpy);
+        static int attribs[] = {
+            GLX_X_RENDERABLE,  True,
+            GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
+            GLX_RENDER_TYPE,   GLX_RGBA_BIT,
+            GLX_X_VISUAL_TYPE, GLX_TRUE_COLOR,
+            GLX_RED_SIZE,      8,
+            GLX_GREEN_SIZE,    8,
+            GLX_BLUE_SIZE,     8,
+            GLX_ALPHA_SIZE,    8,
+            GLX_DEPTH_SIZE,    24,
+            GLX_STENCIL_SIZE,  8,
+            GLX_DOUBLEBUFFER,  True,
+            None
+        };
+        GLXFBConfig* fbc = _GLX.glXChooseFBConfig(_X11.dpy, screen, attribs, &count);
+        if (count == 0 || !fbc)
+        {
+            printf("ERROR: failed to select GLX framebuffer configuration\n");
+            return false;
+        }
+        _GLX.fbc = fbc[0];
+        _X11.XFree(fbc);
+
         // finally, load the OpenGL ES module and all symbols
-        if (!LoadModuleGLES(private_loader_GLX))
+        if (!_LoadModule_GLES(_Loader_GLX))
         {
             printf("ERROR: failed to load GLES module\n");
             return false;

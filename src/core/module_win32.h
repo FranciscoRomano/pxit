@@ -2,15 +2,14 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_Win32_module_h__
-#define __core_Win32_module_h__
+#ifndef __core_module_win32_h__
+#define __core_module_win32_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-#define WINDOW_FUNCTIONS 0
-#include <pxit/core/window.h>
+#include <pxit/core/surface.h>
 #include <stdbool.h>
 #include <windef.h>
 
@@ -31,5 +30,5 @@ bool _LoadModule_Win32();
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_Win32_module_h__
+#endif//__core_module_win32_h__
 // -------------------------------------------------------------------------------------------------------------------------- //

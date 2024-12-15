@@ -9,6 +9,13 @@ extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
+#if IS_PLATFORM_LINUX
+#include <dlfcn.h>
+#include <unistd.h>
+#include "module_x11.h"
+#include "module_glx.h"
+#endif
+
 #if IS_PLATFORM_WINDOWS
 #define WIN32_LEAN_AND_MEAN 1
 #include <windows.h>
@@ -21,7 +28,7 @@ extern "C" {
 #include <stdlib.h>
 #include <string.h>
 #include "module_gles.h"
-#include "window.h"
+#include "surface.h"
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

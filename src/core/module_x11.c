@@ -3,38 +3,35 @@
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
 #include "module.h"
-#include <dlfcn.h>
-#include <stdio.h>
-#include <stdlib.h>
 #define LOAD_REQUIRED_SYMBOL(Name)\
-X11.Name = dlsym(X11.handle, #Name);\
-if (!X11.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
+_X11.Name = dlsym(_X11.handle, #Name);\
+if (!_X11.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-struct ModuleX11 X11 = { NULL };
+struct _Module_X11 _X11 = { NULL };
 
-bool FreeModuleX11()
+bool _FreeModule_X11()
 {
     // check if module was unloaded
-    if (!X11.handle) return false;
+    if (!_X11.handle) return false;
 
     // close the connection to the X server
-    if (X11.XCloseDisplay(X11.hDisplay) != 0)
+    if (_X11.XCloseDisplay(_X11.dpy) != 0)
     {
         printf("ERROR: failed to close X11 display\n");
         return false;
     }
 
     // unload X11 module and reset module handle
-    dlclose(X11.handle);
-    X11.handle = NULL;
+    dlclose(_X11.handle);
+    _X11.handle = NULL;
     return true;
 }
 
-bool LoadModuleX11()
+bool _LoadModule_X11()
 {
     // check if module was loaded
-    if (X11.handle) return true;
+    if (_X11.handle) return true;
 
     // iterate through all module paths
     const char* paths[] = {
@@ -47,8 +44,8 @@ bool LoadModuleX11()
     for (size_t i = 0; paths[i]; i++)
     {
         // try loading module and any symbols
-        X11.handle = dlopen(paths[i], RTLD_LAZY);
-        if (X11.handle == NULL) continue;
+        _X11.handle = dlopen(paths[i], RTLD_LAZY);
+        if (_X11.handle == NULL) continue;
         LOAD_REQUIRED_SYMBOL(XChangeProperty)
         LOAD_REQUIRED_SYMBOL(XChangeWindowAttributes)
         LOAD_REQUIRED_SYMBOL(XCloseDisplay)
@@ -78,32 +75,32 @@ bool LoadModuleX11()
         LOAD_REQUIRED_SYMBOL(XUnmapWindow)
 
         // open a connection to the X server
-        X11.hDisplay = X11.XOpenDisplay(NULL);
-        if (!X11.hDisplay)
+        _X11.dpy = _X11.XOpenDisplay(NULL);
+        if (!_X11.dpy)
         {
             printf("ERROR: failed to open X11 display\n");
             return false;
         }
 
         // get a unique or the default context
-        X11.hContext = (XContext)X11.XrmUniqueQuark();
-        if (!X11.hContext)
+        _X11.ctx = (XContext)_X11.XrmUniqueQuark();
+        if (!_X11.ctx)
         {
             printf("ERROR: failed to get X11 context\n");
             return false;
         }
 
         // get the display's default root window
-        X11.hRootWindow = DefaultRootWindow(X11.hDisplay);
-        if (!X11.hRootWindow)
+        _X11.root = DefaultRootWindow(_X11.dpy);
+        if (!_X11.root)
         {
             printf("ERROR: failed to get X11 root window\n");
             return false;
         }
 
         // get the 'WM_DELETE_WINDOW' event handle
-        X11.wmDeleteWindow = X11.XInternAtom(X11.hDisplay, "WM_DELETE_WINDOW", False);
-        if (!X11.wmDeleteWindow)
+        _X11.wmDeleteWindow = _X11.XInternAtom(_X11.dpy, "WM_DELETE_WINDOW", False);
+        if (!_X11.wmDeleteWindow)
         {
             printf("ERROR: failed to get X11 intern atom\n");
             return false;

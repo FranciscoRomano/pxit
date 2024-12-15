@@ -2,34 +2,30 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_X11_module_h__
-#define __core_X11_module_h__
+#ifndef __core_module_x11_h__
+#define __core_module_x11_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
+#include <stdint.h>
 #include <stdbool.h>
-#include <X11/X.h>
 #include <X11/Xatom.h>
-#include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
-typedef unsigned int  uint;
-typedef unsigned long ulong;
-
 /// @brief Represents the X11 module and supported functions.
-extern struct ModuleX11 {
-    void*    handle;
-    Display* hDisplay;
-    XContext hContext;
-    Window   hRootWindow;
+extern struct _Module_X11 {
+    void*    handle; // A X11 library handle.
+    Display* dpy;    // A X11 display connection.
+    XContext ctx;    // A X11 global context handle.
+    Window   root;   // A X11 display root window handle.
     Atom     wmDeleteWindow;
     int      (*XChangeProperty)(Display*,Window,Atom,Atom,int,int,const char*,int);
-    int      (*XChangeWindowAttributes)(Display*,Window,ulong,XSetWindowAttributes*);
+    int      (*XChangeWindowAttributes)(Display*,Window,uint64_t,XSetWindowAttributes*);
     int      (*XCloseDisplay)(Display*);
     Colormap (*XCreateColormap)(Display*,Window,Visual*,int);
-    Window   (*XCreateWindow)(Display*,Window,int,int,uint,uint,uint,int,uint,Visual*,ulong,XSetWindowAttributes*);
+    Window   (*XCreateWindow)(Display*,Window,int,int,uint32_t,uint32_t,uint32_t,int,uint32_t,Visual*,uint64_t,XSetWindowAttributes*);
     Window   (*XDefaultRootWindow)(Display*);
     int      (*XDefaultScreen)(Display*);
     Screen   (*XDefaultScreenOfDisplay)(Display*);
@@ -52,18 +48,17 @@ extern struct ModuleX11 {
     Screen*  (*XScreenOfDisplay)(Display*,int);
     Status   (*XSetWMProtocols)(Display*,Window,Atom*,int);
     int      (*XUnmapWindow)(Display*,Window);
-} X11;
+} _X11;
 
-                      
 /// @brief Returns true if the X11 module was freed successfully.
-bool FreeModuleX11();
+bool _FreeModule_X11();
 
 /// @brief Returns true if the X11 module was loaded successfully.
-bool LoadModuleX11();
+bool _LoadModule_X11();
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_X11_module_h__
+#endif//__core_module_x11_h__
 // -------------------------------------------------------------------------------------------------------------------------- //

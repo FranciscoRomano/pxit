@@ -1,4 +1,4 @@
-#include <pxit/core/window.h>
+#include <pxit/core/surface.h>
 #include "main.GLES.c"
 
 void on_window_create(Window window)

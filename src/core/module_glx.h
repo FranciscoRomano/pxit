@@ -2,27 +2,26 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_GLX_module_h__
-#define __core_GLX_module_h__
+#ifndef __core_module_glx_h__
+#define __core_module_glx_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
+#include <stdint.h>
 #include <stdbool.h>
 #include <GL/glx.h>
 
-typedef unsigned int  uint;
-typedef unsigned long ulong;
-
 /// @brief Represents the GLX module and supported functions.
-extern struct ModuleGLX {    
-    void*           handle;
+extern struct _Module_GLX {    
+    void*           handle; // A GLX library handle.
+    GLXFBConfig     fbc;    // A GLX Framebuffer configuration.
     XVisualInfo*    (*glXChooseVisual)(Display*,int,int*);
     GLXContext      (*glXCreateContext)(Display*,XVisualInfo*,GLXContext,Bool);
     void            (*glXDestroyContext)(Display*,GLXContext);
     Bool            (*glXMakeCurrent)(Display*,GLXDrawable,GLXContext);
-    void            (*glXCopyContext)(Display*,GLXContext,GLXContext,ulong);
+    void            (*glXCopyContext)(Display*,GLXContext,GLXContext,uint64_t);
     void            (*glXSwapBuffers)(Display*,GLXDrawable);
     GLXPixmap       (*glXCreateGLXPixmap)(Display*,XVisualInfo*,Pixmap);
     void            (*glXDestroyGLXPixmap)(Display*,GLXPixmap);
@@ -49,26 +48,26 @@ extern struct ModuleGLX {
     void            (*glXDestroyPixmap)(Display*,GLXPixmap);
     GLXPbuffer      (*glXCreatePbuffer)(Display*,GLXFBConfig,const int*);
     void            (*glXDestroyPbuffer)(Display*,GLXPbuffer);
-    void            (*glXQueryDrawable)(Display*,GLXDrawable,int,uint*);
+    void            (*glXQueryDrawable)(Display*,GLXDrawable,int,uint32_t*);
     GLXContext      (*glXCreateNewContext)(Display*,GLXFBConfig,int,GLXContext,Bool);
     Bool            (*glXMakeContextCurrent)(Display*,GLXDrawable,GLXDrawable,GLXContext);
     GLXDrawable     (*glXGetCurrentReadDrawable)();
     int             (*glXQueryContext)(Display*,GLXContext,int,int*);
-    void            (*glXSelectEvent)(Display*,GLXDrawable,ulong);
-    void            (*glXGetSelectedEvent)(Display*,GLXDrawable,ulong*);
+    void            (*glXSelectEvent)(Display*,GLXDrawable,uint64_t);
+    void            (*glXGetSelectedEvent)(Display*,GLXDrawable,uint64_t*);
     __GLXextFuncPtr (*glXGetProcAddressARB)(const char*);
     void*           (*glXGetProcAddress)(const char*);
-} GLX;
+} _GLX;
 
 /// @brief Returns true if the GLX module was freed successfully.
-bool FreeModuleGLX();
+bool _FreeModule_GLX();
 
 /// @brief Returns true if the GLX module was loaded successfully.
-bool LoadModuleGLX();
+bool _LoadModule_GLX();
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_GLX_module_h__
+#endif//__core_module_glx_h__
 // -------------------------------------------------------------------------------------------------------------------------- //

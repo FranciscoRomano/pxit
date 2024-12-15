@@ -52,6 +52,12 @@ void Init_GLES3()
     if (!success)
     {
         printf("ERROR: failed to compile vertex shader\n");
+        GLint length = 0;
+        GLES20.glGetShaderiv(vshader, GL_INFO_LOG_LENGTH, &length);
+        GLchar* buffer = malloc(sizeof(GLchar) * (length + 1));
+        GLES20.glGetShaderInfoLog(vshader, length, &length, buffer);
+        //buffer[length] = 0;
+        printf("ERROR: %s\n", buffer);
         exit(EXIT_FAILURE);
     }
 
