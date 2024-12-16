@@ -80,12 +80,14 @@ bool _InitContext_OpenGL_X11(Surface surface)
         _X11.XFreeColormap(_X11.dpy, surface->x11.cmap);
         return false;
     }
+    _GLX.glXMakeCurrent(_X11.dpy, surface->x11.win, surface->x11.glrc);
 
     // finalize the GLX initialization and return
     surface->pfnFreeContext = _FreeContext_OpenGL_X11;
     surface->pfnMakeCurrent = _MakeCurrent_OpenGL_X11;
     surface->pfnSwapBuffers = _SwapBuffers_OpenGL_X11;
     INVOKE_SURFACE_EVENT(OnSurfaceCreate)
+    _X11.XMapWindow(_X11.dpy, surface->x11.win);
     return true;
 }
 
