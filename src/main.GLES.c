@@ -34,6 +34,7 @@ const float geometry_vbo[] = {
      0.5f, -0.5f,
 };
 
+float time = 0.0f;
 GLuint vshader;
 GLuint fshader;
 GLuint program;
@@ -109,9 +110,11 @@ void Draw_GLES3()
     GLES20.glClear(GL_COLOR_BUFFER_BIT);
 
     float mat2[] = {
-        1.0, 0.0,
-        0.0, 1.0
+        cos(time),-sin(time),
+        sin(time), cos(time)
     };
+
+    time += 0.01f;
 
     GLES20.glUseProgram(program);
 
