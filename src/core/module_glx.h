@@ -16,6 +16,7 @@ extern "C" {
 /// @brief Represents the GLX module and supported functions.
 extern struct _Module_GLX {    
     void*           handle; // A GLX library handle.
+    Colormap        cmap;   // A GLX compatible colormap.
     GLXFBConfig     fbc;    // A GLX Framebuffer configuration.
     XVisualInfo*    (*glXChooseVisual)(Display*,int,int*);
     GLXContext      (*glXCreateContext)(Display*,XVisualInfo*,GLXContext,Bool);

@@ -16,7 +16,6 @@ extern "C" {
 /// @brief Represents a X11 surface handle.
 typedef struct _Surface_X11 {
     Window     win;  // A X11 window handle.
-    Colormap   cmap; // A X11 colormap handle.
     GLXContext glrc; // A X11 OpenGL rendering context.
 } _Surface_X11;
 

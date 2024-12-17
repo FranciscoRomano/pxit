@@ -12,14 +12,8 @@ if (surface->callbacks.Name) { surface->callbacks.Name(surface,##__VA_ARGS__); }
 bool _FreeContext_OpenGL_X11(Surface surface)
 {
     // destroy GLX context
-    _GLX.glXMakeCurrent(_X11.dpy, 0, 0);
+    _GLX.glXMakeCurrent(_X11.dpy, surface->x11.win, 0);
     _GLX.glXDestroyContext(_X11.dpy, surface->x11.glrc);
-
-    // destroy window colormap
-    XSetWindowAttributes swa;
-    swa.colormap = 0;
-    _X11.XChangeWindowAttributes(_X11.dpy, surface->x11.win, CWColormap, &swa);
-    _X11.XFreeColormap(_X11.dpy, surface->x11.cmap);
     return true;
 }
 
@@ -45,42 +39,19 @@ bool _InitContext_OpenGL_X11(Surface surface)
 {
     // initialize GLX module
     if (!_LoadModule_GLX()) return false;
-    
-    // select GLX visual information
-    XVisualInfo* vi = _GLX.glXGetVisualFromFBConfig(_X11.dpy, _GLX.fbc);
-    if (!vi)
-    {
-        printf("ERROR: failed to select visual information\n");
-        return false;
-    }
 
-    // create a GLX compatible colormap
-    Window root = _X11.XScreenOfDisplay(_X11.dpy, vi->screen)->root;
-    surface->x11.cmap = _X11.XCreateColormap(_X11.dpy, root, vi->visual, AllocNone);
-    if (!surface->x11.cmap)
-    {
-        printf("ERROR: failed to create GLX compatible colormap\n");
-        _X11.XFree(vi);
-        return false;
-    }
-
-    // set compatible colormap to window
+    // set the GLX colormap in window
     XSetWindowAttributes swa;
-    swa.colormap = surface->x11.cmap;
+    swa.colormap = _GLX.cmap;
     _X11.XChangeWindowAttributes(_X11.dpy, surface->x11.win, CWColormap, &swa);
-    _X11.XFree(vi);
 
     // create a new GLX rendering context
     surface->x11.glrc = _GLX.glXCreateNewContext(_X11.dpy, _GLX.fbc, GLX_RGBA_TYPE, 0, True);
-    if (!surface->x11.glrc)
+    if (!surface->x11.glrc || !_GLX.glXMakeCurrent(_X11.dpy, surface->x11.win, surface->x11.glrc))
     {
         printf("ERROR: failed to create GLX context\n");
-        swa.colormap = 0;
-        _X11.XChangeWindowAttributes(_X11.dpy, surface->x11.win, CWColormap, &swa);
-        _X11.XFreeColormap(_X11.dpy, surface->x11.cmap);
         return false;
     }
-    _GLX.glXMakeCurrent(_X11.dpy, surface->x11.win, surface->x11.glrc);
 
     // finalize the GLX initialization and return
     surface->pfnFreeContext = _FreeContext_OpenGL_X11;
