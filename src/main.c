@@ -24,6 +24,10 @@ void on_surface_size(Surface surface, uint32_t width, uint32_t height)
     GLES20.glViewport(0, 0, width, height);
 }
 
+#if IS_PLATFORM_LINUX
+bool _SwapBuffers_OpenGL_X11(Surface surface);
+#endif
+
 int main(int argc, char** argv)
 {
     Surface surface;
@@ -52,6 +56,7 @@ int main(int argc, char** argv)
     {
         #if IS_PLATFORM_LINUX
         callbacks.OnSurfacePaint(surface);
+        _SwapBuffers_OpenGL_X11(surface);
         #endif
     }
     return 0;
