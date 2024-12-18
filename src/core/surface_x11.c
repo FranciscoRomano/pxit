@@ -139,6 +139,11 @@ bool _ReadSurfaceEvents_X11()
         // translate the current window event by type
         switch (event.type)
         {
+            case Expose:
+                INVOKE_SURFACE_IMPL(MakeCurrent)
+                INVOKE_SURFACE_EVENT(OnSurfacePaint)
+                INVOKE_SURFACE_IMPL(SwapBuffers)
+                break;
             case ClientMessage:
                 if (event.xclient.data.l[0] == _X11.wmDeleteWindow)
                     //INVOKE_SURFACE_EVENT(OnSurfaceClose)

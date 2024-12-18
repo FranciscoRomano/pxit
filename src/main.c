@@ -1,3 +1,4 @@
+// https://stackoverflow.com/questions/17027993/equivalent-of-invalidate-rect-wm-paint-in-x11
 #include <pxit/core/surface.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -24,10 +25,6 @@ void on_surface_size(Surface surface, uint32_t width, uint32_t height)
     GLES20.glViewport(0, 0, width, height);
 }
 
-#if IS_PLATFORM_LINUX
-bool _SwapBuffers_OpenGL_X11(Surface surface);
-#endif
-
 int main(int argc, char** argv)
 {
     Surface surface;
@@ -52,12 +49,6 @@ int main(int argc, char** argv)
         exit(EXIT_FAILURE);
     }
 
-    while (_ReadSurfaceEvents())
-    {
-        #if IS_PLATFORM_LINUX
-        callbacks.OnSurfacePaint(surface);
-        _SwapBuffers_OpenGL_X11(surface);
-        #endif
-    }
+    while (_ReadSurfaceEvents());
     return 0;
 }
