@@ -16,20 +16,21 @@ extern "C" {
 extern struct _Library_user32 {
     void* dll;
     BOOL     WINAPI (*AdjustWindowRect)(LPRECT,DWORD,BOOL);
-    BOOL     WINAPI (*CloseWindow)(HWND hWnd);
+    BOOL     WINAPI (*CloseWindow)(HWND);
     HWND     WINAPI (*CreateWindowExA)(DWORD,LPCSTR,LPCSTR,DWORD,int,int,int,int,HWND,HMENU,HINSTANCE,LPVOID);
     LRESULT  WINAPI (*DefWindowProcA)(HWND,UINT,WPARAM,LPARAM);
     WINBOOL  WINAPI (*DestroyWindow)(HWND);
+    LRESULT  WINAPI (*DispatchMessageA)(CONST MSG*);
     HDC      WINAPI (*GetDC)(HWND);
     LONG_PTR WINAPI (*GetWindowLongPtrA)(HWND,int);
     HCURSOR  WINAPI (*LoadCursorA)(HINSTANCE,LPCSTR);
     HICON    WINAPI (*LoadIconA)(HINSTANCE,LPCSTR);
     BOOL     WINAPI (*PeekMessageA)(LPMSG,HWND,UINT,UINT,UINT);
     void     WINAPI (*PostQuitMessage)(int);
-    ATOM     WINAPI (*RegisterClassExA)(const WNDCLASSEXA*);
-    int      WINAPI (*ReleaseDC)(HWND hWnd,HDC hDC);
+    ATOM     WINAPI (*RegisterClassExA)(CONST WNDCLASSEXA*);
+    int      WINAPI (*ReleaseDC)(HWND,HDC);
     LONG_PTR WINAPI (*SetWindowLongPtrA)(HWND,int,LONG_PTR);
-    BOOL     WINAPI (*TranslateMessage)(const MSG*);
+    BOOL     WINAPI (*TranslateMessage)(CONST MSG*);
     WINBOOL  WINAPI (*UnregisterClassA)(LPCSTR,HINSTANCE);
 } _user32;
 

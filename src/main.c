@@ -1,28 +1,15 @@
-// https://stackoverflow.com/questions/17027993/equivalent-of-invalidate-rect-wm-paint-in-x11
+#define GL_APICALL
+#define GL_APIENTRY
+#include <GLES3/gl32.h>
 #include <pxit/core/surface.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <memory.h>
-#include "main.GLES.c"
 
-void on_surface_close(Surface surface)
+void draw(Surface surface)
 {
-    _DestroySurface(surface);
-}
-
-void on_surface_create(Surface surface)
-{
-    Init_GLES3();
-}
-
-void on_surface_paint(Surface surface)
-{
-    Draw_GLES3();
-}
-
-void on_surface_size(Surface surface, uint32_t width, uint32_t height)
-{
-    GLES20.glViewport(0, 0, width, height);
+    glClearColor(1, 0, 0, 0);
+    glClear(GL_COLOR_BUFFER_BIT);
 }
 
 int main(int argc, char** argv)
@@ -31,10 +18,7 @@ int main(int argc, char** argv)
 
     SurfaceCallbacks callbacks;
     memset(&callbacks, 0, sizeof(SurfaceCallbacks));
-    callbacks.OnSurfaceClose  = on_surface_close;
-    callbacks.OnSurfaceCreate = on_surface_create;
-    callbacks.OnSurfacePaint  = on_surface_paint;
-    callbacks.OnSurfaceSize   = on_surface_size;
+    callbacks.OnSurfacePaint = draw;
 
     SurfaceCreateInfo create_info;
     create_info.Left       = 40;
