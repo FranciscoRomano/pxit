@@ -11,21 +11,30 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Platform #####################################################################################################################
 
 # GNU/Linux Operating System
-set(IS_PLATFORM_LINUX OFF)
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
   set(IS_PLATFORM_LINUX ON)
+  add_compile_definitions("IS_PLATFORM_LINUX=1")
+else()
+  set(IS_PLATFORM_LINUX OFF)
+  add_compile_definitions("IS_PLATFORM_LINUX=0")
 endif()
 
 # Microsoft Windows Operating System
-set(IS_PLATFORM_WINDOWS OFF)
 if(MINGW)
   set(IS_PLATFORM_WINDOWS ON)
+  add_compile_definitions("IS_PLATFORM_WINDOWS=1")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "MSYS" OR MSYS)
   set(IS_PLATFORM_WINDOWS ON)
+  add_compile_definitions("IS_PLATFORM_WINDOWS=1")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "CYGWIN")
   set(IS_PLATFORM_WINDOWS ON)
+  add_compile_definitions("IS_PLATFORM_WINDOWS=1")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Windows" OR WIN32)
   set(IS_PLATFORM_WINDOWS ON)
+  add_compile_definitions("IS_PLATFORM_WINDOWS=1")
+else()
+  set(IS_PLATFORM_WINDOWS OFF)
+  add_compile_definitions("IS_PLATFORM_WINDOWS=0")
 endif()
 
 #------------------------------------------------------------------------------------------------------------------------------#

@@ -13,18 +13,18 @@ extern "C" {
 #include <stdbool.h>
 #include <windef.h>
 
-/// @brief Represents a Win32 module and all supported functions.
-extern struct _Module_Win32 {
-    void*       handle;
+/// @brief Represents a Win32 module and supported properties.
+extern struct _Module_win32 {
+    bool        OK;
     HINSTANCE   hInstance;
     const char* lpClassName;
-} _Win32;
+} _win32;
 
 /// @brief Returns true if the Win32 module was freed successfully.
-bool _FreeModule_Win32();
+bool _FreeModule_win32();
 
 /// @brief Returns true if the Win32 module was loaded successfully.
-bool _LoadModule_Win32();
+bool _LoadModule_win32();
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

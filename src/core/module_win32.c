@@ -9,11 +9,11 @@ if (surface->pfn##Name) { surface->pfn##Name(surface,##__VA_ARGS__); }
 if (surface->callbacks.Name) { surface->callbacks.Name(surface,##__VA_ARGS__); }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-struct _Module_Win32 _Win32 = { NULL };
+struct _Module_win32 _win32 = { NULL };
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK _WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    Surface surface = (Surface)GetWindowLongPtrA(hWnd, 0);
+    Surface surface = (Surface)_user32.GetWindowLongPtrA(hWnd, 0);
 
     switch (uMsg)
     {
@@ -28,7 +28,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             if (!surface) break;
             INVOKE_SURFACE_EVENT(OnSurfaceDestroy)
             free(surface);
-            PostQuitMessage(0);
+            _user32.PostQuitMessage(0);
             break;
         }
         case WM_ENTERSIZEMOVE:
@@ -54,7 +54,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_NCCREATE:
         {
             CREATESTRUCT* cs = (CREATESTRUCT*)lParam;
-            SetWindowLongPtrA(hWnd, 0, (LONG_PTR)cs->lpCreateParams);
+            _user32.SetWindowLongPtrA(hWnd, 0, (LONG_PTR)cs->lpCreateParams);
             break;
         }
         case WM_PAINT:
@@ -75,58 +75,68 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             break;
     }
 
-    return DefWindowProc(hWnd, uMsg, wParam, lParam);
+    return _user32.DefWindowProcA(hWnd, uMsg, wParam, lParam);
 }
 
-bool _FreeModule_Win32()
+bool _FreeModule_win32()
 {
     // check if module was unloaded
-    if (!_Win32.handle) return false;
+    if (!_win32.OK) return false;
 
-    // unregister Win32 window class
-    if (!UnregisterClassA(_Win32.lpClassName, _Win32.hInstance))
+    // unregister the custom window class
+    if (!_user32.UnregisterClassA(_win32.lpClassName, _win32.hInstance))
     {
         printf("ERROR: failed to unregister window class\n");
+        _FreeLibrary_user32();
         return false;
     }
 
-    _Win32.handle = NULL;
+    _FreeLibrary_user32();
+    _win32.OK = false;
     return true;
 }
 
-bool _LoadModule_Win32()
+bool _LoadModule_win32()
 {
     // check if module was loaded
-    if (_Win32.handle) return true;
+    if (_win32.OK) return true;
 
-    // get the Win32 instance handle
-    _Win32.hInstance = GetModuleHandleA(NULL);
+    // load the "user32.dll" library
+    if (!_LoadLibrary_user32())
+    {
+        printf("ERROR: failed to load library 'user32.dll'\n");
+        return false;
+    }
 
-    // set the Win32 window class name
-    _Win32.lpClassName = "PxitWindowClass";
+    // fetch the Win32 instance handle
+    _win32.hInstance = GetModuleHandleA(NULL);
 
-    // register a new Win32 window class
+    // set the default window class name
+    _win32.lpClassName = "PxitWindowClass";
+
+    // configure and register window class
     WNDCLASSEXA wc;
     ZeroMemory(&wc, sizeof(WNDCLASSEXW));
     wc.cbClsExtra    = 0;
     wc.cbSize        = sizeof(WNDCLASSEXW);
     wc.cbWndExtra    = sizeof(void*);
     wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wc.hCursor       = LoadCursor(NULL, IDC_ARROW);
-    wc.hIcon         = LoadIcon(NULL, IDI_APPLICATION);
-    wc.hIconSm       = LoadIcon(NULL, IDI_APPLICATION);
-    wc.hInstance     = _Win32.hInstance;
-    wc.lpfnWndProc   = WndProc;
+    wc.hCursor       = _user32.LoadCursorA(NULL, IDC_ARROW);
+    wc.hIcon         = _user32.LoadIconA(NULL, IDI_APPLICATION);
+    wc.hIconSm       = _user32.LoadIconA(NULL, IDI_APPLICATION);
+    wc.hInstance     = _win32.hInstance;
+    wc.lpfnWndProc   = _WndProc;
     wc.lpszMenuName  = NULL;
-    wc.lpszClassName = _Win32.lpClassName;
+    wc.lpszClassName = _win32.lpClassName;
     wc.style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-    if (!RegisterClassExA(&wc))
+    if (!_user32.RegisterClassExA(&wc))
     {
         printf("ERROR: failed to register window class\n");
+        _FreeLibrary_user32();
         return false;
     }
 
-    _Win32.handle = (void*)TRUE;
+    _win32.OK = true;
     return true;
 }
 

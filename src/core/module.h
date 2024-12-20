@@ -29,6 +29,7 @@ extern "C" {
 #include <string.h>
 #include "module_gles.h"
 #include "surface.h"
+#include "library.h"
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
