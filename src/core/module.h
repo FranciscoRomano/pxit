@@ -28,7 +28,7 @@ extern "C" {
 #include <stdlib.h>
 #include <string.h>
 #include "module_gles.h"
-#include "surface.h"
+#include "window.h"
 #include "library.h"
 
 // -------------------------------------------------------------------------------------------------------------------------- //

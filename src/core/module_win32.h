@@ -9,7 +9,10 @@ extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-#include <pxit/core/surface.h>
+#ifndef WINDOW_FUNCTIONS
+#define WINDOW_FUNCTIONS 0
+#endif
+#include <pxit/core/window.h>
 #include <stdbool.h>
 #include <windef.h>
 

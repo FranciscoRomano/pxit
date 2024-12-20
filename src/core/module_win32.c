@@ -3,40 +3,41 @@
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
 #include "module.h"
-#define INVOKE_SURFACE_IMPL(Name, ...)\
-if (surface->pfn##Name) { surface->pfn##Name(surface,##__VA_ARGS__); }
-#define INVOKE_SURFACE_EVENT(Name, ...)\
-if (surface->callbacks.Name) { surface->callbacks.Name(surface,##__VA_ARGS__); }
+#define INVOKE_WINDOW_IMPL(Name, ...)\
+if (window->pfn##Name) { window->pfn##Name(window,##__VA_ARGS__); }
+#define INVOKE_WINDOW_EVENT(Name, ...)\
+if (window->callbacks.Name) { window->callbacks.Name(window,##__VA_ARGS__); }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 struct _Module_win32 _win32 = { NULL };
 
 LRESULT CALLBACK _WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-    Surface surface = (Surface)_user32.GetWindowLongPtrA(hWnd, 0);
+    Window window = (Window)_user32.GetWindowLongPtrA(hWnd, 0);
 
     switch (uMsg)
     {
         case WM_CLOSE:
         {
-            if (!surface) break;
-            INVOKE_SURFACE_EVENT(OnSurfaceClose)
+            if (!window) break;
+            INVOKE_WINDOW_EVENT(OnWindowClose)
+            _DestroyWindow_Win32(window);
             return 0;
         }
         case WM_DESTROY:
         {
-            if (!surface) break;
-            INVOKE_SURFACE_EVENT(OnSurfaceDestroy)
-            free(surface);
+            if (!window) break;
+            INVOKE_WINDOW_EVENT(OnWindowDestroy)
+            free(window);
             _user32.PostQuitMessage(0);
             break;
         }
         case WM_ENTERSIZEMOVE:
         {
-            if (!surface) break;
-            INVOKE_SURFACE_IMPL(MakeCurrent)
-            INVOKE_SURFACE_EVENT(OnSurfacePaint)
-            INVOKE_SURFACE_IMPL(SwapBuffers)
+            if (!window) break;
+            INVOKE_WINDOW_IMPL(MakeCurrent)
+            INVOKE_WINDOW_EVENT(OnWindowPaint)
+            INVOKE_WINDOW_IMPL(SwapBuffers)
             return 0;
         }
         case WM_ERASEBKGND:
@@ -45,10 +46,10 @@ LRESULT CALLBACK _WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         }
         case WM_EXITSIZEMOVE:
         {
-            if (!surface) break;
-            INVOKE_SURFACE_IMPL(MakeCurrent)
-            INVOKE_SURFACE_EVENT(OnSurfacePaint)
-            INVOKE_SURFACE_IMPL(SwapBuffers)
+            if (!window) break;
+            INVOKE_WINDOW_IMPL(MakeCurrent)
+            INVOKE_WINDOW_EVENT(OnWindowPaint)
+            INVOKE_WINDOW_IMPL(SwapBuffers)
             return 0;
         }
         case WM_NCCREATE:
@@ -59,16 +60,16 @@ LRESULT CALLBACK _WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         }
         case WM_PAINT:
         {
-            if (!surface) break;
-            INVOKE_SURFACE_IMPL(MakeCurrent)
-            INVOKE_SURFACE_EVENT(OnSurfacePaint)
-            INVOKE_SURFACE_IMPL(SwapBuffers)
+            if (!window) break;
+            INVOKE_WINDOW_IMPL(MakeCurrent)
+            INVOKE_WINDOW_EVENT(OnWindowPaint)
+            INVOKE_WINDOW_IMPL(SwapBuffers)
             return 0;
         }
         case WM_SIZE:
         {
-            if (!surface) break;
-            INVOKE_SURFACE_EVENT(OnSurfaceSize, LOWORD(lParam), HIWORD(lParam))
+            if (!window) break;
+            INVOKE_WINDOW_EVENT(OnWindowSize, LOWORD(lParam), HIWORD(lParam))
             return 0;
         }
         default:

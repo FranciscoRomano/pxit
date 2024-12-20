@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __pxit_core_surface_h__
-#define __pxit_core_surface_h__
+#ifndef __pxit_core_window_h__
+#define __pxit_core_window_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -12,9 +12,9 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
-#ifndef SURFACE_FUNCTIONS
-#define SURFACE_FUNCTIONS 1
-#endif//SURFACE_FUNCTIONS
+#ifndef WINDOW_FUNCTIONS
+#define WINDOW_FUNCTIONS 1
+#endif//WINDOW_FUNCTIONS
 
 #define KEY_NONE            0x00
 #define KEY_0               0x01
@@ -127,62 +127,62 @@ extern "C" {
 #define MOUSE_MIDDLE        0x02
 #define MOUSE_RIGHT         0x03
 
-/// @brief Represents the handle to a native surface.
-typedef struct Surface_t* Surface;
+/// @brief Represents the handle to a native window.
+typedef struct Window_t* Window;
 
-/// @brief Represents all supported surface callbacks.
-typedef struct SurfaceCallbacks {
-    void (*OnCharacter)(Surface,char);
-    void (*OnKeyDown)(Surface,uint32_t);
-    void (*OnKeyUp)(Surface,uint32_t);
-    void (*OnMouseDown)(Surface,uint32_t);
-    void (*OnMouseEnter)(Surface,uint32_t,uint32_t);
-    void (*OnMouseLeave)(Surface,uint32_t,uint32_t);
-    void (*OnMouseMove)(Surface,uint32_t,uint32_t);
-    void (*OnMouseScroll)(Surface,int32_t,int32_t);
-    void (*OnMouseUp)(Surface,uint32_t);
-    void (*OnSurfaceClose)(Surface);
-    void (*OnSurfaceCreate)(Surface);
-    void (*OnSurfaceDestroy)(Surface);
-    void (*OnSurfaceFocus)(Surface,bool);
-    void (*OnSurfaceHide)(Surface);
-    void (*OnSurfaceMaximize)(Surface);
-    void (*OnSurfaceMinimize)(Surface);
-    void (*OnSurfaceMove)(Surface,int32_t,int32_t);
-    void (*OnSurfacePaint)(Surface);
-    void (*OnSurfaceRestore)(Surface);
-    void (*OnSurfaceShow)(Surface);
-    void (*OnSurfaceSize)(Surface,uint32_t,uint32_t);
-} SurfaceCallbacks;
+/// @brief Represents all supported window callbacks.
+typedef struct WindowCallbacks {
+    void (*OnCharacter)(Window,char);
+    void (*OnKeyDown)(Window,uint32_t);
+    void (*OnKeyUp)(Window,uint32_t);
+    void (*OnMouseDown)(Window,uint32_t);
+    void (*OnMouseEnter)(Window,uint32_t,uint32_t);
+    void (*OnMouseLeave)(Window,uint32_t,uint32_t);
+    void (*OnMouseMove)(Window,uint32_t,uint32_t);
+    void (*OnMouseScroll)(Window,int32_t,int32_t);
+    void (*OnMouseUp)(Window,uint32_t);
+    void (*OnWindowClose)(Window);
+    void (*OnWindowCreate)(Window);
+    void (*OnWindowDestroy)(Window);
+    void (*OnWindowFocus)(Window,bool);
+    void (*OnWindowHide)(Window);
+    void (*OnWindowMaximize)(Window);
+    void (*OnWindowMinimize)(Window);
+    void (*OnWindowMove)(Window,int32_t,int32_t);
+    void (*OnWindowPaint)(Window);
+    void (*OnWindowRestore)(Window);
+    void (*OnWindowShow)(Window);
+    void (*OnWindowSize)(Window,uint32_t,uint32_t);
+} WindowCallbacks;
 
-/// @brief Represents the parameters for a new surface.
-typedef struct SurfaceCreateInfo {
+/// @brief Represents the parameters for a new window.
+typedef struct WindowCreateInfo {
     int32_t          Left;
     int32_t          Top;
     uint32_t         Width;
     uint32_t         Height;
     const char*      pTitle;
-    SurfaceCallbacks* pCallbacks;
-} SurfaceCreateInfo;
+    WindowCallbacks* pCallbacks;
+} WindowCreateInfo;
 
-#if SURFACE_FUNCTIONS
-bool _CloseSurface(Surface surface);
-bool _CreateSurface(const SurfaceCreateInfo* pCreateInfo, Surface* pSurface);
-bool _DestroySurface(Surface surface);
-bool _FocusSurface(Surface surface, bool focus);
-bool _HideSurface(Surface surface);
-bool _MaximizeSurface(Surface surface);
-bool _MinimizeSurface(Surface surface);
-bool _MoveSurface(Surface surface, int32_t left, int32_t top);
-bool _ReadSurfaceEvents();
-bool _RestoreSurface(Surface surface);
-bool _ShowSurface(Surface surface);
-bool _SizeSurface(Surface surface, uint32_t width, uint32_t height);
-#endif//SURFACE_FUNCTIONS
+#if WINDOW_FUNCTIONS
+bool CloseWindow(Window window);
+bool CreateWindow(const WindowCreateInfo* pCreateInfo, Window* pWindow);
+bool DestroyWindow(Window window);
+bool FocusWindow(Window window, bool focus);
+bool HideWindow(Window window);
+bool MaximizeWindow(Window window);
+bool MinimizeWindow(Window window);
+bool MoveWindow(Window window, int32_t left, int32_t top);
+bool ReadWindowEvents();
+bool RestoreWindow(Window window);
+bool ShowWindow(Window window);
+bool SizeWindow(Window window, uint32_t width, uint32_t height);
+#endif//WINDOW_FUNCTIONS
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
 }
 #endif
-#endif//__pxit_core_surface_h__
+#endif//__pxit_core_window_h__
 // -------------------------------------------------------------------------------------------------------------------------- //

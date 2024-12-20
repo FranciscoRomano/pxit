@@ -3,26 +3,26 @@
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
 #include "module.h"
-#define INVOKE_SURFACE_IMPL(Name, ...)\
-if (surface->pfn##Name) { surface->pfn##Name(surface,##__VA_ARGS__); }
-#define INVOKE_SURFACE_EVENT(Name, ...)\
-if (surface->callbacks.Name) { surface->callbacks.Name(surface,##__VA_ARGS__); }
+#define INVOKE_WINDOW_IMPL(Name, ...)\
+if (window->pfn##Name) { window->pfn##Name(window,##__VA_ARGS__); }
+#define INVOKE_WINDOW_EVENT(Name, ...)\
+if (window->callbacks.Name) { window->callbacks.Name(window,##__VA_ARGS__); }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-bool _FreeContext_OpenGL_Win32(Surface surface)
+bool _FreeContext_OpenGL_Win32(Window window)
 {
     // unset WGL context
-    _opengl32.wglMakeCurrent(surface->win32.hDC, NULL);
+    _opengl32.wglMakeCurrent(window->win32.hDC, NULL);
 
     // delete the WGL context
-    if (!_opengl32.wglDeleteContext(surface->win32.hGLRC))
+    if (!_opengl32.wglDeleteContext(window->win32.hGLRC))
     {
         printf("ERROR: failed to delete WGL context\n");
         return false;
     }
 
     // release the device context
-    if (!_user32.ReleaseDC(surface->win32.hWnd, surface->win32.hDC))
+    if (!_user32.ReleaseDC(window->win32.hWnd, window->win32.hDC))
     {
         printf("ERROR: failed to release device context\n");
         return false;
@@ -31,38 +31,38 @@ bool _FreeContext_OpenGL_Win32(Surface surface)
     return true;
 }
 
-bool _MakeCurrent_OpenGL_Win32(Surface surface)
+bool _MakeCurrent_OpenGL_Win32(Window window)
 {
     // make WGL context current
-    if (!_opengl32.wglMakeCurrent(surface->win32.hDC, surface->win32.hGLRC))
+    if (!_opengl32.wglMakeCurrent(window->win32.hDC, window->win32.hGLRC))
     {
         printf("ERROR: failed to make WGL context current\n");
-        _user32.CloseWindow(surface->win32.hWnd);
+        _user32.CloseWindow(window->win32.hWnd);
         return false;
     }
     return true;
 }
 
-bool _SwapBuffers_OpenGL_Win32(Surface surface)
+bool _SwapBuffers_OpenGL_Win32(Window window)
 {
     // swap WGL layer buffers
-    if (!_opengl32.wglSwapLayerBuffers(surface->win32.hDC, WGL_SWAP_MAIN_PLANE))
+    if (!_opengl32.wglSwapLayerBuffers(window->win32.hDC, WGL_SWAP_MAIN_PLANE))
     {
         printf("ERROR: failed to swap WGL layer buffers\n");
-        _user32.CloseWindow(surface->win32.hWnd);
+        _user32.CloseWindow(window->win32.hWnd);
         return false;
     }
     return true;
 }
 
-bool _InitContext_OpenGL_Win32(Surface surface)
+bool _InitContext_OpenGL_Win32(Window window)
 {
     // initialize WGL module
     if (!_LoadModule_wgl()) return false;
 
     // get window's device context
-    surface->win32.hDC = _user32.GetDC(surface->win32.hWnd);
-    if (!surface->win32.hDC)
+    window->win32.hDC = _user32.GetDC(window->win32.hWnd);
+    if (!window->win32.hDC)
     {
         printf("ERROR: failed to get device context\n");
         return false;
@@ -77,43 +77,43 @@ bool _InitContext_OpenGL_Win32(Surface surface)
     pfd.cColorBits   = 32;
     pfd.cDepthBits   = 24;
     pfd.cStencilBits = 8;
-    int format = _gdi32.ChoosePixelFormat(surface->win32.hDC, &pfd);
-    if (format == 0 || _gdi32.SetPixelFormat(surface->win32.hDC, format, &pfd) == FALSE)
+    int format = _gdi32.ChoosePixelFormat(window->win32.hDC, &pfd);
+    if (format == 0 || _gdi32.SetPixelFormat(window->win32.hDC, format, &pfd) == FALSE)
     {
         printf("ERROR: failed to set pixel format\n");
-        _user32.ReleaseDC(surface->win32.hWnd, surface->win32.hDC);
+        _user32.ReleaseDC(window->win32.hWnd, window->win32.hDC);
         return false;
     }
 
     // create a new WGL rendering context
-    surface->win32.hGLRC = _opengl32.wglCreateContext(surface->win32.hDC);
-    if (!surface->win32.hGLRC)
+    window->win32.hGLRC = _opengl32.wglCreateContext(window->win32.hDC);
+    if (!window->win32.hGLRC)
     {
         printf("ERROR: failed to create WGL context\n");
-        _user32.ReleaseDC(surface->win32.hWnd, surface->win32.hDC);
+        _user32.ReleaseDC(window->win32.hWnd, window->win32.hDC);
         return false;
     }
 
     // make the WGL rendering context current
-    if (!_opengl32.wglMakeCurrent(surface->win32.hDC, surface->win32.hGLRC))
+    if (!_opengl32.wglMakeCurrent(window->win32.hDC, window->win32.hGLRC))
     {
         printf("ERROR: failed to make WGL context current\n");
-        _opengl32.wglDeleteContext(surface->win32.hGLRC);
-        _user32.ReleaseDC(surface->win32.hWnd, surface->win32.hDC);
+        _opengl32.wglDeleteContext(window->win32.hGLRC);
+        _user32.ReleaseDC(window->win32.hWnd, window->win32.hDC);
         return false;
     }
 
     // finalize the WGL initialization and return
-    surface->pfnFreeContext = _FreeContext_OpenGL_Win32;
-    surface->pfnMakeCurrent = _MakeCurrent_OpenGL_Win32;
-    surface->pfnSwapBuffers = _SwapBuffers_OpenGL_Win32;
-    INVOKE_SURFACE_EVENT(OnSurfaceCreate)
+    window->pfnFreeContext = _FreeContext_OpenGL_Win32;
+    window->pfnMakeCurrent = _MakeCurrent_OpenGL_Win32;
+    window->pfnSwapBuffers = _SwapBuffers_OpenGL_Win32;
+    INVOKE_WINDOW_EVENT(OnWindowCreate)
     return true;
 }
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-bool _CreateSurface_Win32(const SurfaceCreateInfo* pCreateInfo, Surface surface)
+bool _CreateWindow_Win32(const WindowCreateInfo* pCreateInfo, Window window)
 {
     // initialize Win32 module
     if (!_LoadModule_win32()) return false;
@@ -124,7 +124,7 @@ bool _CreateSurface_Win32(const SurfaceCreateInfo* pCreateInfo, Surface surface)
     _user32.AdjustWindowRect(&rect, dwStyle, FALSE);
 
     // create a new Win32 popup window
-    surface->win32.hWnd = _user32.CreateWindowExA(
+    window->win32.hWnd = _user32.CreateWindowExA(
         0,
         _win32.lpClassName,
         pCreateInfo->pTitle,
@@ -136,41 +136,41 @@ bool _CreateSurface_Win32(const SurfaceCreateInfo* pCreateInfo, Surface surface)
         NULL,
         NULL,
         _win32.hInstance,
-        (LPVOID)surface
+        (LPVOID)window
     );
-    if (!surface->win32.hWnd)
+    if (!window->win32.hWnd)
     {
         printf("ERROR: failed to create Win32 window\n");
         return false;
     }
 
     // set Win32 callbacks and implementation
-    if (pCreateInfo->pCallbacks) memcpy(&surface->callbacks, pCreateInfo->pCallbacks, sizeof(SurfaceCallbacks));
-    surface->pfnDestroySurface = _DestroySurface_Win32;
+    if (pCreateInfo->pCallbacks) memcpy(&window->callbacks, pCreateInfo->pCallbacks, sizeof(WindowCallbacks));
+    window->pfnDestroyWindow = _DestroyWindow_Win32;
 
     // initialize the graphics rendering context
-    if (_InitContext_OpenGL_Win32(surface)) return true;
+    if (_InitContext_OpenGL_Win32(window)) return true;
     printf("ERROR: failed to create Win32 rendering context\n");
-    _user32.DestroyWindow(surface->win32.hWnd);
+    _user32.DestroyWindow(window->win32.hWnd);
     return false;
 }
 
-bool _DestroySurface_Win32(Surface surface)
+bool _DestroyWindow_Win32(Window window)
 {
     // destroy context (impl)
-    INVOKE_SURFACE_IMPL(FreeContext)
+    INVOKE_WINDOW_IMPL(FreeContext)
 
     // destroy the Win32 window
-    if (!_user32.DestroyWindow(surface->win32.hWnd))
+    if (!_user32.DestroyWindow(window->win32.hWnd))
     {
-        printf("ERROR: failed to destroy Win32 surface\n");
+        printf("ERROR: failed to destroy Win32 window\n");
         return false;
     }
 
     return true;
 }
 
-bool _ReadSurfaceEvents_Win32()
+bool _ReadWindowEvents_Win32()
 {
     // release the process to the OS for a bit
     Sleep(0);

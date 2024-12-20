@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
-#include <pxit/core/surface.h>
+#include <pxit/core/window.h>
 
 void on_key_down(Window window, uint32_t key)
 {
