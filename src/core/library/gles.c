@@ -6,6 +6,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
+#define LOAD_OPTIONAL_SYMBOL(Name)\
+_gles.Name = loader(#Name);\
+if (!_gles.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); }
 #define LOAD_REQUIRED_SYMBOL(Name)\
 _gles.Name = loader(#Name);\
 if (!_gles.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
@@ -388,7 +391,51 @@ bool _LoadLibrary_gles31(void*(*loader)(const char*))
 bool _LoadLibrary_gles32(void*(*loader)(const char*))
 {
     // try loading library and any symbols
-    return false;
+    LOAD_OPTIONAL_SYMBOL(glBlendBarrier)
+    LOAD_REQUIRED_SYMBOL(glCopyImageSubData)
+    LOAD_REQUIRED_SYMBOL(glDebugMessageControl)
+    LOAD_REQUIRED_SYMBOL(glDebugMessageInsert)
+    LOAD_REQUIRED_SYMBOL(glDebugMessageCallback)
+    LOAD_REQUIRED_SYMBOL(glGetDebugMessageLog)
+    LOAD_REQUIRED_SYMBOL(glPushDebugGroup)
+    LOAD_REQUIRED_SYMBOL(glPopDebugGroup)
+    LOAD_REQUIRED_SYMBOL(glObjectLabel)
+    LOAD_REQUIRED_SYMBOL(glGetObjectLabel)
+    LOAD_REQUIRED_SYMBOL(glObjectPtrLabel)
+    LOAD_REQUIRED_SYMBOL(glGetObjectPtrLabel)
+    LOAD_REQUIRED_SYMBOL(glGetPointerv)
+    LOAD_REQUIRED_SYMBOL(glEnablei)
+    LOAD_REQUIRED_SYMBOL(glDisablei)
+    LOAD_REQUIRED_SYMBOL(glBlendEquationi)
+    LOAD_REQUIRED_SYMBOL(glBlendEquationSeparatei)
+    LOAD_REQUIRED_SYMBOL(glBlendFunci)
+    LOAD_REQUIRED_SYMBOL(glBlendFuncSeparatei)
+    LOAD_REQUIRED_SYMBOL(glColorMaski)
+    LOAD_REQUIRED_SYMBOL(glIsEnabledi)
+    LOAD_REQUIRED_SYMBOL(glDrawElementsBaseVertex)
+    LOAD_REQUIRED_SYMBOL(glDrawRangeElementsBaseVertex)
+    LOAD_REQUIRED_SYMBOL(glDrawElementsInstancedBaseVertex)
+    LOAD_REQUIRED_SYMBOL(glFramebufferTexture)
+    LOAD_OPTIONAL_SYMBOL(glPrimitiveBoundingBox)
+    LOAD_REQUIRED_SYMBOL(glGetGraphicsResetStatus)
+    LOAD_REQUIRED_SYMBOL(glReadnPixels)
+    LOAD_REQUIRED_SYMBOL(glGetnUniformfv)
+    LOAD_REQUIRED_SYMBOL(glGetnUniformiv)
+    LOAD_REQUIRED_SYMBOL(glGetnUniformuiv)
+    LOAD_REQUIRED_SYMBOL(glMinSampleShading)
+    LOAD_REQUIRED_SYMBOL(glPatchParameteri)
+    LOAD_REQUIRED_SYMBOL(glTexParameterIiv)
+    LOAD_REQUIRED_SYMBOL(glTexParameterIuiv)
+    LOAD_REQUIRED_SYMBOL(glGetTexParameterIiv)
+    LOAD_REQUIRED_SYMBOL(glGetTexParameterIuiv)
+    LOAD_REQUIRED_SYMBOL(glSamplerParameterIiv)
+    LOAD_REQUIRED_SYMBOL(glSamplerParameterIuiv)
+    LOAD_REQUIRED_SYMBOL(glGetSamplerParameterIiv)
+    LOAD_REQUIRED_SYMBOL(glGetSamplerParameterIuiv)
+    LOAD_REQUIRED_SYMBOL(glTexBuffer)
+    LOAD_REQUIRED_SYMBOL(glTexBufferRange)
+    LOAD_REQUIRED_SYMBOL(glTexStorage3DMultisample)
+    return true;
 }
 
 // -------------------------------------------------------------------------------------------------------------------------- //
