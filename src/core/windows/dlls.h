@@ -9,10 +9,10 @@ extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-#include "api/gdi32.h"
-#include "api/kernel32.h"
-#include "api/opengl32.h"
-#include "api/user32.h"
+#include "dlls/gdi32.h"
+#include "dlls/kernel32.h"
+#include "dlls/opengl32.h"
+#include "dlls/user32.h"
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

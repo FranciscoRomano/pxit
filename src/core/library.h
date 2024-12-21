@@ -14,13 +14,13 @@ extern "C" {
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "library/gles.h"
+#include "opengl/gles.h"
 
 #if IS_PLATFORM_LINUX
 #endif
 
 #if IS_PLATFORM_WINDOWS
-#include "windows/api.h"
+#include "windows/dlls.h"
 #endif
 
 // -------------------------------------------------------------------------------------------------------------------------- //
