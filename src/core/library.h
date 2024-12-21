@@ -20,9 +20,7 @@ extern "C" {
 #endif
 
 #if IS_PLATFORM_WINDOWS
-#include "library/gdi32.h"
-#include "library/opengl32.h"
-#include "library/user32.h"
+#include "windows/api.h"
 #endif
 
 // -------------------------------------------------------------------------------------------------------------------------- //

@@ -54,7 +54,7 @@ LRESULT CALLBACK _WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         }
         case WM_NCCREATE:
         {
-            CREATESTRUCT* cs = (CREATESTRUCT*)lParam;
+            CREATESTRUCTA* cs = (CREATESTRUCTA*)lParam;
             _user32.SetWindowLongPtrA(hWnd, 0, (LONG_PTR)cs->lpCreateParams);
             break;
         }
@@ -88,11 +88,11 @@ bool _FreeModule_win32()
     if (!_user32.UnregisterClassA(_win32.lpClassName, _win32.hInstance))
     {
         printf("ERROR: failed to unregister window class\n");
-        _FreeLibrary_user32();
+        _free_user32_dll();
         return false;
     }
 
-    _FreeLibrary_user32();
+    _free_user32_dll();
     _win32.OK = false;
     return true;
 }
@@ -103,7 +103,7 @@ bool _LoadModule_win32()
     if (_win32.OK) return true;
 
     // load the "user32.dll" library
-    if (!_LoadLibrary_user32())
+    if (!_load_user32_dll())
     {
         printf("ERROR: failed to load library 'user32.dll'\n");
         return false;
@@ -117,9 +117,9 @@ bool _LoadModule_win32()
 
     // configure and register window class
     WNDCLASSEXA wc;
-    ZeroMemory(&wc, sizeof(WNDCLASSEXW));
+    memset(&wc, 0, sizeof(WNDCLASSEXA));
     wc.cbClsExtra    = 0;
-    wc.cbSize        = sizeof(WNDCLASSEXW);
+    wc.cbSize        = sizeof(WNDCLASSEXA);
     wc.cbWndExtra    = sizeof(void*);
     wc.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
     wc.hCursor       = _user32.LoadCursorA(NULL, IDC_ARROW);
@@ -133,7 +133,7 @@ bool _LoadModule_win32()
     if (!_user32.RegisterClassExA(&wc))
     {
         printf("ERROR: failed to register window class\n");
-        _FreeLibrary_user32();
+        _free_user32_dll();
         return false;
     }
 

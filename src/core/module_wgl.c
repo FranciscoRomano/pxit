@@ -27,8 +27,8 @@ bool _FreeModule_wgl()
     if (!_wgl.OK) return false;
 
     // unload and reset module handle
-    _FreeLibrary_opengl32();
-    _FreeLibrary_gdi32();
+    _free_opengl32_dll();
+    _free_gdi32_dll();
     _wgl.OK = false;
     return true;
 }
@@ -44,15 +44,15 @@ bool _LoadModule_wgl()
         printf("ERROR: unitialized module 'Win32'\n");
         return false;
     }
-    if (!_LoadLibrary_gdi32())
+    if (!_load_gdi32_dll())
     {
         printf("ERROR: failed to load library 'gdi32.dll'\n");
         return false;
     }
-    if (!_LoadLibrary_opengl32())
+    if (!_load_opengl32_dll())
     {
         printf("ERROR: failed to load library 'opengl32.dll'\n");
-        _FreeLibrary_gdi32();
+        _free_gdi32_dll();
         return false;
     }
 
@@ -74,8 +74,8 @@ bool _LoadModule_wgl()
     if (!hWnd)
     {
         printf("ERROR: failed to create window\n");
-        _FreeLibrary_opengl32();
-        _FreeLibrary_gdi32();
+        _free_opengl32_dll();
+        _free_gdi32_dll();
         return false;
     }
 
@@ -85,8 +85,8 @@ bool _LoadModule_wgl()
     {
         printf("ERROR: failed to get device context\n");
         _user32.DestroyWindow(hWnd);
-        _FreeLibrary_opengl32();
-        _FreeLibrary_gdi32();
+        _free_opengl32_dll();
+        _free_gdi32_dll();
         return false;
     }
 
@@ -105,8 +105,8 @@ bool _LoadModule_wgl()
         printf("ERROR: failed to set pixel format\n");
         _user32.ReleaseDC(hWnd, hDC);
         _user32.DestroyWindow(hWnd);
-        _FreeLibrary_opengl32();
-        _FreeLibrary_gdi32();
+        _free_opengl32_dll();
+        _free_gdi32_dll();
         return false;
     }
 
@@ -118,8 +118,8 @@ bool _LoadModule_wgl()
         if (hGLRC) _opengl32.wglDeleteContext(hGLRC);
         _user32.ReleaseDC(hWnd, hDC);
         _user32.DestroyWindow(hWnd);
-        _FreeLibrary_opengl32();
-        _FreeLibrary_gdi32();
+        _free_opengl32_dll();
+        _free_gdi32_dll();
         return false;
     }
     printf("WARNING: skipping WGL extensions\n");
@@ -132,8 +132,8 @@ bool _LoadModule_wgl()
         _opengl32.wglDeleteContext(hGLRC);
         _user32.ReleaseDC(hWnd, hDC);
         _user32.DestroyWindow(hWnd);
-        _FreeLibrary_opengl32();
-        _FreeLibrary_gdi32();
+        _free_opengl32_dll();
+        _free_gdi32_dll();
         return false;
     }
 

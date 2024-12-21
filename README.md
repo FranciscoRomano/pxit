@@ -35,6 +35,8 @@ int main(void)
     callbacks.OnWindowPaint = draw;
 
     WindowCreateInfo create_info = {};
+    create_info.Top        = 40;
+    create_info.Left       = 40;
     create_info.Width      = 800;
     create_info.Height     = 600;
     create_info.pTitle     = "My Window";

@@ -3,6 +3,7 @@
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
 #include "user32.h"
+#include "kernel32.h"
 #include <stdio.h>
 #include <stdlib.h>
 #define LOAD_REQUIRED_SYMBOL(Name)\
@@ -10,9 +11,9 @@ _user32.Name = (void*)GetProcAddress(_user32.dll, #Name);\
 if (!_user32.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-struct _Library_user32 _user32 = { NULL };
+struct _user32_dll _user32 = { NULL };
 
-bool _FreeLibrary_user32()
+bool _free_user32_dll()
 {
     // check if library was unloaded
     if (!_user32.dll) return false;
@@ -23,7 +24,7 @@ bool _FreeLibrary_user32()
     return true;
 }
 
-bool _LoadLibrary_user32()
+bool _load_user32_dll()
 {
     // check if library was loaded
     if (_user32.dll) return true;

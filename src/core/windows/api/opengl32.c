@@ -3,6 +3,7 @@
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
 #include "opengl32.h"
+#include "kernel32.h"
 #include <stdio.h>
 #include <stdlib.h>
 #define LOAD_REQUIRED_SYMBOL(Name)\
@@ -10,9 +11,9 @@ _opengl32.Name = (void*)GetProcAddress(_opengl32.dll, #Name);\
 if (!_opengl32.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-struct _Library_opengl32 _opengl32 = { NULL };
+struct _opengl32_dll _opengl32 = { NULL };
 
-bool _FreeLibrary_opengl32()
+bool _free_opengl32_dll()
 {
     // check if library was unloaded
     if (!_opengl32.dll) return false;
@@ -23,7 +24,7 @@ bool _FreeLibrary_opengl32()
     return true;
 }
 
-bool _LoadLibrary_opengl32()
+bool _load_opengl32_dll()
 {
     // check if library was loaded
     if (_opengl32.dll) return true;
