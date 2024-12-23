@@ -13,7 +13,7 @@ if (!_libX11.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); retur
 
 struct _libX11_so _libX11 = { NULL };
 
-bool _free_libX11_dll()
+bool _free_libX11_so()
 {
     // check if library was unloaded
     if (!_libX11.so) return false;
@@ -24,7 +24,7 @@ bool _free_libX11_dll()
     return true;
 }
 
-bool _load_libX11_dll()
+bool _load_libX11_so()
 {
     // check if library was loaded
     if (_libX11.so) return true;

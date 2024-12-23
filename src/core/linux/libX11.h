@@ -16,37 +16,28 @@ typedef uint64_t                 XAtom;
 typedef int                      XBool;
 typedef uint64_t                 XColormap;
 typedef int                      XContext;
-typedef uint64_t                 XDrawable;
-typedef uint64_t                 XID;
-typedef uint64_t                 XKeySym;
-typedef char*                    XPointer;
-typedef int                      XStatus;
-typedef uint64_t                 XVisualID;
 typedef uint64_t                 XCursor;
-typedef uint64_t                 XPixmap;
-typedef uint64_t                 XWindow;
-typedef struct _XDisplay         XDisplay;
-typedef struct _XExtData         XExtData;
-typedef struct _XPrivate         XPrivate;
-typedef struct _XVisual          XVisual;
-typedef struct _XGC              XGC;
-typedef uint8_t                  XKeyCode;
-typedef uint64_t                 XTime;
 typedef struct _XDepth           XDepth;
+typedef struct _XDisplay         XDisplay;
+typedef uint64_t                 XDrawable;
+typedef struct _XExtData         XExtData;
+typedef uint64_t                 XFont;
+typedef struct _XGC              XGC;
+typedef uint64_t                 XID;
+typedef uint8_t                  XKeyCode;
+typedef uint64_t                 XKeySym;
+typedef uint64_t                 XPixmap;
+typedef char*                    XPointer;
+typedef struct _XPrivate         XPrivate;
+typedef struct _XrmHashBucketRec XrmHashBucketRec;
 typedef struct _XScreen          XScreen;
 typedef struct _XScreenFormat    XScreenFormat;
-typedef struct _XrmHashBucketRec XrmHashBucketRec;
-
-struct _XVisual {
-    XExtData*              ext_data;              // hook for extension to hang data.
-    XVisualID              visualid;              // visual id of this visual.
-    int                    c_class;               // class of screen (monochrome, etc).
-    uint64_t               red_mask;              // mask values.
-    uint64_t               green_mask;            // mask values.
-    uint64_t               blue_mask;             // mask values.
-    int                    bits_per_rgb;          // log base 2 of distinct color values.
-    int                    map_entries;           // color map entries.
-};
+typedef int                      XStatus;
+typedef uint64_t                 XTime;
+typedef struct _XVisual          XVisual;
+typedef uint64_t                 XVisualID;
+typedef struct _XVisualInfo      XVisualInfo;
+typedef uint64_t                 XWindow;
 
 struct _XDepth {
     int                    depth;                 // this depth (Z) of the depth.
@@ -129,6 +120,30 @@ struct _XScreenFormat {
     int                    depth;                 // depth of this image format */
     int                    bits_per_pixel;        // bits/pixel at this depth */
     int                    scanline_pad;          // scanline must padded to this multiple */
+};
+
+struct _XVisual {
+    XExtData*              ext_data;              // hook for extension to hang data.
+    XVisualID              visualid;              // visual id of this visual.
+    int                    c_class;               // class of screen (monochrome, etc).
+    uint64_t               red_mask;              // mask values.
+    uint64_t               green_mask;            // mask values.
+    uint64_t               blue_mask;             // mask values.
+    int                    bits_per_rgb;          // log base 2 of distinct color values.
+    int                    map_entries;           // color map entries.
+};
+
+struct _XVisualInfo {
+    XVisual*               visual;                // ???
+    XVisualID              visualid;              // ???
+    int                    screen;                // ???
+    int                    depth;                 // ???
+    int                    c_class;               // ???
+    uint64_t               red_mask;              // ???
+    uint64_t               green_mask;            // ???
+    uint64_t               blue_mask;             // ???
+    int                    colormap_size;         // ???
+    int                    bits_per_rgb;          // ???
 };
 
 typedef struct {
@@ -600,7 +615,7 @@ extern struct _libX11_so {
     XWindow   (*XCreateWindow)(XDisplay*,XWindow,int,int,uint32_t,uint32_t,uint32_t,int,uint32_t,XVisual*,uint64_t,XSetWindowAttributes*);
     XWindow   (*XDefaultRootWindow)(XDisplay*);
     int       (*XDefaultScreen)(XDisplay*);
-    Screen    (*XDefaultScreenOfDisplay)(XDisplay*);
+    XScreen   (*XDefaultScreenOfDisplay)(XDisplay*);
     int       (*XDeleteContext)(XDisplay*,XID,XContext);
     int       (*XDeleteProperty)(XDisplay*,XWindow,XAtom);
     int       (*XDestroyWindow)(XDisplay*,XWindow);
