@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_windows_api_gdi32_h__
-#define __core_windows_api_gdi32_h__
+#ifndef __core_windows_gdi32_h__
+#define __core_windows_gdi32_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -88,5 +88,5 @@ bool _load_gdi32_dll();
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_windows_api_gdi32_h__
+#endif//__core_windows_gdi32_h__
 // -------------------------------------------------------------------------------------------------------------------------- //

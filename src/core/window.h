@@ -9,9 +9,6 @@ extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-#ifndef WINDOW_FUNCTIONS
-#define WINDOW_FUNCTIONS 0
-#endif
 #include <pxit/core/window.h>
 
 #if IS_PLATFORM_LINUX
@@ -32,19 +29,19 @@ typedef struct Window_t {
         _Window_X11     x11;
     };
     WindowCallbacks callbacks;
-    bool (*pfnCloseWindow)(struct Window_t*);
-    bool (*pfnDestroyWindow)(struct Window_t*);
-    bool (*pfnFocusWindow)(struct Window_t*, bool);
-    bool (*pfnFreeContext)(struct Window_t*);
-    bool (*pfnHideWindow)(struct Window_t*);
-    bool (*pfnMakeCurrent)(struct Window_t*);
-    bool (*pfnMaximizeWindow)(struct Window_t*);
-    bool (*pfnMinimizeWindow)(struct Window_t*);
-    bool (*pfnMoveWindow)(struct Window_t*, int32_t, int32_t);
-    bool (*pfnRestoreWindow)(struct Window_t*);
-    bool (*pfnShowWindow)(struct Window_t*);
-    bool (*pfnSizeWindow)(struct Window_t*, uint32_t, uint32_t);
-    bool (*pfnSwapBuffers)(struct Window_t*);
+    bool (*pfnCloseWindow)(Window);
+    bool (*pfnDestroyWindow)(Window);
+    bool (*pfnFocusWindow)(Window, bool);
+    bool (*pfnFreeContext)(Window);
+    bool (*pfnHideWindow)(Window);
+    bool (*pfnMakeCurrent)(Window);
+    bool (*pfnMaximizeWindow)(Window);
+    bool (*pfnMinimizeWindow)(Window);
+    bool (*pfnMoveWindow)(Window, int32_t, int32_t);
+    bool (*pfnRestoreWindow)(Window);
+    bool (*pfnShowWindow)(Window);
+    bool (*pfnSizeWindow)(Window, uint32_t, uint32_t);
+    bool (*pfnSwapBuffers)(Window);
 } Window_t;
 
 #include <memory.h>

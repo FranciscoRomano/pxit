@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_windows_api_kernel32_h__
-#define __core_windows_api_kernel32_h__
+#ifndef __core_windows_kernel32_h__
+#define __core_windows_kernel32_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -27,5 +27,5 @@ DECLSPEC_IMPORT VOID    WINAPI Sleep (DWORD dwMilliseconds);
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_windows_api_kernel32_h__
+#endif//__core_windows_kernel32_h__
 // -------------------------------------------------------------------------------------------------------------------------- //

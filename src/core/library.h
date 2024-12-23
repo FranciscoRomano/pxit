@@ -17,11 +17,16 @@ extern "C" {
 #include "opengl/gles.h"
 
 #if IS_PLATFORM_LINUX
+#include "linux/libGLX.h"
 #include "linux/libX11.h"
 #endif
 
 #if IS_PLATFORM_WINDOWS
-#include "windows/dlls.h"
+#include <windef.h>
+#include "windows/gdi32.h"
+#include "windows/kernel32.h"
+#include "windows/opengl32.h"
+#include "windows/user32.h"
 #endif
 
 // -------------------------------------------------------------------------------------------------------------------------- //

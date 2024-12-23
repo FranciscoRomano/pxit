@@ -12,10 +12,6 @@ extern "C" {
 #include <stdint.h>
 #include <stdbool.h>
 
-#ifndef WINDOW_FUNCTIONS
-#define WINDOW_FUNCTIONS 1
-#endif//WINDOW_FUNCTIONS
-
 #define KEY_NONE            0x00
 #define KEY_0               0x01
 #define KEY_1               0x02
