@@ -2,9 +2,9 @@
 
 <img align="left" style="width:128px; margin-right: 16px; image-rendering: pixelated" src="./logo.png" width="128px">
 
-**Pxit is a simple windowing and graphics library to make building software way more enjoyable!**
+**Pxit is a simple windowing library to make building software enjoyable again!**
 
-Inspired by a lot of other libraries (GLFW, OpenGL, SDL, Vulkan, imgui, raylib), Pxit was designed with focus on **cross-platform**, **simplicity** and **ease of use** for new and experienced programmers.
+Inspired by a lot of other libraries (GLFW, OpenGL, SDL, Vulkan, imgui, raylib), Pxit was designed with focus on **simplicity** and **ease of use** for new and experienced programmers.
 
 ### Ready for some examples?
 ---
