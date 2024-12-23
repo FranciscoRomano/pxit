@@ -53,7 +53,7 @@ endif()
 
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/src/core")
 add_executable(pxit "${CMAKE_CURRENT_LIST_DIR}/src/main.c")
-target_link_options(pxit PRIVATE -static)
+#target_link_options(pxit PRIVATE -static)
 target_link_libraries(pxit PUBLIC core)
 
 # if(IS_PLATFORM_LINUX)

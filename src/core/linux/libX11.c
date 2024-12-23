@@ -6,6 +6,7 @@
 #include <dlfcn.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #define LOAD_REQUIRED_SYMBOL(Name)\
 _libX11.Name = dlsym(_libX11.so, #Name);\
 if (!_libX11.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }

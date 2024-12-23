@@ -10,12 +10,11 @@ extern "C" {
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 #include <pxit/core/window.h>
-#include <stdbool.h>
-#include <GL/glx.h>
+#include "linux/libGLX.h"
 
 /// @brief Represents a X11 window handle.
 typedef struct _Window_X11 {
-    Window     win;  // A X11 window handle.
+    XWindow    win;  // A X11 window handle.
     GLXContext glrc; // A X11 OpenGL rendering context.
 } _Window_X11;
 

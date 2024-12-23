@@ -17,6 +17,7 @@ extern "C" {
 #include "opengl/gles.h"
 
 #if IS_PLATFORM_LINUX
+#include "linux/libX11.h"
 #endif
 
 #if IS_PLATFORM_WINDOWS

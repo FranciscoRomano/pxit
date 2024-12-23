@@ -14,6 +14,8 @@ target_sources(core PRIVATE "${CMAKE_CURRENT_LIST_DIR}/opengl/gles.c")
 target_sources(core PRIVATE "${CMAKE_CURRENT_LIST_DIR}/window.c")
 
 if(IS_PLATFORM_LINUX)
+  target_sources(core PRIVATE "${CMAKE_CURRENT_LIST_DIR}/linux/libGLX.c")
+  target_sources(core PRIVATE "${CMAKE_CURRENT_LIST_DIR}/linux/libX11.c")
   target_sources(core PRIVATE "${CMAKE_CURRENT_LIST_DIR}/module_glx.c")
   target_sources(core PRIVATE "${CMAKE_CURRENT_LIST_DIR}/module_x11.c")
   target_sources(core PRIVATE "${CMAKE_CURRENT_LIST_DIR}/window_x11.c")

@@ -6,6 +6,7 @@
 #include <dlfcn.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #define LOAD_REQUIRED_SYMBOL(Name)\
 _libGLX.Name = dlsym(_libGLX.so, #Name);\
 if (!_libGLX.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }

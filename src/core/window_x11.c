@@ -12,15 +12,15 @@ if (window->callbacks.Name) { window->callbacks.Name(window,##__VA_ARGS__); }
 bool _FreeContext_OpenGL_X11(Window window)
 {
     // destroy GLX context
-    _GLX.glXMakeCurrent(_X11.dpy, window->x11.win, 0);
-    _GLX.glXDestroyContext(_X11.dpy, window->x11.glrc);
+    _libGLX.glXMakeCurrent(_X11.dpy, window->x11.win, 0);
+    _libGLX.glXDestroyContext(_X11.dpy, window->x11.glrc);
     return true;
 }
 
 bool _MakeCurrent_OpenGL_X11(Window window)
 {
     // make GLX context current
-    if (!_GLX.glXMakeCurrent(_X11.dpy, window->x11.win, window->x11.glrc))
+    if (!_libGLX.glXMakeCurrent(_X11.dpy, window->x11.win, window->x11.glrc))
     {
         printf("ERROR: failed to make GLX context current\n");
         return false;
@@ -31,7 +31,7 @@ bool _MakeCurrent_OpenGL_X11(Window window)
 bool _SwapBuffers_OpenGL_X11(Window window)
 {
     // swap GLX buffers
-    _GLX.glXSwapBuffers(_X11.dpy, window->x11.win);
+    _libGLX.glXSwapBuffers(_X11.dpy, window->x11.win);
     return true;
 }
 
@@ -43,11 +43,11 @@ bool _InitContext_OpenGL_X11(Window window)
     // set the GLX colormap in window
     XSetWindowAttributes swa;
     swa.colormap = _GLX.cmap;
-    _X11.XChangeWindowAttributes(_X11.dpy, window->x11.win, CWColormap, &swa);
+    _libX11.XChangeWindowAttributes(_X11.dpy, window->x11.win, CWColormap, &swa);
 
     // create a new GLX rendering context
-    window->x11.glrc = _GLX.glXCreateNewContext(_X11.dpy, _GLX.fbc, GLX_RGBA_TYPE, 0, True);
-    if (!window->x11.glrc || !_GLX.glXMakeCurrent(_X11.dpy, window->x11.win, window->x11.glrc))
+    window->x11.glrc = _libGLX.glXCreateNewContext(_X11.dpy, _GLX.fbc, GLX_RGBA_TYPE, 0, True);
+    if (!window->x11.glrc || !_libGLX.glXMakeCurrent(_X11.dpy, window->x11.win, window->x11.glrc))
     {
         printf("ERROR: failed to create GLX context\n");
         return false;
@@ -58,7 +58,7 @@ bool _InitContext_OpenGL_X11(Window window)
     window->pfnMakeCurrent = _MakeCurrent_OpenGL_X11;
     window->pfnSwapBuffers = _SwapBuffers_OpenGL_X11;
     INVOKE_WINDOW_EVENT(OnWindowCreate)
-    _X11.XMapWindow(_X11.dpy, window->x11.win);
+    _libX11.XMapWindow(_X11.dpy, window->x11.win);
     return true;
 }
 
@@ -76,7 +76,7 @@ bool _CreateWindow_X11(const WindowCreateInfo* pCreateInfo, Window window)
     attributes.event_mask |= KeyReleaseMask;
     attributes.event_mask |= StructureNotifyMask;
     attributes.background_pixel = 0xff000000;
-    window->x11.win = _X11.XCreateWindow(
+    window->x11.win = _libX11.XCreateWindow(
         _X11.dpy,
         _X11.root,
         pCreateInfo->Left,
@@ -97,8 +97,8 @@ bool _CreateWindow_X11(const WindowCreateInfo* pCreateInfo, Window window)
     }
 
     // set X11 protocols and save context
-    _X11.XSetWMProtocols(_X11.dpy, window->x11.win, &_X11.wmDeleteWindow, 1);
-    _X11.XSaveContext(_X11.dpy, window->x11.win, _X11.ctx, (char*)window);
+    _libX11.XSetWMProtocols(_X11.dpy, window->x11.win, &_X11.wmDeleteWindow, 1);
+    _libX11.XSaveContext(_X11.dpy, window->x11.win, _X11.ctx, (char*)window);
 
     // set X11 callbacks and implementation
     if (pCreateInfo->pCallbacks) memcpy(&window->callbacks, pCreateInfo->pCallbacks, sizeof(WindowCallbacks));
@@ -107,15 +107,15 @@ bool _CreateWindow_X11(const WindowCreateInfo* pCreateInfo, Window window)
     // initialize the graphics rendering context
     if (_InitContext_OpenGL_X11(window)) return true;
     printf("ERROR: failed to create X11 rendering context\n");
-    _X11.XDeleteContext(_X11.dpy, window->x11.win, _X11.ctx);
-    _X11.XDestroyWindow(_X11.dpy, window->x11.win);
+    _libX11.XDeleteContext(_X11.dpy, window->x11.win, _X11.ctx);
+    _libX11.XDestroyWindow(_X11.dpy, window->x11.win);
     return false;
 }
 
 bool _DestroyWindow_X11(Window window)
 {
     // destroy the X server window
-    _X11.XDestroyWindow(_X11.dpy, window->x11.win);
+    _libX11.XDestroyWindow(_X11.dpy, window->x11.win);
     return true;
 }
 
@@ -127,14 +127,14 @@ bool _ReadWindowEvents_X11()
     // iterate through all queued X server messages
     XEvent event;
     Window window;
-    _X11.XPending(_X11.dpy);
-    while (QLength(_X11.dpy))
+    _libX11.XPending(_X11.dpy);
+    while (_X11.dpy->qlen)
     {
         // get the next X server event
-        _X11.XNextEvent(_X11.dpy, &event);
+        _libX11.XNextEvent(_X11.dpy, &event);
 
         // skip event that don't have a window
-        if (_X11.XFindContext(_X11.dpy, event.xany.window, _X11.ctx, (XPointer*)&window)) continue;
+        if (_libX11.XFindContext(_X11.dpy, event.xany.window, _X11.ctx, (XPointer*)&window)) continue;
 
         // translate the current window event by type
         switch (event.type)
@@ -155,7 +155,7 @@ bool _ReadWindowEvents_X11()
     }
 
     // flush all events in X server
-    _X11.XFlush(_X11.dpy);
+    _libX11.XFlush(_X11.dpy);
     return true;
 }
 
