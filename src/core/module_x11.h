@@ -9,22 +9,26 @@ extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
+#include "linux/libGLX.h"
 #include "linux/libX11.h"
+#define MAX_WINDOWS_X11 100
 
 /// @brief Represents the X11 module and supported functions.
-extern struct _Module_X11 {
+extern struct _Module_x11 {
     bool      OK;
-    XDisplay* dpy;
-    XContext  ctx;
-    XWindow   root;
-    XAtom     wmDeleteWindow;
-} _X11;
+    XDisplay* display;
+    XContext  context;
+    XWindow   root_window;
+    XAtom     WM_DELETE_WINDOW;
+    XWindow   windows[MAX_WINDOWS_X11];
+    uint16_t  window_count;
+} _x11;
 
 /// @brief Returns true if the X11 module was freed successfully.
-bool _FreeModule_X11();
+bool _FreeModule_x11();
 
 /// @brief Returns true if the X11 module was loaded successfully.
-bool _LoadModule_X11();
+bool _LoadModule_x11();
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

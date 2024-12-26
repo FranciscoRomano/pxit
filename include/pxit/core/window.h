@@ -140,12 +140,12 @@ typedef struct WindowCallbacks {
     void (*OnWindowClose)(Window);
     void (*OnWindowCreate)(Window);
     void (*OnWindowDestroy)(Window);
+    void (*OnWindowDraw)(Window);
     void (*OnWindowFocus)(Window,bool);
     void (*OnWindowHide)(Window);
     void (*OnWindowMaximize)(Window);
     void (*OnWindowMinimize)(Window);
     void (*OnWindowMove)(Window,int32_t,int32_t);
-    void (*OnWindowPaint)(Window);
     void (*OnWindowRestore)(Window);
     void (*OnWindowShow)(Window);
     void (*OnWindowSize)(Window,uint32_t,uint32_t);

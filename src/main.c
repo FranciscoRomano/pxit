@@ -2,16 +2,18 @@
 
 void draw(Window window)
 {
-    glClearColor(1, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
+void init0(Window window) { glClearColor(0, 0, 1, 1); }
+void init1(Window window) { glClearColor(0, 1, 0, 1); }
+void init2(Window window) { glClearColor(0, 1, 1, 1); }
+void init3(Window window) { glClearColor(1, 0, 0, 1); }
+
 int main(void)
 {
-    Window window;
-
     WindowCallbacks callbacks = {};
-    callbacks.OnWindowPaint = draw;
+    callbacks.OnWindowDraw = draw;
 
     WindowCreateInfo create_info = {};
     create_info.Top        = 40;
@@ -21,10 +23,17 @@ int main(void)
     create_info.pTitle     = "My Window";
     create_info.pCallbacks = &callbacks;
 
-    CreateWindow(&create_info, &window);
+    callbacks.OnWindowCreate = init0;
+    CreateWindow(&create_info, NULL);
 
-    while (ReadWindowEvents())
-    {
-        // ...sea wolves are cool...
-    }
+    callbacks.OnWindowCreate = init1;
+    CreateWindow(&create_info, NULL);
+
+    callbacks.OnWindowCreate = init2;
+    CreateWindow(&create_info, NULL);
+
+    callbacks.OnWindowCreate = init3;
+    CreateWindow(&create_info, NULL);
+
+    while (ReadWindowEvents());
 }

@@ -14,7 +14,7 @@ extern "C" {
 /// @brief Represents the GLX module and supported functions.
 extern struct _Module_GLX {    
     bool        OK;
-    XColormap   cmap;
+    XVisualInfo vi;
     GLXFBConfig fbc;
 } _GLX;
 

@@ -36,7 +36,7 @@ bool _LoadModule_GLX()
     if (_GLX.OK) return true;
 
     // load all module dependencies
-    if (!_X11.OK)
+    if (!_x11.OK)
     {
         printf("ERROR: unitialized module 'X11'\n");
         return false;
@@ -49,7 +49,7 @@ bool _LoadModule_GLX()
 
     // select best GLX framebuffer configuration
     int count;
-    int screen = _libX11.XDefaultScreen(_X11.dpy);
+    int screen = _libX11.XDefaultScreen(_x11.display);
     static int attribs[] = {
         GLX_X_RENDERABLE,  GLX_TRUE,
         GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
@@ -64,7 +64,7 @@ bool _LoadModule_GLX()
         GLX_DOUBLEBUFFER,  GLX_TRUE,
         0
     };
-    GLXFBConfig* fbc_array = _libGLX.glXChooseFBConfig(_X11.dpy, screen, attribs, &count);
+    GLXFBConfig* fbc_array = _libGLX.glXChooseFBConfig(_x11.display, screen, attribs, &count);
     if (count == 0 || !fbc_array)
     {
         printf("ERROR: failed to select GLX framebuffer configuration\n");
@@ -72,24 +72,6 @@ bool _LoadModule_GLX()
     }
     _GLX.fbc = fbc_array[0];
     _libX11.XFree(fbc_array);
-
-    // select best GLX visual information with FBC
-    XVisualInfo* vi = _libGLX.glXGetVisualFromFBConfig(_X11.dpy, _GLX.fbc);
-    if (!vi)
-    {
-        printf("ERROR: failed to select visual information\n");
-        return false;
-    }
-
-    // create a GLX compatible colormap in best visual
-    XWindow root = _libX11.XScreenOfDisplay(_X11.dpy, vi->screen)->root;
-    _GLX.cmap = _libX11.XCreateColormap(_X11.dpy, root, vi->visual, AllocNone);
-    _libX11.XFree(vi);
-    if (!_GLX.cmap)
-    {
-        printf("ERROR: failed to create GLX colormap.\n");
-        return false;
-    }
 
     // finally, load the OpenGL ES module and all symbols
     if (!_LoadLibrary_gles(_Loader_GLX))
