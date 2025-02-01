@@ -2,31 +2,25 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_module_glx_h__
-#define __core_module_glx_h__
+#ifndef __core_glx_window_h__
+#define __core_glx_window_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
+#include <pxit/core/window.h>
 #include "linux/libGLX.h"
 
-/// @brief Represents the GLX module and supported functions.
-extern struct _Module_GLX {    
-    bool        OK;
-    XVisualInfo vi;
-    GLXFBConfig fbc;
-} _GLX;
+/// Returns true if a X11 OpenGL ES window was created successfully.
+bool _CreateWindow_glx(const WindowCreateInfo* pCreateInfo, Window window);
 
-/// @brief Returns true if the GLX module was freed successfully.
-bool _FreeModule_GLX();
-
-/// @brief Returns true if the GLX module was loaded successfully.
-bool _LoadModule_GLX();
+/// Returns true if a X11 OpenGL ES window was destroyed successfully.
+bool _DestroyWindow_glx(Window window);
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_module_glx_h__
+#endif//__core_glx_window_h__
 // -------------------------------------------------------------------------------------------------------------------------- //

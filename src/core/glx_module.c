@@ -6,9 +6,9 @@
 #include <dlfcn.h>
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-struct _Module_GLX _GLX = { NULL };
+struct _Module_glx _glx = { NULL };
 
-void* _Loader_GLX(const char* name)
+void* _Loader_glx(const char* name)
 {
     void* p = (void*)_libGLX.glXGetProcAddress(name);
     if (p == (void*) 0) return (void*)dlsym(_libGLX.so, name);
@@ -19,21 +19,21 @@ void* _Loader_GLX(const char* name)
     return p;
 }
 
-bool _FreeModule_GLX()
+bool _FreeModule_glx()
 {
     // check if module was unloaded
-    if (!_GLX.OK) return false;
+    if (!_glx.OK) return false;
 
     // unload and reset module handle
     _free_libGLX_so();
-    _GLX.OK = false;
+    _glx.OK = false;
     return true;
 }
 
-bool _LoadModule_GLX()
+bool _LoadModule_glx()
 {
     // check if module was loaded
-    if (_GLX.OK) return true;
+    if (_glx.OK) return true;
 
     // load all module dependencies
     if (!_x11.OK)
@@ -46,8 +46,22 @@ bool _LoadModule_GLX()
         printf("ERROR: failed to load library 'libGLX.so'\n");
         return false;
     }
+    if (!_LoadLibrary_gles(_Loader_glx))
+    {
+        printf("ERROR: failed to load library 'GLES'\n");
+        return false;
+    }
 
-    // select best GLX framebuffer configuration
+    _glx.OK = true;
+    return true;
+}
+
+bool _CreateContext_glx(XWindow win, GLXContext* ctx, XColormap* cmap)
+{
+    // load all module dependencies
+    if (!_LoadModule_glx()) return false;
+
+    // select best framebuffer configuration
     int count;
     int screen = _libX11.XDefaultScreen(_x11.display);
     static int attribs[] = {
@@ -65,21 +79,20 @@ bool _LoadModule_GLX()
         0
     };
     GLXFBConfig* fbc_array = _libGLX.glXChooseFBConfig(_x11.display, screen, attribs, &count);
-    if (count == 0 || !fbc_array)
-    {
-        printf("ERROR: failed to select GLX framebuffer configuration\n");
-        return false;
-    }
-    _GLX.fbc = fbc_array[0];
+    assert(count > 0 && fbc_array, "failed to select GLX framebuffer configuration");
+    GLXFBConfig fbc = fbc_array[0];
     _libX11.XFree(fbc_array);
 
-    // finally, load the OpenGL ES module and all symbols
-    if (!_LoadLibrary_gles(_Loader_GLX))
-    {
-        printf("ERROR: failed to load GLES module\n");
-        return false;
-    }
-
-    _GLX.OK = true;
+    // create a compatible GLX rendering context
+    XVisualInfo* vi = _libGLX.glXGetVisualFromFBConfig(_x11.display, fbc);
+    XWindow root = _libX11.XDefaultRootWindow(_x11.display);
+    (*cmap) = _libX11.XCreateColormap(_x11.display, root, vi->visual, AllocNone);
+    XSetWindowAttributes swa;
+    swa.colormap = *cmap;
+    _libX11.XChangeWindowAttributes(_x11.display, win, CWColormap, &swa);
+    (*ctx) = _libGLX.glXCreateNewContext(_x11.display, fbc, GLX_RGBA_TYPE, 0, True);
+    assert(*cmap, "failed to create compatible colormap");
+    assert(*ctx, "failed to create GLX context");
+    _libX11.XFree(vi);
     return true;
 }

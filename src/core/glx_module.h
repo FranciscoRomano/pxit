@@ -2,33 +2,29 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_module_h__
-#define __core_module_h__
+#ifndef __core_glx_module_h__
+#define __core_glx_module_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-#include "assert.h"
-#include "library.h"
+#include "linux/libGLX.h"
 
-#if IS_PLATFORM_LINUX
-#include <dlfcn.h>
-#include <unistd.h>
-#include "module_x11.h"
-#include "glx_module.h"
-#endif
+/// @brief Represents the GLX module and supported functions.
+extern struct _Module_glx {    
+    bool OK;
+} _glx;
 
-#if IS_PLATFORM_WINDOWS
-#include "module_wgl.h"
-#include "module_win32.h"
-#endif
+/// @brief Returns true if the GLX module was freed successfully.
+bool _FreeModule_glx();
 
-#include "window.h"
+/// @brief Returns true if the GLX module was loaded successfully.
+bool _LoadModule_glx();
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_module_h__
+#endif//__core_glx_module_h__
 // -------------------------------------------------------------------------------------------------------------------------- //
