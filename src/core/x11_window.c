@@ -6,7 +6,7 @@
 #define INVOKE_WINDOW_IMPL(Name, ...)\
 (window->impl.Name ? window->impl.Name(window,##__VA_ARGS__) : false)
 #define INVOKE_WINDOW_EVNT(Name, ...)\
-if (window->callbacks.Name) { window->callbacks.Name(window,##__VA_ARGS__); }
+if (window->event.Name) { window->event.Name(window,##__VA_ARGS__); }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 bool _DrawWindow_x11_glx(Window window)
@@ -74,7 +74,7 @@ bool _CreateWindow_x11(const WindowCreateInfo* pCreateInfo, Window window)
     window->impl.RestoreWindow  = _RestoreWindow_x11;
     window->impl.ShowWindow     = _ShowWindow_x11;
     window->impl.SizeWindow     = _SizeWindow_x11;
-    window->callbacks = *pCreateInfo->pCallbacks;
+    window->event = *pCreateInfo->pEvents;
 
     // initialize a 3D graphics rendering context
     if (_CreateWindow_glx(pCreateInfo, window)) return true;
@@ -170,7 +170,7 @@ bool _ReadWindowEvents_x11()
         _libGLX.glXMakeCurrent(_x11.display, window->x11.win, window->x11.glx);
 
         // invoke 'OnWindowDraw' event
-        window->callbacks.OnWindowDraw(window);
+        window->event.OnWindowDraw(window);
         //INVOKE_WINDOW_EVNT(OnWindowDraw)
         glFlush();
     }
