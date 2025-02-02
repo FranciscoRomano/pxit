@@ -44,6 +44,7 @@ bool _CreateWindow_glx(const WindowCreateInfo* pCreateInfo, Window window)
     assert(window->x11.glx, "failed to create GLX rendering context");
     _libGLX.glXMakeCurrent(_x11.display, window->x11.win, window->x11.glx);
     window->impl.DestroyWindow = _DestroyWindow_glx;
+    window->impl.DrawWindow = _DrawWindow_glx;
     return true;
 }
 
@@ -52,6 +53,20 @@ bool _DestroyWindow_glx(Window window)
     // destroy the GLX rendering context and resources
     _libGLX.glXMakeCurrent(_x11.display, window->x11.win, NULL);
     _libGLX.glXDestroyContext(_x11.display, window->x11.glx);
-    _libX11.XFree(window->x11.cmap);
+    _libX11.XFree((void*)window->x11.cmap);
     return _DestroyWindow_x11(window);
+}
+
+bool _DrawWindow_glx(Window window)
+{
+    // set GLX rendering context as current
+    _libGLX.glXMakeCurrent(_x11.display, window->x11.win, window->x11.glx);
+
+    // invoke "OnWindowDraw" event and flush
+    WINDOW_EVENT(OnWindowDraw)
+    glFlush();
+
+    // swap the back buffer with the main buffer
+    _libGLX.glXSwapBuffers(_x11.display, window->x11.win);
+    return true;
 }

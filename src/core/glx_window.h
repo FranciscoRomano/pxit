@@ -11,11 +11,9 @@ extern "C" {
 
 #include <pxit/core/window.h>
 
-/// Returns true if a X11 OpenGL ES window was created successfully.
 bool _CreateWindow_glx(const WindowCreateInfo* pCreateInfo, Window window);
-
-/// Returns true if a X11 OpenGL ES window was destroyed successfully.
 bool _DestroyWindow_glx(Window window);
+bool _DrawWindow_glx(Window window);
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

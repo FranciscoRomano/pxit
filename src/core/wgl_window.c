@@ -49,14 +49,15 @@ bool _DestroyWindow_wgl(Window window)
 
 bool _DrawWindow_wgl(Window window)
 {
-    // set WGL rendering context as current.
+    // set WGL rendering context as current
     BOOL result = _opengl32.wglMakeCurrent(window->win32.hDC, window->win32.hGLRC);
     assert(result == TRUE, "failed to set WGL rendering context as current")
 
-    // invoke "OnWindowDraw" event and flush.
+    // invoke "OnWindowDraw" event and flush
     WINDOW_EVENT(OnWindowDraw)
     glFlush();
 
-    // swap the back buffer with the main buffer.
+    // swap the back buffer with the main buffer
     _opengl32.wglSwapLayerBuffers(window->win32.hDC, WGL_SWAP_MAIN_PLANE);
+    return true;
 }

@@ -1,9 +1,9 @@
 #include <pxit/pxit.h>
 #include <stdio.h>
 
-GLfloat r = 1.0f, dr = 0.0001f;
-GLfloat g = 1.0f, dg = 0.0002f;
-GLfloat b = 1.0f, db = 0.0004f;
+GLfloat r = 1.0f, dr = 0.001f;
+GLfloat g = 1.0f, dg = 0.002f;
+GLfloat b = 1.0f, db = 0.004f;
 
 void draw(Window window)
 {

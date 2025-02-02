@@ -7,22 +7,6 @@
 (window->impl.Name ? window->impl.Name(window,##__VA_ARGS__) : false)
 #define INVOKE_WINDOW_EVNT(Name, ...)\
 if (window->event.Name) { window->event.Name(window,##__VA_ARGS__); }
-// -------------------------------------------------------------------------------------------------------------------------- //
-
-bool _DrawWindow_x11_glx(Window window)
-{
-    // // make GLX context current
-    // _libGLX.glXMakeCurrent(_x11.display, window->x11.win, window->x11.glrc);
-
-    // // invoke 'OnWindowDraw' event
-    // INVOKE_WINDOW_EVNT(OnWindowDraw)
-    // glFlush();
-
-    //  finally, swap the GLX buffers
-    // _libGLX.glXSwapBuffers(_x11.display, window->x11.win);
-    // _libGLX.glXSwapBuffers(_x11.display, window->x11.win);
-    return true;
-}
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 
@@ -159,26 +143,6 @@ bool _ReadWindowEvents_x11()
             default:
                 break;
         }
-    }
-
-    for (int i = 0; i < _x11.window_count; i++)
-    {
-        if (_libX11.XFindContext(_x11.display, _x11.windows[i], _x11.context, (XPointer*)&window)) continue;
-        
-        //printf("window %i\n", i);
-        // make GLX context current
-        _libGLX.glXMakeCurrent(_x11.display, window->x11.win, window->x11.glx);
-
-        // invoke 'OnWindowDraw' event
-        window->event.OnWindowDraw(window);
-        //INVOKE_WINDOW_EVNT(OnWindowDraw)
-        glFlush();
-    }
-
-    for (int i = 0; i < _x11.window_count; i++)
-    {
-        if (_libX11.XFindContext(_x11.display, _x11.windows[i], _x11.context, (XPointer*)&window)) continue;
-        _libGLX.glXSwapBuffers(_x11.display, window->x11.win);
     }
 
     // flush all events in X server
