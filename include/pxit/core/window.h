@@ -123,11 +123,11 @@ extern "C" {
 #define MOUSE_MIDDLE        0x02
 #define MOUSE_RIGHT         0x03
 
-/// @brief Represents the handle to a native window.
+/// @brief Represents a native window handle.
 typedef struct Window_t* Window;
 
-/// @brief Represents all supported window callbacks.
-typedef struct WindowCallbacks {
+/// @brief Represents all supported window events.
+typedef struct WindowEvents {
     void (*OnCharacter)(Window,char);
     void (*OnKeyDown)(Window,uint32_t);
     void (*OnKeyUp)(Window,uint32_t);
@@ -149,16 +149,16 @@ typedef struct WindowCallbacks {
     void (*OnWindowRestore)(Window);
     void (*OnWindowShow)(Window);
     void (*OnWindowSize)(Window,uint32_t,uint32_t);
-} WindowCallbacks;
+} WindowEvents;
 
 /// @brief Represents the parameters for a new window.
 typedef struct WindowCreateInfo {
-    int32_t          Left;
-    int32_t          Top;
-    uint32_t         Width;
-    uint32_t         Height;
-    const char*      pTitle;
-    WindowCallbacks* pCallbacks;
+    int32_t       Left;
+    int32_t       Top;
+    uint32_t      Width;
+    uint32_t      Height;
+    const char*   pTitle;
+    WindowEvents* pEvents;
 } WindowCreateInfo;
 
 bool CloseWindow(Window window);

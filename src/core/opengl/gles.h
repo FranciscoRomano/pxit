@@ -15,7 +15,7 @@ extern "C" {
 #include <stdbool.h>
 
 /// @brief Represents the OpenGL ES library and supported functions.
-extern struct _Library_gles {    
+extern struct _gles_impl {    
     PFNGLACTIVETEXTUREPROC                       glActiveTexture;
     PFNGLATTACHSHADERPROC                        glAttachShader;
     PFNGLBINDATTRIBLOCATIONPROC                  glBindAttribLocation;
@@ -377,22 +377,10 @@ extern struct _Library_gles {
 } _gles;
 
 /// @brief Returns true if the OpenGL ES library was freed successfully.
-bool _FreeLibrary_gles();
+bool _free_gles();
 
 /// @brief Returns true if the OpenGL ES library was loaded successfully.
-bool _LoadLibrary_gles(void*(*loader)(const char*));
-
-/// @brief Returns true if the OpenGL ES 2.0 library was loaded successfully.
-bool _LoadLibrary_gles20(void*(*loader)(const char*));
-
-/// @brief Returns true if the OpenGL ES 3.0 library was loaded successfully.
-bool _LoadLibrary_gles30(void*(*loader)(const char*));
-
-/// @brief Returns true if the OpenGL ES 3.1 library was loaded successfully.
-bool _LoadLibrary_gles31(void*(*loader)(const char*));
-
-/// @brief Returns true if the OpenGL ES 3.2 library was loaded successfully.
-bool _LoadLibrary_gles32(void*(*loader)(const char*));
+bool _load_gles(void*(*loader)(const char*));
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

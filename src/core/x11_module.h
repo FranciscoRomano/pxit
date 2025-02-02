@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_module_x11_h__
-#define __core_module_x11_h__
+#ifndef __core_x11_module_h__
+#define __core_x11_module_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -34,5 +34,5 @@ bool _LoadModule_x11();
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_module_x11_h__
+#endif//__core_x11_module_h__
 // -------------------------------------------------------------------------------------------------------------------------- //

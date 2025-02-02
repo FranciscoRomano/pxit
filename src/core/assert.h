@@ -13,13 +13,6 @@ extern "C" {
 #include <stdlib.h>
 #include <stdbool.h>
 
-/// log a error message to the terminal or command line application.
-#define error(Format,...)\
-printf("ERROR: " Format "\n",##__VA_ARGS__)
-
-/// asserts if the condition evaluates to true, otherwise exit application.
-#define assert(Condition,Format,...)\
-if (!(Condition)) { error(Format,##__VA_ARGS__); exit(EXIT_FAILURE); }
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 

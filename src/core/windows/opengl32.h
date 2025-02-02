@@ -46,7 +46,6 @@ extern "C" {
 #define WGL_SWAP_UNDERLAY14 0x20000000
 #define WGL_SWAP_UNDERLAY15 0x40000000
 
-
 /// @brief [Windows] Point float
 typedef struct {
     FLOAT x;

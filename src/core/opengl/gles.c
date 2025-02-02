@@ -14,49 +14,15 @@ _gles.Name = loader(#Name);\
 if (!_gles.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-struct _Library_gles _gles = { NULL };
+struct _gles_impl _gles = { NULL };
 
-bool _FreeLibrary_gles()
+bool _free_gles()
 {
     // unload and reset library handle
-    memset(&_gles, 0, sizeof(struct _Library_gles));
+    memset(&_gles, 0, sizeof(struct _gles_impl));
 }
 
-bool _LoadLibrary_gles(void*(*loader)(const char*))
-{
-    // try loading OpenGL ES 2.0 symbols
-    if (!_LoadLibrary_gles20(loader))
-    {
-        printf("ERROR: Failed to load library 'gles'\n");
-        return false;
-    }
-
-    // try loading OpenGL ES 3.0 symbols
-    if (!_LoadLibrary_gles30(loader))
-    {
-        printf("LOG: Loaded library 'gles20'\n");
-        return true;
-    }
-
-    // try loading OpenGL ES 3.1 symbols
-    if (!_LoadLibrary_gles31(loader))
-    {
-        printf("LOG: Loaded library 'gles30'\n");
-        return true;
-    }
-
-    // try loading OpenGL ES 3.2 symbols
-    if (!_LoadLibrary_gles32(loader))
-    {
-        printf("LOG: Loaded library 'gles31'\n");
-        return true;
-    }
-
-    printf("LOG: Loaded library 'gles31'\n");
-    return true;
-}
-
-bool _LoadLibrary_gles20(void*(*loader)(const char*))
+bool _load_gles20(void*(*loader)(const char*))
 {
     // try loading library and any symbols
     LOAD_REQUIRED_SYMBOL(glActiveTexture)
@@ -204,7 +170,7 @@ bool _LoadLibrary_gles20(void*(*loader)(const char*))
     return true;
 }
 
-bool _LoadLibrary_gles30(void*(*loader)(const char*))
+bool _load_gles30(void*(*loader)(const char*))
 {
     // try loading library and any symbols
     LOAD_REQUIRED_SYMBOL(glReadBuffer)
@@ -314,7 +280,7 @@ bool _LoadLibrary_gles30(void*(*loader)(const char*))
     return true;
 }
 
-bool _LoadLibrary_gles31(void*(*loader)(const char*))
+bool _load_gles31(void*(*loader)(const char*))
 {
     // try loading library and any symbols
     LOAD_REQUIRED_SYMBOL(glDispatchCompute)
@@ -388,7 +354,7 @@ bool _LoadLibrary_gles31(void*(*loader)(const char*))
     return true;
 }
 
-bool _LoadLibrary_gles32(void*(*loader)(const char*))
+bool _load_gles32(void*(*loader)(const char*))
 {
     // try loading library and any symbols
     LOAD_OPTIONAL_SYMBOL(glBlendBarrier)
@@ -435,6 +401,36 @@ bool _LoadLibrary_gles32(void*(*loader)(const char*))
     LOAD_REQUIRED_SYMBOL(glTexBuffer)
     LOAD_REQUIRED_SYMBOL(glTexBufferRange)
     LOAD_REQUIRED_SYMBOL(glTexStorage3DMultisample)
+    return true;
+}
+
+bool _load_gles(void*(*loader)(const char*))
+{
+    // try loading OpenGL ES 2.0 symbols
+    if (!_load_gles20(loader)) return false;
+
+    // try loading OpenGL ES 3.0 symbols
+    if (!_load_gles30(loader))
+    {
+        printf("WARNING: loaded library 'gles20'\n");
+        return true;
+    }
+
+    // try loading OpenGL ES 3.1 symbols
+    if (!_load_gles31(loader))
+    {
+        printf("WARNING: loaded library 'gles30'\n");
+        return true;
+    }
+
+    // try loading OpenGL ES 3.2 symbols
+    if (!_load_gles32(loader))
+    {
+        printf("WARNING: loaded library 'gles31'\n");
+        return true;
+    }
+
+    printf("WARNING: loaded library 'gles32'\n");
     return true;
 }
 

@@ -2,36 +2,22 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_library_h__
-#define __core_library_h__
+#ifndef __core_wgl_window_h__
+#define __core_wgl_window_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-#include <memory.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-#include "opengl/gles.h"
+#include <pxit/core/window.h>
 
-#if IS_PLATFORM_LINUX
-#include "linux/libGLX.h"
-#include "linux/libX11.h"
-#endif
-
-#if IS_PLATFORM_WINDOWS
-#include <windef.h>
-#include "windows/gdi32.h"
-#include "windows/kernel32.h"
-#include "windows/opengl32.h"
-#include "windows/user32.h"
-#endif
+bool _CreateWindow_wgl(const WindowCreateInfo* pCreateInfo, Window window);
+bool _DestroyWindow_wgl(Window window);
+bool _DrawWindow_wgl(Window window);
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_library_h__
+#endif//__core_wgl_window_h__
 // -------------------------------------------------------------------------------------------------------------------------- //

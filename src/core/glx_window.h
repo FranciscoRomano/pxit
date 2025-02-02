@@ -10,7 +10,6 @@ extern "C" {
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 #include <pxit/core/window.h>
-#include "linux/libGLX.h"
 
 /// Returns true if a X11 OpenGL ES window was created successfully.
 bool _CreateWindow_glx(const WindowCreateInfo* pCreateInfo, Window window);

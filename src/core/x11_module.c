@@ -3,9 +3,6 @@
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
 #include "module.h"
-#define LOAD_REQUIRED_SYMBOL(Name)\
-_x11.Name = dlsym(_x11.handle, #Name);\
-if (!_x11.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 struct _Module_x11 _x11 = { NULL };

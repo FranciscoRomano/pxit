@@ -3,10 +3,6 @@
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
 #include "module.h"
-#define INVOKE_WINDOW_IMPL(Name, ...)\
-if (window->pfn##Name) { window->pfn##Name(window,##__VA_ARGS__); }
-#define INVOKE_WINDOW_EVENT(Name, ...)\
-if (window->callbacks.Name) { window->callbacks.Name(window,##__VA_ARGS__); }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 struct _Module_win32 _win32 = { NULL };
@@ -20,14 +16,14 @@ LRESULT CALLBACK _WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_CLOSE:
         {
             if (!window) break;
-            INVOKE_WINDOW_EVENT(OnWindowClose)
-            _DestroyWindow_Win32(window);
+            WINDOW_EVENT(OnWindowClose)
+            _DestroyWindow_win32(window);
             return 0;
         }
         case WM_DESTROY:
         {
             if (!window) break;
-            INVOKE_WINDOW_EVENT(OnWindowDestroy)
+            WINDOW_EVENT(OnWindowDestroy)
             free(window);
             _user32.PostQuitMessage(0);
             break;
@@ -35,9 +31,7 @@ LRESULT CALLBACK _WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_ENTERSIZEMOVE:
         {
             if (!window) break;
-            INVOKE_WINDOW_IMPL(MakeCurrent)
-            INVOKE_WINDOW_EVENT(OnWindowPaint)
-            INVOKE_WINDOW_IMPL(SwapBuffers)
+            WINDOW_IMPL(DrawWindow);
             return 0;
         }
         case WM_ERASEBKGND:
@@ -47,9 +41,7 @@ LRESULT CALLBACK _WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_EXITSIZEMOVE:
         {
             if (!window) break;
-            INVOKE_WINDOW_IMPL(MakeCurrent)
-            INVOKE_WINDOW_EVENT(OnWindowPaint)
-            INVOKE_WINDOW_IMPL(SwapBuffers)
+            WINDOW_IMPL(DrawWindow);
             return 0;
         }
         case WM_NCCREATE:
@@ -61,15 +53,13 @@ LRESULT CALLBACK _WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_PAINT:
         {
             if (!window) break;
-            INVOKE_WINDOW_IMPL(MakeCurrent)
-            INVOKE_WINDOW_EVENT(OnWindowPaint)
-            INVOKE_WINDOW_IMPL(SwapBuffers)
+            WINDOW_IMPL(DrawWindow);
             return 0;
         }
         case WM_SIZE:
         {
             if (!window) break;
-            INVOKE_WINDOW_EVENT(OnWindowSize, LOWORD(lParam), HIWORD(lParam))
+            WINDOW_EVENT(OnWindowSize, LOWORD(lParam), HIWORD(lParam))
             return 0;
         }
         default:
