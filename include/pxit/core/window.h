@@ -164,6 +164,7 @@ typedef struct WindowCreateInfo {
 bool CloseWindow(Window window);
 bool CreateWindow(const WindowCreateInfo* pCreateInfo, Window* pWindow);
 bool DestroyWindow(Window window);
+bool DrawWindow(Window window);
 bool FocusWindow(Window window, bool focus);
 bool HideWindow(Window window);
 bool MaximizeWindow(Window window);

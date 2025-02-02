@@ -5,32 +5,6 @@
 #include "module.h"
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-bool _MakeCurrent_OpenGL_win32(Window window)
-{
-    // make WGL context current
-    if (!_opengl32.wglMakeCurrent(window->win32.hDC, window->win32.hGLRC))
-    {
-        printf("ERROR: failed to make WGL context current\n");
-        _user32.CloseWindow(window->win32.hWnd);
-        return false;
-    }
-    return true;
-}
-
-bool _SwapBuffers_OpenGL_win32(Window window)
-{
-    // swap WGL layer buffers
-    if (!_opengl32.wglSwapLayerBuffers(window->win32.hDC, WGL_SWAP_MAIN_PLANE))
-    {
-        printf("ERROR: failed to swap WGL layer buffers\n");
-        _user32.CloseWindow(window->win32.hWnd);
-        return false;
-    }
-    return true;
-}
-
-// -------------------------------------------------------------------------------------------------------------------------- //
-
 bool _CreateWindow_win32(const WindowCreateInfo* pCreateInfo, Window window)
 {
     // initialize Win32 module
@@ -38,7 +12,8 @@ bool _CreateWindow_win32(const WindowCreateInfo* pCreateInfo, Window window)
 
     // adjust area to window style
     RECT rect = { 0, 0, pCreateInfo->Width, pCreateInfo->Height };
-    DWORD dwStyle = WS_POPUPWINDOW | WS_CAPTION | WS_VISIBLE | WS_SIZEBOX | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+    //DWORD dwStyle = WS_POPUPWINDOW | WS_CAPTION | WS_VISIBLE | WS_SIZEBOX | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+    DWORD dwStyle = WS_POPUP | WS_VISIBLE;
     _user32.AdjustWindowRect(&rect, dwStyle, FALSE);
 
     // create a new Win32 popup window

@@ -42,10 +42,12 @@ int main(void)
     create_info.pTitle  = "My Window";
     create_info.pEvents = &events;
 
-    CreateWindow(&create_info, NULL);
+    Window window;
+    CreateWindow(&create_info, &window);
 
     while (ReadWindowEvents())
     {
+        DrawWindow(window);
         // ...sea wolves are cool...
     }
 }

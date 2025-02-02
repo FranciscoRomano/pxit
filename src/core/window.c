@@ -5,6 +5,7 @@
 #include "module.h"
 // -------------------------------------------------------------------------------------------------------------------------- //
 bool CloseWindow(Window window)                                 { return WINDOW_IMPL(CloseWindow);               }
+bool DrawWindow(Window window)                                  { return WINDOW_IMPL(DrawWindow);                }
 bool FocusWindow(Window window, bool focus)                     { return WINDOW_IMPL(FocusWindow, focus);        }
 bool HideWindow(Window window)                                  { return WINDOW_IMPL(HideWindow);                }
 bool MaximizeWindow(Window window)                              { return WINDOW_IMPL(MaximizeWindow);            }

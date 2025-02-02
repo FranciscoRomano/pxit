@@ -28,20 +28,8 @@ LRESULT CALLBACK _WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             _user32.PostQuitMessage(0);
             break;
         }
-        case WM_ENTERSIZEMOVE:
-        {
-            if (!window) break;
-            WINDOW_IMPL(DrawWindow);
-            return 0;
-        }
         case WM_ERASEBKGND:
         {
-            return 0;
-        }
-        case WM_EXITSIZEMOVE:
-        {
-            if (!window) break;
-            WINDOW_IMPL(DrawWindow);
             return 0;
         }
         case WM_NCCREATE:
@@ -49,12 +37,6 @@ LRESULT CALLBACK _WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
             CREATESTRUCTA* cs = (CREATESTRUCTA*)lParam;
             _user32.SetWindowLongPtrA(hWnd, 0, (LONG_PTR)cs->lpCreateParams);
             break;
-        }
-        case WM_PAINT:
-        {
-            if (!window) break;
-            WINDOW_IMPL(DrawWindow);
-            return 0;
         }
         case WM_SIZE:
         {
