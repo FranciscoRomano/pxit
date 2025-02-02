@@ -2,8 +2,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2024 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#ifndef __core_library_gl32_h__
-#define __core_library_gl32_h__
+#ifndef __core_opengl_gles_h__
+#define __core_opengl_gles_h__
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -386,5 +386,5 @@ bool _load_gles(void*(*loader)(const char*));
 #ifdef __cplusplus
 }
 #endif
-#endif//__core_library_opengl32_h__
+#endif//__core_opengl_gles_h__
 // -------------------------------------------------------------------------------------------------------------------------- //
