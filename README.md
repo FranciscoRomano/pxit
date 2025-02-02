@@ -31,16 +31,16 @@ void draw(Window window)
 
 int main(void)
 {
-    WindowCallbacks callbacks = {};
-    callbacks.OnWindowPaint = draw;
+    WindowEvents events = {};
+    events.OnWindowDraw = draw;
 
     WindowCreateInfo create_info = {};
-    create_info.Top        = 40;
-    create_info.Left       = 40;
-    create_info.Width      = 800;
-    create_info.Height     = 600;
-    create_info.pTitle     = "My Window";
-    create_info.pCallbacks = &callbacks;
+    create_info.Top     = 40;
+    create_info.Left    = 40;
+    create_info.Width   = 800;
+    create_info.Height  = 600;
+    create_info.pTitle  = "My Window";
+    create_info.pEvents = &events;
 
     CreateWindow(&create_info, NULL);
 
