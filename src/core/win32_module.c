@@ -32,6 +32,33 @@ LRESULT CALLBACK _WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         {
             return 0;
         }
+        case WM_LBUTTONDOWN:
+        {
+            WINDOW_EVENT(OnMouseDown, MOUSE_LEFT)
+            return 0;
+        }
+        case WM_LBUTTONUP:
+        {
+            WINDOW_EVENT(OnMouseUp, MOUSE_LEFT)
+            return 0;
+        }
+        case WM_MOUSELEAVE:
+        {
+            POINT point;
+            _user32.GetCursorPos(&point);
+            WINDOW_EVENT(OnMouseLeave, point.x, point.y);
+            return 0;
+        }
+        case WM_MOUSEMOVE:
+        {
+            POINT point = {
+                GET_X_LPARAM(lParam),
+                GET_Y_LPARAM(lParam),
+            };
+            _user32.ClientToScreen(hWnd, &point);
+            WINDOW_EVENT(OnMouseMove, point.x, point.y);
+            return 0;
+        }
         case WM_NCCREATE:
         {
             CREATESTRUCTA* cs = (CREATESTRUCTA*)lParam;
@@ -79,6 +106,20 @@ bool _LoadModule_win32()
     {
         printf("ERROR: failed to load library 'user32.dll'\n");
         return false;
+    }
+
+    if (_user32.SetProcessDpiAwarenessContext)
+    {
+        _user32.SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE);
+        _user32.SetProcessDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+    }
+    else if (_user32.SetProcessDpiAwareness)
+    {
+        _user32.SetProcessDpiAwareness(PROCESS_PER_MONITOR_DPI_AWARE);
+    }
+    else if (_user32.SetProcessDPIAware)
+    {
+        _user32.SetProcessDPIAware();
     }
 
     // fetch the Win32 instance handle

@@ -13,12 +13,13 @@ bool _CreateWindow_win32(const WindowCreateInfo* pCreateInfo, Window window)
     // adjust area to window style
     RECT rect = { 0, 0, pCreateInfo->Width, pCreateInfo->Height };
     //DWORD dwStyle = WS_POPUPWINDOW | WS_CAPTION | WS_VISIBLE | WS_SIZEBOX | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
+    //DWORD dwStyle = WS_POPUP | WS_VISIBLE;
     DWORD dwStyle = WS_POPUP | WS_VISIBLE;
     _user32.AdjustWindowRect(&rect, dwStyle, FALSE);
 
     // create a new Win32 popup window
     window->win32.hWnd = _user32.CreateWindowExA(
-        0,
+        WS_EX_TOOLWINDOW | WS_EX_ACCEPTFILES,
         _win32.lpClassName,
         pCreateInfo->pTitle,
         dwStyle,
@@ -38,7 +39,8 @@ bool _CreateWindow_win32(const WindowCreateInfo* pCreateInfo, Window window)
     }
 
     // set Win32 callbacks and implementation
-    if (pCreateInfo->pEvents) memcpy(&window->event, pCreateInfo->pEvents, sizeof(WindowEvents));
+    if (pCreateInfo->pEvents) window->event = *pCreateInfo->pEvents;
+    window->impl.MoveWindow = _MoveWindow_win32;
     window->impl.DestroyWindow = _DestroyWindow_win32;
 
     // initialize the graphics rendering context
@@ -60,6 +62,17 @@ bool _DestroyWindow_win32(Window window)
     return true;
 }
 
+bool _MoveWindow_win32(Window window, int32_t left, int32_t top)
+{
+    // set the Win32 window position
+    POINT point = { left, top };
+    //_user32.ScreenToClient(window->win32.hWnd, &point);
+    //UINT flags = SWP_NOZORDER | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOREPOSITION | SWP_NOACTIVATE | SWP_NOSENDCHANGING;
+    // UINT flags = SWP_NOSIZE | SWP_NOREPOSITION | SWP_NOSENDCHANGING;
+    UINT flags = SWP_NOSIZE;
+    _user32.SetWindowPos(window->win32.hWnd, HWND_TOP, point.x, point.y, 0, 0, flags);
+}
+
 bool _ReadWindowEvents_win32()
 {
     // release the process to the OS for a bit
@@ -74,7 +87,12 @@ bool _ReadWindowEvents_win32()
         _user32.DispatchMessageA(&msg);
 
         // check if Win32 application should be closed
-        if (msg.message == WM_QUIT) return false;
+        if (msg.message == WM_QUIT)
+        {
+            module_free(wgl)
+            module_free(win32)
+            return false;
+        }
     }
 
     return true;
