@@ -388,6 +388,8 @@ extern "C" {
 #define WS_TILEDWINDOW                             0x00CF0000L
 #define WS_VISIBLE                                 0x10000000L
 #define WS_VSCROLL                                 0x00200000L
+#define LWA_ALPHA                                  0x00000002
+#define LWA_COLORKEY                               0x00000001
 
 // [Windows] Process DPI Awareness
 typedef enum {
@@ -464,6 +466,7 @@ extern struct _user32_dll {
     int      WINAPI (*ReleaseDC)(HWND,HDC);
     BOOL     WINAPI (*ScreenToClient)(HWND,LPPOINT);
     HWND     WINAPI (*SetCapture)(HWND);
+    BOOL     WINAPI (*SetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD);
     BOOL     WINAPI (*SetProcessDPIAware)();
     HRESULT  WINAPI (*SetProcessDpiAwareness)(PROCESS_DPI_AWARENESS);
     BOOL     WINAPI (*SetProcessDpiAwarenessContext)(DPI_AWARENESS_CONTEXT);

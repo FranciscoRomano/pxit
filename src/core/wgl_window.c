@@ -18,11 +18,14 @@ bool _CreateWindow_wgl(const WindowCreateInfo* pCreateInfo, Window window)
     PIXELFORMATDESCRIPTOR pfd;
     memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR));
     pfd.nSize        = sizeof(PIXELFORMATDESCRIPTOR);
+    pfd.nVersion     = 1;
     pfd.dwFlags      = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
     pfd.iPixelType   = PFD_TYPE_RGBA;
     pfd.cColorBits   = 32;
     pfd.cDepthBits   = 24;
     pfd.cStencilBits = 8;
+    pfd.cAlphaBits   = 8;
+    pfd.iLayerType   = PFD_MAIN_PLANE;
     int format = _gdi32.ChoosePixelFormat(window->win32.hDC, &pfd);
     assert(format != 0, "failed to choose pixel format")
     BOOL result1 = _gdi32.SetPixelFormat(window->win32.hDC, format, &pfd);

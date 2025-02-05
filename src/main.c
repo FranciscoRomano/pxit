@@ -34,7 +34,7 @@ void mouse_up(Window window, uint32_t key)
 
 void window_draw(Window window)
 {
-    glClearColor(r, g, b, 0.5f);
+    glClearColor(r, g, b, 1.0f);
     glViewport(0, 0, 1920, 1040);
     glScissor(0, 0, 1920, 1040);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -61,8 +61,8 @@ int main(void)
     WindowCreateInfo create_info = {};
     create_info.Top     = window_y;
     create_info.Left    = window_x;
-    create_info.Width   = 1920;
-    create_info.Height  = 1040;
+    create_info.Width   = 320;
+    create_info.Height  = 200;
     create_info.pTitle  = "My Window";
     create_info.pEvents = &events;
     CreateWindow(&create_info, &window);

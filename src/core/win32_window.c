@@ -12,14 +12,12 @@ bool _CreateWindow_win32(const WindowCreateInfo* pCreateInfo, Window window)
 
     // adjust area to window style
     RECT rect = { 0, 0, pCreateInfo->Width, pCreateInfo->Height };
-    //DWORD dwStyle = WS_POPUPWINDOW | WS_CAPTION | WS_VISIBLE | WS_SIZEBOX | WS_MINIMIZEBOX | WS_MAXIMIZEBOX;
-    //DWORD dwStyle = WS_POPUP | WS_VISIBLE;
     DWORD dwStyle = WS_POPUP | WS_VISIBLE;
     _user32.AdjustWindowRect(&rect, dwStyle, FALSE);
 
     // create a new Win32 popup window
     window->win32.hWnd = _user32.CreateWindowExA(
-        WS_EX_TOOLWINDOW | WS_EX_ACCEPTFILES,
+        WS_EX_ACCEPTFILES,
         _win32.lpClassName,
         pCreateInfo->pTitle,
         dwStyle,
