@@ -52,8 +52,8 @@ LRESULT CALLBACK _WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
         case WM_MOUSEMOVE:
         {
             POINT point = {
-                GET_X_LPARAM(lParam),
-                GET_Y_LPARAM(lParam),
+                ((int)(short)((WORD) (((DWORD_PTR) (lParam)) & 0xffff))),
+                ((int)(short)((WORD) ((((DWORD_PTR) (lParam)) >> 16) & 0xffff))),
             };
             _user32.ClientToScreen(hWnd, &point);
             WINDOW_EVENT(OnMouseMove, point.x, point.y);
