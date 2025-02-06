@@ -391,7 +391,15 @@ extern "C" {
 #define LWA_ALPHA                                  0x00000002
 #define LWA_COLORKEY                               0x00000001
 
-// [Windows] Process DPI Awareness
+// [Windows] Blend function
+typedef struct _BLENDFUNCTION {
+  BYTE BlendOp;
+  BYTE BlendFlags;
+  BYTE SourceConstantAlpha;
+  BYTE AlphaFormat;
+} BLENDFUNCTION, *PBLENDFUNCTION;
+
+// [Windows] Process DPI awareness
 typedef enum {
   PROCESS_DPI_UNAWARE = 0,
   PROCESS_SYSTEM_DPI_AWARE = 1,
@@ -474,6 +482,7 @@ extern struct _user32_dll {
     WINBOOL  WINAPI (*SetWindowPos)(HWND,HWND,int,int,int,int,UINT);
     BOOL     WINAPI (*TranslateMessage)(CONST MSG*);
     WINBOOL  WINAPI (*UnregisterClassA)(LPCSTR,HINSTANCE);
+    BOOL     WINAPI (*UpdateLayeredWindow)(HWND,HDC,POINT*,SIZE*,HDC,POINT*,COLORREF,BLENDFUNCTION*,DWORD);
 } _user32;
 
 /// @brief Returns true if the "user32.dll" library was freed successfully.

@@ -67,6 +67,7 @@ bool _load_user32_dll()
         LOAD_REQUIRED_SYMBOL(SetWindowPos)
         LOAD_REQUIRED_SYMBOL(TranslateMessage)
         LOAD_REQUIRED_SYMBOL(UnregisterClassA)
+        LOAD_REQUIRED_SYMBOL(UpdateLayeredWindow)
         return true;
     }
     return false;
