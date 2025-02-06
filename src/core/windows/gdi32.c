@@ -37,6 +37,7 @@ bool _load_gdi32_dll()
         _gdi32.dll = LoadLibraryA(paths[i]);
         if (_gdi32.dll == NULL) continue;
         LOAD_REQUIRED_SYMBOL(ChoosePixelFormat)
+        LOAD_REQUIRED_SYMBOL(DescribePixelFormat)
         LOAD_REQUIRED_SYMBOL(SetPixelFormat)
         return true;
     }
