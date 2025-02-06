@@ -4,9 +4,15 @@
 // -------------------------------------------------------------------------------------------------------------------------- //
 #define module_exit() _FreeModule_wgl(); return false;
 #include "module.h"
+#define LOAD_REQUIRED_SYMBOL(Name)\
+_wgl.Name = _LoadSymbol_wgl(#Name);\
+if (!_wgl.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 struct _Module_wgl _wgl = { NULL };
+HWND               _wgl_hWnd;
+HDC                _wgl_hDC;
+HGLRC              _wgl_hGLRC;
 
 void* _LoadSymbol_wgl(const char* name)
 {
@@ -25,19 +31,19 @@ bool  _FreeModule_wgl()
     if (!_wgl.OK) return false;
 
     // release all allocated resources
-    if (_wgl.hGLRC) {
-        _opengl32.wglMakeCurrent(_wgl.hDC, NULL);
-        _opengl32.wglDeleteContext(_wgl.hGLRC);
+    if (_wgl_hGLRC) {
+        _opengl32.wglMakeCurrent(_wgl_hDC, NULL);
+        _opengl32.wglDeleteContext(_wgl_hGLRC);
     }
-    if (_wgl.hDC) _user32.ReleaseDC(_wgl.hWnd, _wgl.hDC);
-    if (_wgl.hWnd) _user32.DestroyWindow(_wgl.hWnd);
+    if (_wgl_hDC) _user32.ReleaseDC(_wgl_hWnd, _wgl_hDC);
+    if (_wgl_hWnd) _user32.DestroyWindow(_wgl_hWnd);
 
     // unload module dependencies and reset
     library_free(opengl32);
     library_free(gdi32);
-    _wgl.hGLRC = NULL;
-    _wgl.hWnd  = NULL;
-    _wgl.hDC   = NULL;
+    _wgl_hGLRC = NULL;
+    _wgl_hWnd  = NULL;
+    _wgl_hDC   = NULL;
     _wgl.OK    = false;
     return true;
 }
@@ -53,7 +59,7 @@ bool _LoadModule_wgl()
     library_load(opengl32)
 
     // create a hidden window for loading WGL
-    _wgl.hWnd = _user32.CreateWindowExA(
+    _wgl_hWnd = _user32.CreateWindowExA(
         0,
         _win32.lpClassName,
         "LoadModuleWGL",
@@ -67,11 +73,11 @@ bool _LoadModule_wgl()
         _win32.hInstance,
         NULL
     );
-    assert(_wgl.hWnd, "failed to create window")
+    assert(_wgl_hWnd, "failed to create window")
 
     // get the window's device context handle
-    _wgl.hDC = _user32.GetDC(_wgl.hWnd);
-    assert(_wgl.hDC, "failed to get device context")
+    _wgl_hDC = _user32.GetDC(_wgl_hWnd);
+    assert(_wgl_hDC, "failed to get device context")
 
     // choose & set the best/default pixel format
     PIXELFORMATDESCRIPTOR pfd;
@@ -82,30 +88,32 @@ bool _LoadModule_wgl()
     pfd.cColorBits   = 32;
     pfd.cDepthBits   = 24;
     pfd.cStencilBits = 8;    
-    int format = _gdi32.ChoosePixelFormat(_wgl.hDC, &pfd);
+    int format = _gdi32.ChoosePixelFormat(_wgl_hDC, &pfd);
     assert(format != 0, "failed to choose pixel format")
-    BOOL result1 = _gdi32.SetPixelFormat(_wgl.hDC, format, &pfd);
+    BOOL result1 = _gdi32.SetPixelFormat(_wgl_hDC, format, &pfd);
     assert(result1 == TRUE, "failed to set pixel format")
 
-    // create WGL context for loading all extensions
-    _wgl.hGLRC = _opengl32.wglCreateContext(_wgl.hDC);
-    assert(_wgl.hGLRC, "failed to create WGL context")
-    BOOL result2 = _opengl32.wglMakeCurrent(_wgl.hDC, _wgl.hGLRC);
+    // create a WGL context for loading extensions
+    _wgl_hGLRC = _opengl32.wglCreateContext(_wgl_hDC);
+    assert(_wgl_hGLRC, "failed to create WGL context")
+    BOOL result2 = _opengl32.wglMakeCurrent(_wgl_hDC, _wgl_hGLRC);
     assert(result2 == TRUE, "failed to make WGL context current")
-    printf("WARNING: skipping WGL extensions\n");
+    LOAD_REQUIRED_SYMBOL(wglChoosePixelFormatARB)
+    LOAD_REQUIRED_SYMBOL(wglGetPixelFormatAttribivARB)
+    LOAD_REQUIRED_SYMBOL(wglGetPixelFormatAttribfvARB)
 
     // load the OpenGL ES library with a custom loader
     bool result3 = _load_gles(_LoadSymbol_wgl);
     assert(result3 == true, "failed to load library 'gles'")
 
     // cleanup all resources that will no longer be used
-    _opengl32.wglMakeCurrent(_wgl.hDC, NULL);
-    _opengl32.wglDeleteContext(_wgl.hGLRC);
-    _user32.ReleaseDC(_wgl.hWnd, _wgl.hDC);
-    _user32.DestroyWindow(_wgl.hWnd);
-    _wgl.hGLRC = NULL;
-    _wgl.hWnd  = NULL;
-    _wgl.hDC   = NULL;
+    _opengl32.wglMakeCurrent(_wgl_hDC, NULL);
+    _opengl32.wglDeleteContext(_wgl_hGLRC);
+    _user32.ReleaseDC(_wgl_hWnd, _wgl_hDC);
+    _user32.DestroyWindow(_wgl_hWnd);
+    _wgl_hGLRC = NULL;
+    _wgl_hWnd  = NULL;
+    _wgl_hDC   = NULL;
     _wgl.OK    = true;
     return true;
 }
