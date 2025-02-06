@@ -17,7 +17,7 @@ bool _CreateWindow_win32(const WindowCreateInfo* pCreateInfo, Window window)
 
     // create a new Win32 popup window
     window->win32.hWnd = _user32.CreateWindowExA(
-        WS_EX_ACCEPTFILES,
+        WS_EX_LAYERED | WS_EX_ACCEPTFILES,
         _win32.lpClassName,
         pCreateInfo->pTitle,
         dwStyle,
@@ -30,11 +30,8 @@ bool _CreateWindow_win32(const WindowCreateInfo* pCreateInfo, Window window)
         _win32.hInstance,
         (LPVOID)window
     );
-    if (!window->win32.hWnd)
-    {
-        printf("ERROR: failed to create Win32 window\n");
-        return false;
-    }
+    assert(window->win32.hWnd, "failed to create Win32 window")
+    _user32.SetLayeredWindowAttributes(window->win32.hWnd, 0, 0, LWA_COLORKEY);
 
     // set Win32 callbacks and implementation
     if (pCreateInfo->pEvents) window->event = *pCreateInfo->pEvents;

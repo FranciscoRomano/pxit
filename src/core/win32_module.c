@@ -142,7 +142,7 @@ bool _LoadModule_win32()
     wc.lpfnWndProc   = _WndProc;
     wc.lpszMenuName  = NULL;
     wc.lpszClassName = _win32.lpClassName;
-    wc.style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+    wc.style         = CS_HREDRAW | CS_VREDRAW;
     if (!_user32.RegisterClassExA(&wc))
     {
         printf("ERROR: failed to register window class\n");
