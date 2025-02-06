@@ -10,6 +10,8 @@
 #include "core/windows/user32.h"
 #endif// IS_PLATFORM_WINDOWS
 
+const int size = 100;
+
 const char* vshader_glsl =
 "#version 300 es\n"
 "precision mediump float;\n"
@@ -26,7 +28,7 @@ const char* fshader_glsl =
 "uniform vec3 ub_color;"
 "void main()\n"
 "{\n"
-"    fb_color = vec4(ub_color, 0.5);\n"
+"    fb_color = vec4(ub_color, 0.75);\n"
 "}\0";
 
 GLuint vbo;
@@ -59,21 +61,21 @@ void mouse_up(Window window, uint32_t key)
 
 void window_draw(Window window)
 {
-    glViewport(0, 0, 256, 256);
-    glScissor(0, 0, 256, 256);
+    glViewport(0, 0, size, size);
+    glScissor(0, 0, size, size);
 
-    glClearColor(0, 0, 0, 0);
+    glClearColor(0, 0, 0, 0.2);
     glClear(GL_COLOR_BUFFER_BIT);
 
     glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_DST_ALPHA);
 
     glUseProgram(program);
     glUniform3f(glGetUniformLocation(program, "ub_color"), r, g, b);
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
     glEnableVertexAttribArray(0);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 7);
 
     if (r >= 1.0f || r <= 0.0f) dr = -dr;
     if (g >= 1.0f || g <= 0.0f) dg = -dg;
@@ -96,8 +98,8 @@ int main(void)
     WindowCreateInfo create_info = {};
     create_info.Top     = window_y;
     create_info.Left    = window_x;
-    create_info.Width   = 256;
-    create_info.Height  = 256;
+    create_info.Width   = size;
+    create_info.Height  = size;
     create_info.pTitle  = "My Window";
     create_info.pEvents = &events;
     CreateWindow(&create_info, &window);
@@ -153,10 +155,13 @@ int main(void)
 
     glGenBuffers(1, &vbo);
     const float vbo_data[] = {
-        0.0f, -1.0f,
-       -1.0f,  0.0f,
-        0.0f,  1.0f,
-        1.0f,  0.0f,
+        0.00f,  0.00f,
+        0.00f,  1.00f,
+        0.65f, -1.00f,
+       -1.00f,  0.25f,
+        1.00f,  0.25f,
+       -0.65f, -1.00f,
+        0.00f,  1.00f,
     };
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vbo_data), vbo_data, GL_STATIC_DRAW);
