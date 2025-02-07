@@ -4,6 +4,7 @@
 // https://github.com/Stehfyn/imgui-borderless-win32
 
 #include <pxit/pxit.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #if IS_PLATFORM_WINDOWS
@@ -180,10 +181,10 @@ int main(void)
             window_y += point.y - drag_mouse_y;
             MoveWindow(window, window_x, window_y);
         }
-        #endif// IS_PLATFORM_WINDOWS
-
         drag_mouse_x = point.x;
         drag_mouse_y = point.y;
+        #endif// IS_PLATFORM_WINDOWS
+
         DrawWindow(window);
 
         time = (double)clock() / CLOCKS_PER_SEC;
