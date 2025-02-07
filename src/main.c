@@ -2,6 +2,8 @@
 // https://community.khronos.org/t/pbuffer/31347
 // https://learn.microsoft.com/en-us/windows/win32/opengl/wgl-functions
 // https://github.com/Stehfyn/imgui-borderless-win32
+// https://stackoverflow.com/questions/4052940/how-to-make-an-opengl-rendering-context-with-transparent-background
+// https://gist.github.com/rjmcguire/b05d061b6ab1625695a0
 
 #include <pxit/pxit.h>
 #include <stdlib.h>
