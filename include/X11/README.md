@@ -10,7 +10,7 @@ If you tried to use the X11 library from the headers in this directory, here are
     // │ Copyright (c) 2025 Francisco Romano                                                           │
     // │                                                                                               │
     // │ THIS FILE IS A MODIFIED VERSION OF THE ORIGINAL X WINDOWING SYSTEM (AKA: X11, X) LIBRARY.     │
-    // │ THE PREFIX "X" WAS ADDED TO ALL ENUMS, STRUCTURES AND TYPE DEFINITIONS ALIKE.                 │
+    // │ THE PREFIX "X" WAS ADDED TO ALL ENUMS, MACROS, STRUCTURES AND TYPE DEFINITIONS ALIKE.         │
     // │                                                                                               │
     // │ ALL MODIFICATIONS ARE DISTRIBUTED UNDER THE SAME ORIGINAL FILE LICENSE, WHICH IS SHOWN BELOW: │
     // └───────────────────────────────────────────────────────────────────────────────────────────────┘
