@@ -31,7 +31,7 @@
 #ifndef _X11_extensions_render_h_
 #define _X11_extensions_render_h_
 
-#include <X11/Xdefs.h>
+#include "../Xdefs.h"
 
 typedef XID XGlyph;
 typedef XID XGlyphSet;
