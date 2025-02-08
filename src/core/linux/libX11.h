@@ -198,10 +198,10 @@ struct _XScreen {
 };
 
 struct _XScreenFormat {
-    XExtData*              ext_data;              // hook for extension to hang data */
-    int                    depth;                 // depth of this image format */
-    int                    bits_per_pixel;        // bits/pixel at this depth */
-    int                    scanline_pad;          // scanline must padded to this multiple */
+    XExtData*              ext_data;              // hook for extension to hang data.
+    int                    depth;                 // depth of this image format.
+    int                    bits_per_pixel;        // bits/pixel at this depth.
+    int                    scanline_pad;          // scanline must padded to this multiple.
 };
 
 struct _XVisual {
@@ -717,6 +717,53 @@ extern struct _libX11_so {
     XScreen*  (*XScreenOfDisplay)(XDisplay*,int);
     XStatus   (*XSetWMProtocols)(XDisplay*,XWindow,XAtom*,int);
     int       (*XUnmapWindow)(XDisplay*,XWindow);
+
+
+    // #include <X11/extensions/Xrender.h>
+    XBool              (*XRenderQueryExtension)(XDisplay*,int32_t*,int32_t*);
+    XStatus            (*XRenderQueryVersion)(XDisplay*,int32_t*,int32_t*);
+    XStatus            (*XRenderQueryFormats)(XDisplay*);
+    int32_t            (*XRenderQuerySubpixelOrder)(XDisplay*,int32_t);
+    XBool              (*XRenderSetSubpixelOrder)(XDisplay*,int32_t,int32_t);
+    XRenderPictFormat* (*XRenderFindVisualFormat)(XDisplay*,const XVisual*);
+    XRenderPictFormat* (*XRenderFindFormat)(XDisplay*,uint64_t,const XRenderPictFormat*,int32_t);
+    XRenderPictFormat* (*XRenderFindStandardFormat)(XDisplay*,int32_t);
+    XIndexValue*       (*XRenderQueryPictIndexValues)(XDisplay*,const XRenderPictFormat*,int32_t*);
+    XPicture           (*XRenderCreatePicture)(XDisplay*,XDrawable,const XRenderPictFormat*,uint64_t,const XRenderPictureAttributes*);
+    void               (*XRenderChangePicture)(XDisplay*,XPicture,uint64_t,const XRenderPictureAttributes*);
+    void               (*XRenderSetPictureClipRectangles)(XDisplay*,XPicture,int32_t,int32_t,const XRectangle*,int32_t);
+    void               (*XRenderSetPictureClipRegion)(XDisplay*,XPicture,XRegion);
+    void               (*XRenderSetPictureTransform)(XDisplay*,XPicture,XTransform*);
+    void               (*XRenderFreePicture)(XDisplay*,XPicture);
+    void               (*XRenderComposite)(XDisplay*,int32_t,XPicture,XPicture,XPicture,int32_t,int32_t,int32_t,int32_t,int32_t,int32_t,uint32_t,uint32_t);
+    XGlyphSet          (*XRenderCreateGlyphSet)(XDisplay*,const XRenderPictFormat*);
+    XGlyphSet          (*XRenderReferenceGlyphSet)(XDisplay*,XGlyphSet);
+    void               (*XRenderFreeGlyphSet)(XDisplay*,XGlyphSet);
+    void               (*XRenderAddGlyphs)(XDisplay*,XGlyphSet,const XGlyph*,const XGlyphInfo*,int32_t,const char*,int32_t);
+    void               (*XRenderFreeGlyphs)(XDisplay*,XGlyphSet,const XGlyph*,int32_t);
+    void               (*XRenderCompositeString8)(XDisplay*,int32_t,XPicture,XPicture,const XRenderPictFormat*,XGlyphSet,int32_t,int32_t,int32_t,int32_t,const char*,int32_t);
+    void               (*XRenderCompositeString16)(XDisplay*,int32_t,XPicture,XPicture,const XRenderPictFormat*,XGlyphSet,int32_t,int32_t,int32_t,int32_t,const uint16_t*,int32_t);
+    void               (*XRenderCompositeString32)(XDisplay*,int32_t,XPicture,XPicture,const XRenderPictFormat*,XGlyphSet,int32_t,int32_t,int32_t,int32_t,const uint32_t*,int32_t);
+    void               (*XRenderCompositeText8)(XDisplay*,int32_t,XPicture,XPicture,const XRenderPictFormat*,int32_t,int32_t,int32_t,int32_t,const XGlyphElt8*,int32_t);
+    void               (*XRenderCompositeText16)(XDisplay*,int32_t,XPicture,XPicture,const XRenderPictFormat*,int32_t,int32_t,int32_t,int32_t,const XGlyphElt16*,int32_t);
+    void               (*XRenderCompositeText32)(XDisplay*,int32_t,XPicture,XPicture,const XRenderPictFormat*,int32_t,int32_t,int32_t,int32_t,const XGlyphElt32*,int32_t);
+    void               (*XRenderFillRectangle)(XDisplay*,int32_t,XPicture,const XRenderColor*,int32_t,int32_t,uint32_t,uint32_t);
+    void               (*XRenderFillRectangles)(XDisplay*,int32_t,XPicture,const XRenderColor*,const XRectangle*,int32_t);
+    void               (*XRenderCompositeTrapezoids)(XDisplay*,int32_t,XPicture,XPicture,const XRenderPictFormat*,int32_t,int32_t,const XTrapezoid*,int32_t);
+    void               (*XRenderCompositeTriangles)(XDisplay*,int32_t,XPicture,XPicture,const XRenderPictFormat*,int32_t,int32_t,const XTriangle*,int32_t);
+    void               (*XRenderCompositeTriStrip)(XDisplay*,int32_t,XPicture,XPicture,const XRenderPictFormat*,int32_t,int32_t,const XPointFixed*,int32_t);
+    void               (*XRenderCompositeTriFan)(XDisplay*,int32_t,XPicture,XPicture,const XRenderPictFormat*,int32_t,int32_t,const XPointFixed*,int32_t);
+    void               (*XRenderCompositeDoublePoly)(XDisplay*,int32_t,XPicture,XPicture,const XRenderPictFormat*,int32_t,int32_t,int32_t,int32_t,const XPointDouble*,int32_t,int32_t);
+    XStatus            (*XRenderParseColor)(XDisplay*,char*,XRenderColor*);
+    XCursor            (*XRenderCreateCursor)(XDisplay*,XPicture,uint32_t,uint32_t);
+    XFilters*          (*XRenderQueryFilters)(XDisplay*,XDrawable);
+    void               (*XRenderSetPictureFilter)(XDisplay*,XPicture,const char*,int32_t*,int32_t);
+    XCursor            (*XRenderCreateAnimCursor)(XDisplay*,int32_t,XAnimCursor*);
+    void               (*XRenderAddTraps)(XDisplay*,XPicture,int32_t,int32_t,const XTrap*,int32_t);
+    XPicture           (*XRenderCreateSolidFill)(XDisplay*,const XRenderColor*);
+    XPicture           (*XRenderCreateLinearGradient)(XDisplay*,const XLinearGradient*,const int32_t*,const XRenderColor*,int32_t);
+    XPicture           (*XRenderCreateRadialGradient)(XDisplay*,const XRadialGradient*,const int32_t*,const XRenderColor*,int32_t);
+    XPicture           (*XRenderCreateConicalGradient)(XDisplay*,const XConicalGradient*,const int32_t*,const XRenderColor*,int32_t);
 } _libX11;
 
 /// @brief Returns true if the "libX11.so" library was freed successfully.
