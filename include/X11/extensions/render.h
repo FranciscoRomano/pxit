@@ -128,7 +128,7 @@ typedef XID XPictFormat;
 #define X_BadPictOp                      2
 #define X_BadPicture                     1
 #define X_FilterAliasNone                -1
-#define X_FilterBest                     "best" 
+#define X_FilterBest                     "best"
 #define X_FilterConvolution              "convolution"
 #define X_FilterFast                     "fast"
 #define X_FilterGood                     "good"
