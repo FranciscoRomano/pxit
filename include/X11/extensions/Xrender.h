@@ -33,29 +33,28 @@
 #include "render.h"
 #include "../Xfuncproto.h"
 #include "../Xlib.h"
-#include "../Xosdefs.h"
 #include "../Xutil.h"
 
-#define X_PictFormatID        (1 << 0)
-#define X_PictFormatType      (1 << 1)
-#define X_PictFormatDepth     (1 << 2)
-#define X_PictFormatRed       (1 << 3)
-#define X_PictFormatRedMask   (1 << 4)
-#define X_PictFormatGreen     (1 << 5)
-#define X_PictFormatGreenMask (1 << 6)
-#define X_PictFormatBlue      (1 << 7)
-#define X_PictFormatBlueMask  (1 << 8)
-#define X_PictFormatAlpha     (1 << 9)
-#define X_PictFormatAlphaMask (1 << 10)
-#define X_PictFormatColormap  (1 << 11)
-#define X_DoubleToFixed(f)    ((int32_t) ((f) * 65536))
-#define X_FixedToDouble(f)    (((double) (f)) / 65536)
-#define X_PictStandardARGB32  0
-#define X_PictStandardRGB24   1
-#define X_PictStandardA8      2
-#define X_PictStandardA4      3
-#define X_PictStandardA1      4
-#define X_PictStandardNUM     5
+#define PictFormatID        (1 << 0)
+#define PictFormatType      (1 << 1)
+#define PictFormatDepth     (1 << 2)
+#define PictFormatRed       (1 << 3)
+#define PictFormatRedMask   (1 << 4)
+#define PictFormatGreen     (1 << 5)
+#define PictFormatGreenMask (1 << 6)
+#define PictFormatBlue      (1 << 7)
+#define PictFormatBlueMask  (1 << 8)
+#define PictFormatAlpha     (1 << 9)
+#define PictFormatAlphaMask (1 << 10)
+#define PictFormatColormap  (1 << 11)
+#define DoubleToFixed(f)    ((int32_t) ((f) * 65536))
+#define FixedToDouble(f)    (((double) (f)) / 65536)
+#define PictStandardARGB32  0
+#define PictStandardRGB24   1
+#define PictStandardA8      2
+#define PictStandardA4      3
+#define PictStandardA1      4
+#define PictStandardNUM     5
 
 typedef struct {
     int16_t             red;
