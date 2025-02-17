@@ -31,7 +31,6 @@
 
 #include <stdint.h>
 #include "render.h"
-#include "../Xfuncproto.h"
 #include "../Xlib.h"
 #include "../Xutil.h"
 
@@ -215,7 +214,6 @@ typedef struct {
     int32_t             angle;
 } XConicalGradient;
 
-_XFUNCPROTOBEGIN
 #define XRenderQueryExtension(...)           _libX11.XRenderQueryExtension(__VA_ARGS__)
 #define XRenderQueryVersion(...)             _libX11.XRenderQueryVersion(__VA_ARGS__)
 #define XRenderQueryFormats(...)             _libX11.XRenderQueryFormats(__VA_ARGS__)
@@ -260,6 +258,5 @@ _XFUNCPROTOBEGIN
 #define XRenderCreateLinearGradient(...)     _libX11.XRenderCreateLinearGradient(__VA_ARGS__)
 #define XRenderCreateRadialGradient(...)     _libX11.XRenderCreateRadialGradient(__VA_ARGS__)
 #define XRenderCreateConicalGradient(...)    _libX11.XRenderCreateConicalGradient(__VA_ARGS__)
-_XFUNCPROTOEND
 
 #endif// _X11_extensions_Xrender_h_
