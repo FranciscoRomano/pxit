@@ -29,12 +29,7 @@
 #ifndef _X11_extensions_render_h_
 #define _X11_extensions_render_h_
 
-#include "../Xdefs.h"
-
-typedef XID XGlyph;
-typedef XID XGlyphSet;
-typedef XID XPicture;
-typedef XID XPictFormat;
+#include <stdint.h>
 
 #define RENDER_NAME                    "RENDER"
 #define RENDER_MAJOR                   0
@@ -197,5 +192,11 @@ typedef XID XPictFormat;
 #define PolyEdgeSmooth                 0x01
 #define PolyModeImprecise              0x01
 #define PolyModePrecise                0x00
+
+typedef uint32_t XID;
+typedef XID      XGlyph;
+typedef XID      XGlyphSet;
+typedef XID      XPicture;
+typedef XID      XPictFormat;
 
 #endif// _X11_extensions_render_h_
