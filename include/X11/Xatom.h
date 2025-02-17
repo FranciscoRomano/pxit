@@ -5,8 +5,8 @@
 // │ MODIFICATIONS ARE DISTRIBUTED UNDER THE SAME ORIGINAL FILE LICENSE.                       │
 // └───────────────────────────────────────────────────────────────────────────────────────────┘
 
-#ifndef X11_Xatom_h
-#define X11_Xatom_h
+#ifndef _X11_Xatom_h_
+#define _X11_Xatom_h_
 
 // THIS IS A GENERATED FILE
 // Do not change! Changing this file implies a protocol change!
@@ -81,4 +81,4 @@
 #define XA_WM_TRANSIENT_FOR    ((XAtom) 68)
 #define XA_LAST_PREDEFINED     ((XAtom) 68)
 
-#endif// X11_Xatom_h
+#endif// _X11_Xatom_h_
