@@ -128,7 +128,7 @@ bool _ReadWindowEvents_x11()
         _libX11.XNextEvent(_x11.display, &event);
 
         // skip event that don't have a window
-        if (_libX11.XFindContext(_x11.display, event.xany.window, _x11.context, &window)) continue;
+        if (_libX11.XFindContext(_x11.display, event.xany.window, _x11.context, (void**)&window)) continue;
  
         // translate the current window event by type
         switch (event.type)
