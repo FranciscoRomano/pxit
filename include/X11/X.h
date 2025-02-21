@@ -51,6 +51,8 @@
 #ifndef _X11_X_h_
 #define _X11_X_h_
 
+#include <stdint.h>
+
 // Definitions for the X window system likely to be used by applications.
 
 #define X_PROTOCOL                  11 // current protocol version
@@ -597,19 +599,19 @@
 #define LSBFirst                    0
 #define MSBFirst                    1
 
-typedef unsigned long XID;
-typedef unsigned long XMask;
-typedef unsigned long XAtom;
-typedef unsigned long XVisualID;
-typedef unsigned long XTime;
-typedef XID           XWindow;
-typedef XID           XDrawable;
-typedef XID           XFont;
-typedef XID           XPixmap;
-typedef XID           XCursor;
-typedef XID           XColormap;
-typedef XID           XGContext;
-typedef XID           XKeySym;
-typedef unsigned char XKeyCode;
+typedef uint64_t XID;
+typedef uint64_t XMask;
+typedef uint64_t XAtom;
+typedef uint64_t XVisualID;
+typedef uint64_t XTime;
+typedef XID      XWindow;
+typedef XID      XDrawable;
+typedef XID      XFont;
+typedef XID      XPixmap;
+typedef XID      XCursor;
+typedef XID      XColormap;
+typedef XID      XGContext;
+typedef XID      XKeySym;
+typedef uint8_t  XKeyCode;
 
 #endif// _X11_X_h_
