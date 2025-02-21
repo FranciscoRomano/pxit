@@ -41,19 +41,19 @@ bool _LoadModule_x11()
 
     // open a connection to the X server
     _x11.display = _libX11.XOpenDisplay(NULL);
-    ASSERT(_x11.display, false, "failed to open X11 display")
+    assert(_x11.display, "failed to open X11 display")
 
     // get a unique or the default context
     _x11.context = (XContext)_libX11.XrmUniqueQuark();
-    ASSERT(_x11.context, false, "failed to fetch X11 context")
+    assert(_x11.context, "failed to fetch X11 context")
 
     // get the display's default root window
-    _x11.root_window = ((&_x11.display->screens[_x11.display->default_screen])->root);
-    ASSERT(_x11.root_window, false, "failed to get X11 root window")
+    _x11.root_window = _libX11.XDefaultRootWindow(_x11.display);
+    assert(_x11.root_window, "failed to get X11 root window")
 
     // get the internal atom 'WM_DELETE_WINDOW'
-    _x11.WM_DELETE_WINDOW = _libX11.XInternAtom(_x11.display, "WM_DELETE_WINDOW", False);
-    ASSERT(_x11.WM_DELETE_WINDOW, false, "failed to get X11 'WM_DELETE_WINDOW' atom")
+    _x11.WM_DELETE_WINDOW = _libX11.XInternAtom(_x11.display, "WM_DELETE_WINDOW", 0);
+    assert(_x11.WM_DELETE_WINDOW, "failed to get X11 'WM_DELETE_WINDOW' atom")
 
     _x11.OK = true;
     return true;

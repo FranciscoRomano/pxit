@@ -40,7 +40,7 @@ bool _CreateWindow_glx(const WindowCreateInfo* pCreateInfo, Window window)
     XSetWindowAttributes swa;
     swa.colormap = window->x11.cmap;
     _libX11.XChangeWindowAttributes(_x11.display, window->x11.win, CWColormap, &swa);
-    window->x11.glx = _libGLX.glXCreateNewContext(_x11.display, fbc, GLX_RGBA_TYPE, 0, True);
+    window->x11.glx = _libGLX.glXCreateNewContext(_x11.display, fbc, GLX_RGBA_TYPE, 0, 1);
     assert(window->x11.glx, "failed to create GLX rendering context");
     _libGLX.glXMakeCurrent(_x11.display, window->x11.win, window->x11.glx);
     window->impl.DestroyWindow = _DestroyWindow_glx;

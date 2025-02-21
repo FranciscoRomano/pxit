@@ -122,13 +122,13 @@ bool _ReadWindowEvents_x11()
     XEvent event;
     Window window;
     _libX11.XPending(_x11.display);
-    while (_x11.display->qlen)
+    while (QLength(_x11.display))
     {
         // get the next X server event
         _libX11.XNextEvent(_x11.display, &event);
 
         // skip event that don't have a window
-        if (_libX11.XFindContext(_x11.display, event.xany.window, _x11.context, (XPointer*)&window)) continue;
+        if (_libX11.XFindContext(_x11.display, event.xany.window, _x11.context, &window)) continue;
  
         // translate the current window event by type
         switch (event.type)
@@ -146,7 +146,7 @@ bool _ReadWindowEvents_x11()
     }
 
     // flush all events in X server
-    _libX11.XFlush(_x11.display);
+    //_libX11.XFlush(_x11.display);
     return true;
 }
 
