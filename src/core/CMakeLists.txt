@@ -24,6 +24,7 @@ if(IS_PLATFORM_LINUX)
 endif()
 
 if(IS_PLATFORM_WINDOWS)
+  target_sources(core PRIVATE "${CMAKE_CURRENT_LIST_DIR}/windows/d3d9.c")
   target_sources(core PRIVATE "${CMAKE_CURRENT_LIST_DIR}/windows/gdi32.c")
   target_sources(core PRIVATE "${CMAKE_CURRENT_LIST_DIR}/windows/opengl32.c")
   target_sources(core PRIVATE "${CMAKE_CURRENT_LIST_DIR}/windows/user32.c")
