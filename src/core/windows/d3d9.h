@@ -556,15 +556,15 @@ struct IDirect3DDevice9 {
 
 /// @brief Represents the "d3d9.dll" library and supported functions.
 extern struct _d3d9_dll {
-    void*                dll;
-    int         WINAPI (*D3DPERF_BeginEvent)(D3DCOLOR,LPCWSTR);
-    int         WINAPI (*D3DPERF_EndEvent)(void);
-    DWORD       WINAPI (*D3DPERF_GetStatus)(void);
-    BOOL        WINAPI (*D3DPERF_QueryRepeatFrame)(void);
-    void        WINAPI (*D3DPERF_SetMarker)(D3DCOLOR,LPCWSTR);
-    void        WINAPI (*D3DPERF_SetOptions)(DWORD);
-    void        WINAPI (*D3DPERF_SetRegion)(D3DCOLOR,LPCWSTR);
-    IDirect3D9* WINAPI (*Direct3DCreate9)(UINT);
+    HMODULE              dll;
+    int         (WINAPI *D3DPERF_BeginEvent)(D3DCOLOR,LPCWSTR);
+    int         (WINAPI *D3DPERF_EndEvent)(void);
+    DWORD       (WINAPI *D3DPERF_GetStatus)(void);
+    BOOL        (WINAPI *D3DPERF_QueryRepeatFrame)(void);
+    void        (WINAPI *D3DPERF_SetMarker)(D3DCOLOR,LPCWSTR);
+    void        (WINAPI *D3DPERF_SetOptions)(DWORD);
+    void        (WINAPI *D3DPERF_SetRegion)(D3DCOLOR,LPCWSTR);
+    IDirect3D9* (WINAPI *Direct3DCreate9)(UINT);
 } _d3d9;
 
 /// @brief Returns true if the "d3d9.dll" library was freed successfully.
