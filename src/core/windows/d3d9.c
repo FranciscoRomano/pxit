@@ -3,7 +3,7 @@
 // Copyright (c) 2025 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
 #define LIBRARY_MODULE _d3d9
-#include "core/private.h"
+#include "../private.h"
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 struct _d3d9_dll _d3d9 = { NULL };
@@ -11,7 +11,7 @@ struct _d3d9_dll _d3d9 = { NULL };
 bool _free_d3d9_dll()
 {
     // check if library was unloaded
-    if (!_d3d9.dll) return false;
+    if (!_d3d9.dll) return true;
 
     // unload and reset library module
     LIBRARY_MODULE_FREE()
@@ -39,7 +39,6 @@ bool _load_d3d9_dll()
         LIBRARY_MODULE_RSYM(Direct3DCreate9)
         return true;
     }
-
     return false;
 }
 

@@ -2,16 +2,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2025 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#include "user32.h"
-#include "kernel32.h"
-#include <stdio.h>
-#include <stdlib.h>
-#define LOAD_OPTIONAL_SYMBOL(Name)\
-_user32.Name = (void*)GetProcAddress(_user32.dll, #Name);\
-if (!_user32.Name) { printf("WARNING: failed to load symbol '" #Name "'\n"); }
-#define LOAD_REQUIRED_SYMBOL(Name)\
-_user32.Name = (void*)GetProcAddress(_user32.dll, #Name);\
-if (!_user32.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
+#define LIBRARY_MODULE _user32
+#include "../private.h"
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 struct _user32_dll _user32 = { NULL };
@@ -19,11 +11,10 @@ struct _user32_dll _user32 = { NULL };
 bool _free_user32_dll()
 {
     // check if library was unloaded
-    if (!_user32.dll) return false;
+    if (!_user32.dll) return true;
 
-    // unload and reset library handle
-    FreeLibrary(_user32.dll);
-    _user32.dll = NULL;
+    // unload and reset library module
+    LIBRARY_MODULE_FREE()
     return true;
 }
 
@@ -37,37 +28,38 @@ bool _load_user32_dll()
     for (size_t i = 0; paths[i]; i++)
     {
         // try loading library and any symbols
-        _user32.dll = LoadLibraryA(paths[i]);
-        if (_user32.dll == NULL) continue;
-        LOAD_REQUIRED_SYMBOL(AdjustWindowRect)
-        LOAD_REQUIRED_SYMBOL(ClientToScreen)
-        LOAD_REQUIRED_SYMBOL(CloseWindow)
-        LOAD_REQUIRED_SYMBOL(CreateWindowExA)
-        LOAD_REQUIRED_SYMBOL(DefWindowProcA)
-        LOAD_REQUIRED_SYMBOL(DestroyWindow)
-        LOAD_REQUIRED_SYMBOL(DispatchMessageA)
-        LOAD_REQUIRED_SYMBOL(GetCursorPos)
-        LOAD_REQUIRED_SYMBOL(GetDC)
-        LOAD_REQUIRED_SYMBOL(GetWindowLongPtrA)
-        LOAD_REQUIRED_SYMBOL(LoadCursorA)
-        LOAD_REQUIRED_SYMBOL(LoadIconA)
-        LOAD_REQUIRED_SYMBOL(MoveWindow)
-        LOAD_REQUIRED_SYMBOL(PeekMessageA)
-        LOAD_REQUIRED_SYMBOL(PostQuitMessage)
-        LOAD_REQUIRED_SYMBOL(RegisterClassExA)
-        LOAD_REQUIRED_SYMBOL(ReleaseCapture)
-        LOAD_REQUIRED_SYMBOL(ReleaseDC)
-        LOAD_REQUIRED_SYMBOL(ScreenToClient)
-        LOAD_REQUIRED_SYMBOL(SetCapture)
-        LOAD_REQUIRED_SYMBOL(SetLayeredWindowAttributes)
-        LOAD_OPTIONAL_SYMBOL(SetProcessDPIAware)
-        LOAD_OPTIONAL_SYMBOL(SetProcessDpiAwareness)
-        LOAD_OPTIONAL_SYMBOL(SetProcessDpiAwarenessContext)
-        LOAD_REQUIRED_SYMBOL(SetWindowLongPtrA)
-        LOAD_REQUIRED_SYMBOL(SetWindowPos)
-        LOAD_REQUIRED_SYMBOL(TranslateMessage)
-        LOAD_REQUIRED_SYMBOL(UnregisterClassA)
-        LOAD_REQUIRED_SYMBOL(UpdateLayeredWindow)
+        LIBRARY_MODULE_LOAD(paths[i])
+        LIBRARY_MODULE_RSYM(AdjustWindowRect)
+        LIBRARY_MODULE_RSYM(ClientToScreen)
+        LIBRARY_MODULE_RSYM(CloseWindow)
+        LIBRARY_MODULE_RSYM(CreateWindowExA)
+        LIBRARY_MODULE_RSYM(DefWindowProcA)
+        LIBRARY_MODULE_RSYM(DestroyWindow)
+        LIBRARY_MODULE_RSYM(DispatchMessageA)
+        LIBRARY_MODULE_RSYM(GetCursorPos)
+        LIBRARY_MODULE_RSYM(GetDC)
+        LIBRARY_MODULE_RSYM(GetWindowLongPtrA)
+        LIBRARY_MODULE_RSYM(LoadCursorA)
+        LIBRARY_MODULE_RSYM(LoadIconA)
+        LIBRARY_MODULE_RSYM(MoveWindow)
+        LIBRARY_MODULE_RSYM(PeekMessageA)
+        LIBRARY_MODULE_RSYM(PostQuitMessage)
+        LIBRARY_MODULE_RSYM(RegisterClassExA)
+        LIBRARY_MODULE_RSYM(ReleaseCapture)
+        LIBRARY_MODULE_RSYM(ReleaseDC)
+        LIBRARY_MODULE_RSYM(ScreenToClient)
+        LIBRARY_MODULE_RSYM(SetCapture)
+        LIBRARY_MODULE_RSYM(SetFocus)
+        LIBRARY_MODULE_RSYM(SetLayeredWindowAttributes)
+        LIBRARY_MODULE_OSYM(SetProcessDPIAware)
+        LIBRARY_MODULE_OSYM(SetProcessDpiAwareness)
+        LIBRARY_MODULE_OSYM(SetProcessDpiAwarenessContext)
+        LIBRARY_MODULE_RSYM(SetWindowLongPtrA)
+        LIBRARY_MODULE_RSYM(SetWindowPos)
+        LIBRARY_MODULE_RSYM(ShowWindow)
+        LIBRARY_MODULE_RSYM(TranslateMessage)
+        LIBRARY_MODULE_RSYM(UnregisterClassA)
+        LIBRARY_MODULE_RSYM(UpdateLayeredWindow)
         return true;
     }
     return false;

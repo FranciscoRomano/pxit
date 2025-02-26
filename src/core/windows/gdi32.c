@@ -2,13 +2,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2025 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#include "gdi32.h"
-#include "kernel32.h"
-#include <stdio.h>
-#include <stdlib.h>
-#define LOAD_REQUIRED_SYMBOL(Name)\
-_gdi32.Name = (void*)GetProcAddress(_gdi32.dll, #Name);\
-if (!_gdi32.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
+#define LIBRARY_MODULE _gdi32
+#include "../private.h"
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 struct _gdi32_dll _gdi32 = { NULL };
@@ -16,11 +11,10 @@ struct _gdi32_dll _gdi32 = { NULL };
 bool _free_gdi32_dll()
 {
     // check if library was unloaded
-    if (!_gdi32.dll) return false;
+    if (!_gdi32.dll) return true;
 
-    // unload and reset library handle
-    FreeLibrary(_gdi32.dll);
-    _gdi32.dll = NULL;
+    // unload and reset library module
+    LIBRARY_MODULE_FREE()
     return true;
 }
 
@@ -34,11 +28,10 @@ bool _load_gdi32_dll()
     for (size_t i = 0; paths[i]; i++)
     {
         // try loading library and any symbols
-        _gdi32.dll = LoadLibraryA(paths[i]);
-        if (_gdi32.dll == NULL) continue;
-        LOAD_REQUIRED_SYMBOL(ChoosePixelFormat)
-        LOAD_REQUIRED_SYMBOL(DescribePixelFormat)
-        LOAD_REQUIRED_SYMBOL(SetPixelFormat)
+        LIBRARY_MODULE_LOAD(paths[i])
+        LIBRARY_MODULE_RSYM(ChoosePixelFormat)
+        LIBRARY_MODULE_RSYM(DescribePixelFormat)
+        LIBRARY_MODULE_RSYM(SetPixelFormat)
         return true;
     }
     return false;

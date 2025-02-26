@@ -2,13 +2,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2025 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#include "opengl32.h"
-#include "kernel32.h"
-#include <stdio.h>
-#include <stdlib.h>
-#define LOAD_REQUIRED_SYMBOL(Name)\
-_opengl32.Name = (void*)GetProcAddress(_opengl32.dll, #Name);\
-if (!_opengl32.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
+#define LIBRARY_MODULE _opengl32
+#include "../private.h"
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 struct _opengl32_dll _opengl32 = { NULL };
@@ -16,11 +11,10 @@ struct _opengl32_dll _opengl32 = { NULL };
 bool _free_opengl32_dll()
 {
     // check if library was unloaded
-    if (!_opengl32.dll) return false;
+    if (!_opengl32.dll) return true;
 
-    // unload and reset library handle
-    FreeLibrary(_opengl32.dll);
-    _opengl32.dll = NULL;
+    // unload and reset library module
+    LIBRARY_MODULE_FREE()
     return true;
 }
 
@@ -34,26 +28,25 @@ bool _load_opengl32_dll()
     for (size_t i = 0; paths[i]; i++)
     {
         // try loading library and any symbols
-        _opengl32.dll = LoadLibraryA(paths[i]);
-        if (_opengl32.dll == NULL) continue;
-        LOAD_REQUIRED_SYMBOL(wglCopyContext)
-        LOAD_REQUIRED_SYMBOL(wglCreateContext)
-        LOAD_REQUIRED_SYMBOL(wglCreateLayerContext)
-        LOAD_REQUIRED_SYMBOL(wglDeleteContext)
-        LOAD_REQUIRED_SYMBOL(wglDescribeLayerPlane)
-        LOAD_REQUIRED_SYMBOL(wglGetCurrentContext)
-        LOAD_REQUIRED_SYMBOL(wglGetCurrentDC)
-        LOAD_REQUIRED_SYMBOL(wglGetLayerPaletteEntries)
-        LOAD_REQUIRED_SYMBOL(wglGetProcAddress)
-        LOAD_REQUIRED_SYMBOL(wglMakeCurrent)
-        LOAD_REQUIRED_SYMBOL(wglRealizeLayerPalette)
-        LOAD_REQUIRED_SYMBOL(wglSetLayerPaletteEntries)
-        LOAD_REQUIRED_SYMBOL(wglShareLists)
-        LOAD_REQUIRED_SYMBOL(wglSwapLayerBuffers)
-        LOAD_REQUIRED_SYMBOL(wglUseFontBitmapsA)
-        LOAD_REQUIRED_SYMBOL(wglUseFontBitmapsW)
-        LOAD_REQUIRED_SYMBOL(wglUseFontOutlinesA)
-        LOAD_REQUIRED_SYMBOL(wglUseFontOutlinesW)
+        LIBRARY_MODULE_LOAD(paths[i])
+        LIBRARY_MODULE_RSYM(wglCopyContext)
+        LIBRARY_MODULE_RSYM(wglCreateContext)
+        LIBRARY_MODULE_RSYM(wglCreateLayerContext)
+        LIBRARY_MODULE_RSYM(wglDeleteContext)
+        LIBRARY_MODULE_RSYM(wglDescribeLayerPlane)
+        LIBRARY_MODULE_RSYM(wglGetCurrentContext)
+        LIBRARY_MODULE_RSYM(wglGetCurrentDC)
+        LIBRARY_MODULE_RSYM(wglGetLayerPaletteEntries)
+        LIBRARY_MODULE_RSYM(wglGetProcAddress)
+        LIBRARY_MODULE_RSYM(wglMakeCurrent)
+        LIBRARY_MODULE_RSYM(wglRealizeLayerPalette)
+        LIBRARY_MODULE_RSYM(wglSetLayerPaletteEntries)
+        LIBRARY_MODULE_RSYM(wglShareLists)
+        LIBRARY_MODULE_RSYM(wglSwapLayerBuffers)
+        LIBRARY_MODULE_RSYM(wglUseFontBitmapsA)
+        LIBRARY_MODULE_RSYM(wglUseFontBitmapsW)
+        LIBRARY_MODULE_RSYM(wglUseFontOutlinesA)
+        LIBRARY_MODULE_RSYM(wglUseFontOutlinesW)
         return true;
     }
     return false;
