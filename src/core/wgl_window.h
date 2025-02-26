@@ -13,7 +13,7 @@ extern "C" {
 
 bool _CreateWindow_wgl(const WindowCreateInfo* pCreateInfo, Window window);
 bool _DestroyWindow_wgl(Window window);
-bool _DrawWindow_wgl(Window window);
+//bool _DrawWindow_wgl(Window window);
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

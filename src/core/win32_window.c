@@ -2,23 +2,23 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2025 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#include "module.h"
+#include "private.h"
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-bool _CreateWindow_win32(const WindowCreateInfo* pCreateInfo, Window window)
+bool win32_CreateWindow(const WindowCreateInfo* pCreateInfo, Window window)
 {
     // initialize Win32 module
-    if (!_LoadModule_win32()) return false;
+    if (!win32_LoadModule()) return false;
 
     // adjust area to window style
     RECT rect = { 0, 0, pCreateInfo->Width, pCreateInfo->Height };
-    DWORD dwStyle = WS_POPUP | WS_VISIBLE;
+    DWORD dwStyle = WS_POPUP | WS_VISIBLE | WS_BORDER;
     _user32.AdjustWindowRect(&rect, dwStyle, FALSE);
 
     // create a new Win32 popup window
     window->win32.hWnd = _user32.CreateWindowExA(
-        WS_EX_LAYERED | WS_EX_ACCEPTFILES,
-        _win32.lpClassName,
+        0,
+        win32.lpClassName,
         pCreateInfo->pTitle,
         dwStyle,
         pCreateInfo->Left + rect.left,
@@ -27,50 +27,70 @@ bool _CreateWindow_win32(const WindowCreateInfo* pCreateInfo, Window window)
         rect.bottom - rect.top,
         NULL,
         NULL,
-        _win32.hInstance,
-        (LPVOID)window
+        win32.hInstance,
+        NULL
     );
-    assert(window->win32.hWnd, "failed to create Win32 window")
+    if (!window->win32.hWnd) return failure("failed to create Win32 window");
     _user32.SetLayeredWindowAttributes(window->win32.hWnd, 0, 0, LWA_COLORKEY);
+    _user32.SetLayeredWindowAttributes(window->win32.hWnd, 0, 255, LWA_ALPHA);
+    _user32.SetWindowLongPtrA(window->win32.hWnd, 0, (LONG_PTR)window);
+    win32.windowCount++;
 
-    // set Win32 callbacks and implementation
-    if (pCreateInfo->pEvents) window->event = *pCreateInfo->pEvents;
-    window->impl.MoveWindow = _MoveWindow_win32;
-    window->impl.DestroyWindow = _DestroyWindow_win32;
-
-    // initialize the graphics rendering context
-    if (_CreateWindow_wgl(pCreateInfo, window)) return true;
-    printf("ERROR: failed to create Win32 rendering context\n");
-    _user32.DestroyWindow(window->win32.hWnd);
-    return false;
-}
-
-bool _DestroyWindow_win32(Window window)
-{
-    // destroy the Win32 window
-    if (!_user32.DestroyWindow(window->win32.hWnd))
-    {
-        printf("ERROR: failed to destroy Win32 window\n");
-        return false;
-    }
-
+    // set the Win32 window implementation
+    window->impl.pCloseWindow   = win32_CloseWindow;
+    window->impl.pDestroyWindow = win32_DestroyWindow;
+    window->impl.pHideWindow    = win32_HideWindow;
+    window->impl.pMoveWindow    = win32_MoveWindow;
+    window->impl.pShowWindow    = win32_ShowWindow;
+    window->impl.pSizeWindow    = win32_SizeWindow;
+    window_evnt(OnWindowCreate);
     return true;
 }
 
-bool _MoveWindow_win32(Window window, int32_t left, int32_t top)
+bool win32_CloseWindow(Window window)
 {
-    // set the Win32 window position
-    POINT point = { left, top };
-    //_user32.ScreenToClient(window->win32.hWnd, &point);
-    //UINT flags = SWP_NOZORDER | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOREPOSITION | SWP_NOACTIVATE | SWP_NOSENDCHANGING;
-    // UINT flags = SWP_NOSIZE | SWP_NOREPOSITION | SWP_NOSENDCHANGING;
-    UINT flags = SWP_NOSIZE;
-    _user32.SetWindowPos(window->win32.hWnd, HWND_TOP, point.x, point.y, 0, 0, flags);
+    // close the Win32 window
+    return _user32.CloseWindow(window->win32.hWnd) ? true : false;
 }
 
-bool _ReadWindowEvents_win32()
+bool win32_DestroyWindow(Window window)
 {
-    // release the process to the OS for a bit
+    // destroy the Win32 window
+    return _user32.DestroyWindow(window->win32.hWnd) ? true : false;
+}
+
+bool win32_HideWindow(Window window)
+{
+    // hide the Win32 window
+    _user32.ShowWindow(window->win32.hWnd, SW_HIDE);
+    return true;
+}
+
+bool win32_MoveWindow(Window window, int32_t left, int32_t top)
+{
+    // move the Win32 window
+    return _user32.SetWindowPos(window->win32.hWnd, HWND_TOP, left, top, 0, 0, SWP_NOSIZE) ? true : false;
+}
+
+bool win32_ShowWindow(Window window)
+{
+    // hide the Win32 window
+    _user32.ShowWindow(window->win32.hWnd, SW_SHOW);
+    return true;
+}
+
+bool win32_SizeWindow(Window window, uint32_t width, uint32_t height)
+{
+    // size the Win32 window
+    return _user32.SetWindowPos(window->win32.hWnd, HWND_TOP, 0, 0, width, height, SWP_NOMOVE) ? true : false;
+}
+
+bool win32_ReadEvents()
+{
+    // check if Win32 module is loaded
+    if (!win32.OK) return false;
+
+    // release process to OS (reduce high CPU)
     Sleep(0);
 
     // iterate through all queued Win32 messages
@@ -84,12 +104,10 @@ bool _ReadWindowEvents_win32()
         // check if Win32 application should be closed
         if (msg.message == WM_QUIT)
         {
-            module_free(wgl)
-            module_free(win32)
+            win32_FreeModule();
             return false;
         }
     }
-
     return true;
 }
 

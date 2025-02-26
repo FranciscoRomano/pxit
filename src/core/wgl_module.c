@@ -28,7 +28,7 @@ void* _LoadSymbol_wgl(const char* name)
 bool  _FreeModule_wgl()
 {
     // check if module was unloaded
-    if (!_wgl.OK) return false;
+    if (!_wgl.OK) return true;
 
     // release all allocated resources
     if (_wgl_hGLRC) {
