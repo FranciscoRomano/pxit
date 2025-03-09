@@ -128,28 +128,35 @@ typedef struct Window_t* Window;
 
 /// @brief Represents all supported window events.
 typedef struct WindowEvents {
-    void (*OnCharacter)(Window,char);
-    void (*OnKeyDown)(Window,uint32_t);
-    void (*OnKeyUp)(Window,uint32_t);
-    void (*OnMouseDown)(Window,uint32_t);
-    void (*OnMouseEnter)(Window,uint32_t,uint32_t);
-    void (*OnMouseLeave)(Window,uint32_t,uint32_t);
-    void (*OnMouseMove)(Window,uint32_t,uint32_t);
-    void (*OnMouseScroll)(Window,int32_t,int32_t);
-    void (*OnMouseUp)(Window,uint32_t);
-    void (*OnWindowClose)(Window);
-    void (*OnWindowCreate)(Window);
-    void (*OnWindowDestroy)(Window);
-    void (*OnWindowDraw)(Window);
-    void (*OnWindowFocus)(Window,bool);
-    void (*OnWindowHide)(Window);
-    void (*OnWindowMaximize)(Window);
-    void (*OnWindowMinimize)(Window);
-    void (*OnWindowMove)(Window,int32_t,int32_t);
-    void (*OnWindowRestore)(Window);
-    void (*OnWindowShow)(Window);
-    void (*OnWindowSize)(Window,uint32_t,uint32_t);
+    void (*pOnCharacter)(Window,wchar_t);
+    void (*pOnKeyDown)(Window,uint32_t);
+    void (*pOnKeyUp)(Window,uint32_t);
+    void (*pOnMouseDown)(Window,uint32_t);
+    void (*pOnMouseMove)(Window,uint32_t,uint32_t);
+    void (*pOnMouseScroll)(Window,int32_t,int32_t);
+    void (*pOnMouseUp)(Window,uint32_t);
+    void (*pOnWindowClose)(Window);
+    void (*pOnWindowCreate)(Window);
+    void (*pOnWindowDestroy)(Window);
+    void (*pOnWindowFocus)(Window);
+    void (*pOnWindowHide)(Window);
+    void (*pOnWindowMove)(Window,int32_t,int32_t);
+    void (*pOnWindowShow)(Window);
+    void (*pOnWindowSize)(Window,uint32_t,uint32_t);
+    void (*pOnWindowUnfocus)(Window);
 } WindowEvents;
+
+/// @brief Represents all supported window families.
+typedef enum WindowFamily {
+    WINDOW_FAMILY_ANY,
+    WINDOW_FAMILY_ANDROID,
+    WINDOW_FAMILY_COCOA,
+    WINDOW_FAMILY_IOS,
+    WINDOW_FAMILY_WAYLAND,
+    WINDOW_FAMILY_WIN32,
+    WINDOW_FAMILY_X11,
+    WINDOW_FAMILY_XCB,
+} WindowFamily;
 
 /// @brief Represents the parameters for a new window.
 typedef struct WindowCreateInfo {
@@ -158,20 +165,16 @@ typedef struct WindowCreateInfo {
     uint32_t      Width;
     uint32_t      Height;
     const char*   pTitle;
+    WindowFamily  Family;
     WindowEvents* pEvents;
 } WindowCreateInfo;
 
 bool CloseWindow(Window window);
 bool CreateWindow(const WindowCreateInfo* pCreateInfo, Window* pWindow);
 bool DestroyWindow(Window window);
-bool DrawWindow(Window window);
-bool FocusWindow(Window window, bool focus);
 bool HideWindow(Window window);
-bool MaximizeWindow(Window window);
-bool MinimizeWindow(Window window);
 bool MoveWindow(Window window, int32_t left, int32_t top);
-bool ReadWindowEvents();
-bool RestoreWindow(Window window);
+bool ReadEvents();
 bool ShowWindow(Window window);
 bool SizeWindow(Window window, uint32_t width, uint32_t height);
 

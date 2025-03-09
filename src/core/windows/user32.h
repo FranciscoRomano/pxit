@@ -97,9 +97,25 @@ extern "C" {
 #define IDI_QUESTION                               ((LPSTR)((ULONG_PTR)((WORD)(32514))))
 #define IDI_WARNING                                ((LPSTR)((ULONG_PTR)((WORD)(32515))))
 #define IDI_WINLOGO                                ((LPSTR)((ULONG_PTR)((WORD)(32517))))
+#define LWA_ALPHA                                  0x00000002
+#define LWA_COLORKEY                               0x00000001
 #define PM_NOREMOVE                                0x0000
 #define PM_NOYIELD                                 0x0002
 #define PM_REMOVE                                  0x0001
+#define SW_FORCEMINIMIZE                           11
+#define SW_HIDE                                    0
+#define SW_MAXIMIZE                                3
+#define SW_MINIMIZE                                6
+#define SW_NORMAL                                  1
+#define SW_RESTORE                                 9
+#define SW_SHOW                                    5
+#define SW_SHOWDEFAULT                             10
+#define SW_SHOWMAXIMIZED                           3
+#define SW_SHOWMINIMIZED                           2
+#define SW_SHOWMINNOACTIVE                         7
+#define SW_SHOWNA                                  8
+#define SW_SHOWNOACTIVATE                          4
+#define SW_SHOWNORMAL                              1
 #define SWP_ASYNCWINDOWPOS                         0x4000
 #define SWP_DEFERERASE                             0x2000
 #define SWP_DRAWFRAME                              0x0020
@@ -388,8 +404,6 @@ extern "C" {
 #define WS_TILEDWINDOW                             0x00CF0000L
 #define WS_VISIBLE                                 0x10000000L
 #define WS_VSCROLL                                 0x00200000L
-#define LWA_ALPHA                                  0x00000002
-#define LWA_COLORKEY                               0x00000001
 
 // [Windows] Blend function
 typedef struct _BLENDFUNCTION {
@@ -454,35 +468,37 @@ typedef struct {
 /// @brief Represents the "user32.dll" library and supported functions.
 extern struct _user32_dll {
     void* dll;
-    BOOL     WINAPI (*AdjustWindowRect)(LPRECT,DWORD,BOOL);
-    BOOL     WINAPI (*ClientToScreen)(HWND,LPPOINT);
-    BOOL     WINAPI (*CloseWindow)(HWND);
-    HWND     WINAPI (*CreateWindowExA)(DWORD,LPCSTR,LPCSTR,DWORD,int,int,int,int,HWND,HMENU,HINSTANCE,LPVOID);
-    LRESULT  WINAPI (*DefWindowProcA)(HWND,UINT,WPARAM,LPARAM);
-    WINBOOL  WINAPI (*DestroyWindow)(HWND);
-    LRESULT  WINAPI (*DispatchMessageA)(CONST MSG*);
-    HDC      WINAPI (*GetDC)(HWND);
-    BOOL     WINAPI (*GetCursorPos)(LPPOINT);
-    LONG_PTR WINAPI (*GetWindowLongPtrA)(HWND,int);
-    HCURSOR  WINAPI (*LoadCursorA)(HINSTANCE,LPCSTR);
-    HICON    WINAPI (*LoadIconA)(HINSTANCE,LPCSTR);
-    WINBOOL  WINAPI (*MoveWindow)(HWND,int,int,int,int,WINBOOL);
-    BOOL     WINAPI (*PeekMessageA)(MSG*,HWND,UINT,UINT,UINT);
-    void     WINAPI (*PostQuitMessage)(int);
-    ATOM     WINAPI (*RegisterClassExA)(CONST WNDCLASSEXA*);
-    BOOL     WINAPI (*ReleaseCapture)();
-    int      WINAPI (*ReleaseDC)(HWND,HDC);
-    BOOL     WINAPI (*ScreenToClient)(HWND,LPPOINT);
-    HWND     WINAPI (*SetCapture)(HWND);
-    BOOL     WINAPI (*SetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD);
-    BOOL     WINAPI (*SetProcessDPIAware)();
-    HRESULT  WINAPI (*SetProcessDpiAwareness)(PROCESS_DPI_AWARENESS);
-    BOOL     WINAPI (*SetProcessDpiAwarenessContext)(DPI_AWARENESS_CONTEXT);
-    LONG_PTR WINAPI (*SetWindowLongPtrA)(HWND,int,LONG_PTR);
-    WINBOOL  WINAPI (*SetWindowPos)(HWND,HWND,int,int,int,int,UINT);
-    BOOL     WINAPI (*TranslateMessage)(CONST MSG*);
-    WINBOOL  WINAPI (*UnregisterClassA)(LPCSTR,HINSTANCE);
-    BOOL     WINAPI (*UpdateLayeredWindow)(HWND,HDC,POINT*,SIZE*,HDC,POINT*,COLORREF,BLENDFUNCTION*,DWORD);
+    BOOL     (WINAPI *AdjustWindowRect)(LPRECT,DWORD,BOOL);
+    BOOL     (WINAPI *ClientToScreen)(HWND,LPPOINT);
+    BOOL     (WINAPI *CloseWindow)(HWND);
+    HWND     (WINAPI *CreateWindowExA)(DWORD,LPCSTR,LPCSTR,DWORD,int,int,int,int,HWND,HMENU,HINSTANCE,LPVOID);
+    LRESULT  (WINAPI *DefWindowProcA)(HWND,UINT,WPARAM,LPARAM);
+    WINBOOL  (WINAPI *DestroyWindow)(HWND);
+    LRESULT  (WINAPI *DispatchMessageA)(CONST MSG*);
+    HDC      (WINAPI *GetDC)(HWND);
+    BOOL     (WINAPI *GetCursorPos)(LPPOINT);
+    LONG_PTR (WINAPI *GetWindowLongPtrA)(HWND,int);
+    HCURSOR  (WINAPI *LoadCursorA)(HINSTANCE,LPCSTR);
+    HICON    (WINAPI *LoadIconA)(HINSTANCE,LPCSTR);
+    WINBOOL  (WINAPI *MoveWindow)(HWND,int,int,int,int,WINBOOL);
+    BOOL     (WINAPI *PeekMessageA)(MSG*,HWND,UINT,UINT,UINT);
+    void     (WINAPI *PostQuitMessage)(int);
+    ATOM     (WINAPI *RegisterClassExA)(CONST WNDCLASSEXA*);
+    BOOL     (WINAPI *ReleaseCapture)();
+    int      (WINAPI *ReleaseDC)(HWND,HDC);
+    BOOL     (WINAPI *ScreenToClient)(HWND,LPPOINT);
+    HWND     (WINAPI *SetCapture)(HWND);
+    HWND     (WINAPI *SetFocus)(HWND);
+    BOOL     (WINAPI *SetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD);
+    BOOL     (WINAPI *SetProcessDPIAware)();
+    HRESULT  (WINAPI *SetProcessDpiAwareness)(PROCESS_DPI_AWARENESS);
+    BOOL     (WINAPI *SetProcessDpiAwarenessContext)(DPI_AWARENESS_CONTEXT);
+    LONG_PTR (WINAPI *SetWindowLongPtrA)(HWND,int,LONG_PTR);
+    WINBOOL  (WINAPI *SetWindowPos)(HWND,HWND,int,int,int,int,UINT);
+    BOOL     (WINAPI *ShowWindow)(HWND,int);
+    BOOL     (WINAPI *TranslateMessage)(CONST MSG*);
+    WINBOOL  (WINAPI *UnregisterClassA)(LPCSTR,HINSTANCE);
+    BOOL     (WINAPI *UpdateLayeredWindow)(HWND,HDC,POINT*,SIZE*,HDC,POINT*,COLORREF,BLENDFUNCTION*,DWORD);
 } _user32;
 
 /// @brief Returns true if the "user32.dll" library was freed successfully.

@@ -13,17 +13,18 @@ extern "C" {
 #include "windows/user32.h"
 
 /// @brief Represents a Win32 module and supported properties.
-extern struct _Module_win32 {
+extern struct win32_Module {
     bool        OK;
     HINSTANCE   hInstance;
     const char* lpClassName;
-} _win32;
+    uint32_t    windowCount;
+} win32;
 
 /// @brief Returns true if the Win32 module was freed successfully.
-bool _FreeModule_win32();
+bool win32_FreeModule();
 
 /// @brief Returns true if the Win32 module was loaded successfully.
-bool _LoadModule_win32();
+bool win32_LoadModule();
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

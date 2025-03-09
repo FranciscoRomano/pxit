@@ -41,7 +41,7 @@ bool _CreateWindow_wgl(const WindowCreateInfo* pCreateInfo, Window window)
     assert(window->win32.hGLRC, "failed to create WGL context")
     _opengl32.wglMakeCurrent(window->win32.hDC, window->win32.hGLRC);
     window->impl.DestroyWindow = _DestroyWindow_wgl;
-    window->impl.DrawWindow = _DrawWindow_wgl;
+    //window->impl.DrawWindow = _DrawWindow_wgl;
     return true;
 }
 
@@ -56,17 +56,17 @@ bool _DestroyWindow_wgl(Window window)
     return _DestroyWindow_win32(window);
 }
 
-bool _DrawWindow_wgl(Window window)
-{
-    // set WGL rendering context as current
-    BOOL result = _opengl32.wglMakeCurrent(window->win32.hDC, window->win32.hGLRC);
-    assert(result == TRUE, "failed to set WGL rendering context as current")
+// bool _DrawWindow_wgl(Window window)
+// {
+//     // set WGL rendering context as current
+//     BOOL result = _opengl32.wglMakeCurrent(window->win32.hDC, window->win32.hGLRC);
+//     assert(result == TRUE, "failed to set WGL rendering context as current")
 
-    // invoke "OnWindowDraw" event and flush
-    WINDOW_EVENT(OnWindowDraw)
-    glFlush();
+//     // invoke "OnWindowDraw" event and flush
+//     WINDOW_EVENT(OnWindowDraw)
+//     glFlush();
 
-    // swap the back buffer with the main buffer
-    _opengl32.wglSwapLayerBuffers(window->win32.hDC, WGL_SWAP_MAIN_PLANE);
-    return true;
-}
+//     // swap the back buffer with the main buffer
+//     _opengl32.wglSwapLayerBuffers(window->win32.hDC, WGL_SWAP_MAIN_PLANE);
+//     return true;
+// }

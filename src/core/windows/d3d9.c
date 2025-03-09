@@ -2,36 +2,41 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2025 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#define LIBRARY_MODULE _gdi32
+#define LIBRARY_MODULE _d3d9
 #include "../private.h"
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-struct _gdi32_dll _gdi32 = { NULL };
+struct _d3d9_dll _d3d9 = { NULL };
 
-bool _free_gdi32_dll()
+bool _free_d3d9_dll()
 {
     // check if library was unloaded
-    if (!_gdi32.dll) return true;
+    if (!_d3d9.dll) return true;
 
     // unload and reset library module
     LIBRARY_MODULE_FREE()
     return true;
 }
 
-bool _load_gdi32_dll()
+bool _load_d3d9_dll()
 {
     // check if library was loaded
-    if (_gdi32.dll) return true;
+    if (_d3d9.dll) return true;
 
     // iterate through all library paths
-    const char* paths[] = { "gdi32.dll", NULL };
+    const char* paths[] = { "d3d9.dll", NULL };
     for (size_t i = 0; paths[i]; i++)
     {
         // try loading library and any symbols
         LIBRARY_MODULE_LOAD(paths[i])
-        LIBRARY_MODULE_RSYM(ChoosePixelFormat)
-        LIBRARY_MODULE_RSYM(DescribePixelFormat)
-        LIBRARY_MODULE_RSYM(SetPixelFormat)
+        LIBRARY_MODULE_RSYM(D3DPERF_BeginEvent)
+        LIBRARY_MODULE_RSYM(D3DPERF_EndEvent)
+        LIBRARY_MODULE_RSYM(D3DPERF_GetStatus)
+        LIBRARY_MODULE_RSYM(D3DPERF_QueryRepeatFrame)
+        LIBRARY_MODULE_RSYM(D3DPERF_SetMarker)
+        LIBRARY_MODULE_RSYM(D3DPERF_SetOptions)
+        LIBRARY_MODULE_RSYM(D3DPERF_SetRegion)
+        LIBRARY_MODULE_RSYM(Direct3DCreate9)
         return true;
     }
     return false;
