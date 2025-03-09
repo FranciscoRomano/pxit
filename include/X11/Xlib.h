@@ -1269,419 +1269,419 @@ typedef struct XIMValuesList {
     char**                             supported_values;                  // ???
 } XIMValuesList;
 
-int32_t              _Xmblen(char*,int32_t);
-int32_t              _Xmbtowc(wchar_t*,char*,int32_t);
-int32_t              _Xwctomb(char*,wchar_t);
-int32_t              XActivateScreenSaver(XDisplay*);
-int32_t              XAddConnectionWatch(XDisplay*,XConnectionWatchProc,void*);
-XExtCodes*           XAddExtension(XDisplay*);
-int32_t              XAddHost(XDisplay*,XHostAddress*);
-int32_t              XAddHosts(XDisplay*,XHostAddress*,int32_t);
-int32_t              XAddToExtensionList(XExtData**,XExtData*);
-int32_t              XAddToSaveSet(XDisplay*,XWindow);
-int32_t              XAllocColor(XDisplay*,XColormap,XColor*);
-int32_t              XAllocColorCells(XDisplay*,XColormap,int32_t,uint64_t*,uint32_t,uint64_t*,uint32_t);
-int32_t              XAllocColorPlanes(XDisplay*,XColormap,int32_t,uint64_t*,int32_t,int32_t,int32_t,int32_t,uint64_t*,uint64_t*,uint64_t*);
-int32_t              XAllocNamedColor(XDisplay*,XColormap,const char*,XColor*,XColor*);
-int32_t              XAllowEvents(XDisplay*,int32_t,XTime);
-uint64_t             XAllPlanes(void);
-int32_t              XAutoRepeatOff(XDisplay*);
-int32_t              XAutoRepeatOn(XDisplay*);
-char*                XBaseFontNameListOfFontSet(XFontSet);
-int32_t              XBell(XDisplay*,int32_t);
-int32_t              XBitmapBitOrder(XDisplay*);
-int32_t              XBitmapPad(XDisplay*);
-int32_t              XBitmapUnit(XDisplay*);
-uint64_t             XBlackPixel(XDisplay*,int32_t);
-uint64_t             XBlackPixelOfScreen(XScreen*);
-int32_t              XCellsOfScreen(XScreen*);
-int32_t              XChangeActivePointerGrab(XDisplay*,uint32_t,XCursor,XTime);
-int32_t              XChangeGC(XDisplay*,XGC,uint64_t,XGCValues*);
-int32_t              XChangeKeyboardControl(XDisplay*,uint64_t,XKeyboardControl*);
-int32_t              XChangeKeyboardMapping(XDisplay*,int32_t,int32_t,XKeySym*,int32_t);
-int32_t              XChangePointerControl(XDisplay*,int32_t,int32_t,int32_t,int32_t,int32_t);
-int32_t              XChangeProperty(XDisplay*,XWindow,XAtom,XAtom,int32_t,int32_t,const uint8_t*,int32_t);
-int32_t              XChangeSaveSet(XDisplay*,XWindow,int32_t);
-int32_t              XChangeWindowAttributes(XDisplay*,XWindow,uint64_t,XSetWindowAttributes*);
-int32_t              XCheckIfEvent(XDisplay*,XEvent*,int32_t(*)(XDisplay*,XEvent*,void*),void*);
-int32_t              XCheckMaskEvent(XDisplay*,int64_t,XEvent*);
-int32_t              XCheckTypedEvent(XDisplay*,int32_t,XEvent*);
-int32_t              XCheckTypedWindowEvent(XDisplay*,XWindow,int32_t,XEvent*);
-int32_t              XCheckWindowEvent(XDisplay*,XWindow,int64_t,XEvent*);
-int32_t              XCirculateSubwindows(XDisplay*,XWindow,int32_t);
-int32_t              XCirculateSubwindowsDown(XDisplay*,XWindow);
-int32_t              XCirculateSubwindowsUp(XDisplay*,XWindow);
-int32_t              XClearArea(XDisplay*,XWindow,int32_t,int32_t,uint32_t,uint32_t,int32_t);
-int32_t              XClearWindow(XDisplay*,XWindow);
-int32_t              XCloseDisplay(XDisplay*);
-int32_t              XCloseIM(XIM);
-int32_t              XCloseOM(XOM);
-int32_t              XConfigureWindow(XDisplay*,XWindow,uint32_t,XWindowChanges*);
-int32_t              XConnectionNumber(XDisplay*);
-int32_t              XContextDependentDrawing(XFontSet);
-int32_t              XContextualDrawing(XFontSet);
-int32_t              XConvertSelection(XDisplay*,XAtom,XAtom,XAtom,XWindow,XTime);
-int32_t              XCopyArea(XDisplay*,XDrawable,XDrawable,XGC,int32_t,int32_t,uint32_t,uint32_t,int32_t,int32_t);
-XColormap            XCopyColormapAndFree(XDisplay*,XColormap);
-int32_t              XCopyGC(XDisplay*,XGC,uint64_t,XGC);
-int32_t              XCopyPlane(XDisplay*,XDrawable,XDrawable,XGC,int32_t,int32_t,uint32_t,uint32_t,int32_t,int32_t,uint64_t);
-XPixmap              XCreateBitmapFromData(XDisplay*,XDrawable,const char*,uint32_t,uint32_t);
-XColormap            XCreateColormap(XDisplay*,XWindow,XVisual*,int32_t);
-XCursor              XCreateFontCursor(XDisplay*,uint32_t);
-XFontSet             XCreateFontSet(XDisplay*,const char*,char***,int32_t*,char**);
-XGC                  XCreateGC(XDisplay*,XDrawable,uint64_t,XGCValues*);
-XCursor              XCreateGlyphCursor(XDisplay*,XFont,XFont,uint32_t,uint32_t,XColor const*,XColor const*);
-XIC                  XCreateIC(XIM,...);
-XImage*              XCreateImage(XDisplay*,XVisual*,uint32_t,int32_t,int32_t,char*,uint32_t,uint32_t,int32_t,int32_t);
-XOC                  XCreateOC(XOM,...);
-XPixmap              XCreatePixmap(XDisplay*,XDrawable,uint32_t,uint32_t,uint32_t);
-XCursor              XCreatePixmapCursor(XDisplay*,XPixmap,XPixmap,XColor*,XColor*,uint32_t,uint32_t);
-XPixmap              XCreatePixmapFromBitmapData(XDisplay*,XDrawable,char*,uint32_t,uint32_t,uint64_t,uint64_t,uint32_t);
-XWindow              XCreateSimpleWindow(XDisplay*,XWindow,int32_t,int32_t,uint32_t,uint32_t,uint32_t,uint64_t,uint64_t);
-XWindow              XCreateWindow(XDisplay*,XWindow,int32_t,int32_t,uint32_t,uint32_t,uint32_t,int32_t,uint32_t,XVisual*,uint64_t,XSetWindowAttributes*);
-XColormap            XDefaultColormap(XDisplay*,int32_t);
-XColormap            XDefaultColormapOfScreen(XScreen*);
-int32_t              XDefaultDepth(XDisplay*,int32_t);
-int32_t              XDefaultDepthOfScreen(XScreen*);
-XGC                  XDefaultGC(XDisplay*,int32_t);
-XGC                  XDefaultGCOfScreen(XScreen*);
-XWindow              XDefaultRootWindow(XDisplay*);
-int32_t              XDefaultScreen(XDisplay*);
-XScreen*             XDefaultScreenOfDisplay(XDisplay*);
-XVisual*             XDefaultVisual(XDisplay*,int32_t);
-XVisual*             XDefaultVisualOfScreen(XScreen*);
-int32_t              XDefineCursor(XDisplay*,XWindow,XCursor);
-XModifierKeymap*     XDeleteModifiermapEntry(XModifierKeymap*,XKeyCode,int32_t);
-int32_t              XDeleteProperty(XDisplay*,XWindow,XAtom);
-void                 XDestroyIC(XIC);
-void                 XDestroyOC(XOC);
-int32_t              XDestroySubwindows(XDisplay*,XWindow);
-int32_t              XDestroyWindow(XDisplay*,XWindow);
-int32_t              XDirectionalDependentDrawing(XFontSet);
-int32_t              XDisableAccessControl(XDisplay*);
-int32_t              XDisplayCells(XDisplay*,int32_t);
-int32_t              XDisplayHeight(XDisplay*,int32_t);
-int32_t              XDisplayHeightMM(XDisplay*,int32_t);
-int32_t              XDisplayKeycodes(XDisplay*,int32_t*,int32_t*);
-uint64_t             XDisplayMotionBufferSize(XDisplay*);
-char*                XDisplayName(const char*);
-XDisplay*            XDisplayOfIM(XIM);
-XDisplay*            XDisplayOfOM(XOM);
-XDisplay*            XDisplayOfScreen(XScreen*);
-int32_t              XDisplayPlanes(XDisplay*,int32_t);
-char*                XDisplayString(XDisplay*);
-int32_t              XDisplayWidth(XDisplay*,int32_t);
-int32_t              XDisplayWidthMM(XDisplay*,int32_t);
-int32_t              XDoesBackingStore(XScreen*);
-int32_t              XDoesSaveUnders(XScreen*);
-int32_t              XDrawArc(XDisplay*,XDrawable,XGC,int32_t,int32_t,uint32_t,uint32_t,int32_t,int32_t);
-int32_t              XDrawArcs(XDisplay*,XDrawable,XGC,XArc*,int32_t);
-int32_t              XDrawImageString(XDisplay*,XDrawable,XGC,int32_t,int32_t,const char*,int32_t);
-int32_t              XDrawImageString16(XDisplay*,XDrawable,XGC,int32_t,int32_t,const XChar2b*,int32_t);
-int32_t              XDrawLine(XDisplay*,XDrawable,XGC,int32_t,int32_t,int32_t,int32_t);
-int32_t              XDrawLines(XDisplay*,XDrawable,XGC,XPoint*,int32_t,int32_t);
-int32_t              XDrawPoint(XDisplay*,XDrawable,XGC,int32_t,int32_t);
-int32_t              XDrawPoints(XDisplay*,XDrawable,XGC,XPoint*,int32_t,int32_t);
-int32_t              XDrawRectangle(XDisplay*,XDrawable,XGC,int32_t,int32_t,uint32_t,uint32_t);
-int32_t              XDrawRectangles(XDisplay*,XDrawable,XGC,XRectangle*,int32_t);
-int32_t              XDrawSegments(XDisplay*,XDrawable,XGC,XSegment*,int32_t);
-int32_t              XDrawString(XDisplay*,XDrawable,XGC,int32_t,int32_t,const char*,int32_t);
-int32_t              XDrawString16(XDisplay*,XDrawable,XGC,int32_t,int32_t,const XChar2b*,int32_t);
-int32_t              XDrawText(XDisplay*,XDrawable,XGC,int32_t,int32_t,XTextItem*,int32_t);
-int32_t              XDrawText16(XDisplay*,XDrawable,XGC,int32_t,int32_t,XTextItem16*,int32_t);
-XExtData**           XEHeadOfExtensionList(XEDataObject);
-int32_t              XEnableAccessControl(XDisplay*);
-int64_t              XEventMaskOfScreen(XScreen*);
-int32_t              XEventsQueued(XDisplay*,int32_t);
-int64_t              XExtendedMaxRequestSize(XDisplay*);
-XFontSetExtents*     XExtentsOfFontSet(XFontSet);
-char*                XFetchBuffer(XDisplay*,int32_t*,int32_t);
-char*                XFetchBytes(XDisplay*,int32_t*);
-int32_t              XFetchName(XDisplay*,XWindow,char**);
-int32_t              XFillArc(XDisplay*,XDrawable,XGC,int32_t,int32_t,uint32_t,uint32_t,int32_t,int32_t);
-int32_t              XFillArcs(XDisplay*,XDrawable,XGC,XArc*,int32_t);
-int32_t              XFillPolygon(XDisplay*,XDrawable,XGC,XPoint*,int32_t,int32_t,int32_t);
-int32_t              XFillRectangle(XDisplay*,XDrawable,XGC,int32_t,int32_t,uint32_t,uint32_t);
-int32_t              XFillRectangles(XDisplay*,XDrawable,XGC,XRectangle*,int32_t);
-int32_t              XFilterEvent(XEvent*,XWindow);
-XExtData*            XFindOnExtensionList(XExtData**,int32_t);
-int32_t              XFlush(XDisplay*);
-void                 XFlushGC(XDisplay*,XGC);
-int32_t              XFontsOfFontSet(XFontSet,XFontStruct***,char***);
-int32_t              XForceScreenSaver(XDisplay*,int32_t);
-int32_t              XFree(void*);
-int32_t              XFreeColormap(XDisplay*,XColormap);
-int32_t              XFreeColors(XDisplay*,XColormap,uint64_t*,int32_t,uint64_t);
-int32_t              XFreeCursor(XDisplay*,XCursor);
-void                 XFreeEventData(XDisplay*,XGenericEventCookie*);
-int32_t              XFreeExtensionList(char**);
-int32_t              XFreeFont(XDisplay*,XFontStruct*);
-int32_t              XFreeFontInfo(char**,XFontStruct*,int32_t);
-int32_t              XFreeFontNames(char**);
-int32_t              XFreeFontPath(char**);
-void                 XFreeFontSet(XDisplay*,XFontSet);
-int32_t              XFreeGC(XDisplay*,XGC);
-int32_t              XFreeModifiermap(XModifierKeymap*);
-int32_t              XFreePixmap(XDisplay*,XPixmap);
-void                 XFreeStringList(char**);
-int32_t              XFreeThreads(void);
-XGContext            XGContextFromGC(XGC);
-int32_t              XGeometry(XDisplay*,int32_t,const char*,const char*,uint32_t,uint32_t,uint32_t,int32_t,int32_t,int32_t*,int32_t*,int32_t*,int32_t*);
-char*                XGetAtomName(XDisplay*,XAtom);
-int32_t              XGetAtomNames(XDisplay*,XAtom*,int32_t,char**);
-int32_t              XGetCommand(XDisplay*,XWindow,char***,int32_t*);
-char*                XGetDefault(XDisplay*,const char*,const char*);
-int32_t              XGetErrorDatabaseText(XDisplay*,const char*,const char*,const char*,char*,int32_t);
-int32_t              XGetErrorText(XDisplay*,int32_t,char*,int32_t);
-int32_t              XGetEventData(XDisplay*,XGenericEventCookie*);
-char**               XGetFontPath(XDisplay*,int32_t*);
-int32_t              XGetFontProperty(XFontStruct*,XAtom,uint64_t*);
-int32_t              XGetGCValues(XDisplay*,XGC,uint64_t,XGCValues*);
-int32_t              XGetGeometry(XDisplay*,XDrawable,XWindow*,int32_t*,int32_t*,uint32_t*,uint32_t*,uint32_t*,uint32_t*);
-int32_t              XGetIconName(XDisplay*,XWindow,char**);
-char*                XGetICValues(XIC,...);
-XImage*              XGetImage(XDisplay*,XDrawable,int32_t,int32_t,uint32_t,uint32_t,uint64_t,int32_t);
-char*                XGetIMValues(XIM,...);
-int32_t              XGetInputFocus(XDisplay*,XWindow*,int32_t*);
-int32_t              XGetKeyboardControl(XDisplay*,XKeyboardState*);
-XKeySym*             XGetKeyboardMapping(XDisplay*,XKeyCode,int32_t,int32_t*);
-XModifierKeymap*     XGetModifierMapping(XDisplay*);
-XTimeCoord*          XGetMotionEvents(XDisplay*,XWindow,XTime,XTime,int32_t*);
-char*                XGetOCValues(XOC,...);
-char*                XGetOMValues(XOM,...);
-int32_t              XGetPointerControl(XDisplay*,int32_t*,int32_t*,int32_t*);
-int32_t              XGetPointerMapping(XDisplay*,uint8_t*,int32_t);
-int32_t              XGetScreenSaver(XDisplay*,int32_t*,int32_t*,int32_t*,int32_t*);
-XWindow              XGetSelectionOwner(XDisplay*,XAtom);
-XImage*              XGetSubImage(XDisplay*,XDrawable,int32_t,int32_t,uint32_t,uint32_t,uint64_t,int32_t,XImage*,int32_t,int32_t);
-int32_t              XGetTransientForHint(XDisplay*,XWindow,XWindow*);
-int32_t              XGetWindowAttributes(XDisplay*,XWindow,XWindowAttributes*);
-int32_t              XGetWindowProperty(XDisplay*,XWindow,XAtom,int64_t,int64_t,int32_t,XAtom,XAtom*,int32_t*,uint64_t*,uint64_t*,uint8_t**);
-int32_t              XGetWMColormapWindows(XDisplay*,XWindow,XWindow**,int32_t*);
-int32_t              XGetWMProtocols(XDisplay*,XWindow,XAtom**,int32_t*);
-int32_t              XGrabButton(XDisplay*,uint32_t,uint32_t,XWindow,int32_t,uint32_t,int32_t,int32_t,XWindow,XCursor);
-int32_t              XGrabKey(XDisplay*,int32_t,uint32_t,XWindow,int32_t,int32_t,int32_t);
-int32_t              XGrabKeyboard(XDisplay*,XWindow,int32_t,int32_t,int32_t,XTime);
-int32_t              XGrabPointer(XDisplay*,XWindow,int32_t,uint32_t,int32_t,int32_t,XWindow,XCursor,XTime);
-int32_t              XGrabServer(XDisplay*);
-int32_t              XHeightMMOfScreen(XScreen*);
-int32_t              XHeightOfScreen(XScreen*);
-int32_t              XIconifyWindow(XDisplay*,XWindow,int32_t);
-int32_t              XIfEvent(XDisplay*,XEvent*,int32_t(*)(XDisplay*,XEvent*,void*),void*);
-int32_t              XImageByteOrder(XDisplay*);
-XIM                  XIMOfIC(XIC);
-XExtCodes*           XInitExtension(XDisplay*,const char*);
-int32_t              XInitImage(XImage*);
-int32_t              XInitThreads(void);
-XModifierKeymap*     XInsertModifiermapEntry(XModifierKeymap*,XKeyCode,int32_t);
-int32_t              XInstallColormap(XDisplay*,XColormap);
-int32_t              XInternalConnectionNumbers(XDisplay*,int32_t**,int32_t*);
-XAtom                XInternAtom(XDisplay*,const char*,int32_t);
-int32_t              XInternAtoms(XDisplay*,char**,int32_t,int32_t,XAtom*);
-XKeySym              XKeycodeToKeysym(XDisplay*,XKeyCode,int32_t);
-XKeyCode             XKeysymToKeycode(XDisplay*,XKeySym);
-char*                XKeysymToString(XKeySym);
-int32_t              XKillClient(XDisplay*,XID);
-uint64_t             XLastKnownRequestProcessed(XDisplay*);
-int32_t*             XListDepths(XDisplay*,int32_t,int32_t*);
-char**               XListExtensions(XDisplay*,int32_t*);
-char**               XListFonts(XDisplay*,const char*,int32_t,int32_t*);
-char**               XListFontsWithInfo(XDisplay*,const char*,int32_t,int32_t*,XFontStruct**);
-XHostAddress*        XListHosts(XDisplay*,int32_t*,int32_t*);
-XColormap*           XListInstalledColormaps(XDisplay*,XWindow,int32_t*);
-XPixmapFormatValues* XListPixmapFormats(XDisplay*,int32_t*);
-XAtom*               XListProperties(XDisplay*,XWindow,int32_t*);
-XFont                XLoadFont(XDisplay*,const char*);
-XFontStruct*         XLoadQueryFont(XDisplay*,const char*);
-char*                XLocaleOfFontSet(XFontSet);
-char*                XLocaleOfIM(XIM);
-char*                XLocaleOfOM(XOM);
-void                 XLockDisplay(XDisplay*);
-int32_t              XLookupColor(XDisplay*,XColormap,const char*,XColor*,XColor*);
-XKeySym              XLookupKeysym(XKeyEvent*,int32_t);
-int32_t              XLowerWindow(XDisplay*,XWindow);
-int32_t              XMapRaised(XDisplay*,XWindow);
-int32_t              XMapSubwindows(XDisplay*,XWindow);
-int32_t              XMapWindow(XDisplay*,XWindow);
-int32_t              XMaskEvent(XDisplay*,int64_t,XEvent*);
-int32_t              XMaxCmapsOfScreen(XScreen*);
-int64_t              XMaxRequestSize(XDisplay*);
-void                 XmbDrawImageString(XDisplay*,XDrawable,XFontSet,XGC,int32_t,int32_t,const char*,int32_t);
-void                 XmbDrawString(XDisplay*,XDrawable,XFontSet,XGC,int32_t,int32_t,const char*,int32_t);
-void                 XmbDrawText(XDisplay*,XDrawable,XGC,int32_t,int32_t,XmbTextItem*,int32_t);
-int32_t              XmbLookupString(XIC,XKeyEvent*,char*,int32_t,XKeySym*,int32_t*);
-char*                XmbResetIC(XIC);
-int32_t              XmbTextEscapement(XFontSet,const char*,int32_t);
-int32_t              XmbTextExtents(XFontSet,const char*,int32_t,XRectangle*,XRectangle*);
-int32_t              XmbTextPerCharExtents(XFontSet,const char*,int32_t,XRectangle*,XRectangle*,int32_t,int32_t*,XRectangle*,XRectangle*);
-int32_t              XMinCmapsOfScreen(XScreen*);
-int32_t              XMoveResizeWindow(XDisplay*,XWindow,int32_t,int32_t,uint32_t,uint32_t);
-int32_t              XMoveWindow(XDisplay*,XWindow,int32_t,int32_t);
-XModifierKeymap*     XNewModifiermap(int32_t);
-int32_t              XNextEvent(XDisplay*,XEvent*);
-uint64_t             XNextRequest(XDisplay*);
-int32_t              XNoOp(XDisplay*);
-XOM                  XOMOfOC(XOC);
-XDisplay*            XOpenDisplay(const char*);
-XIM                  XOpenIM(XDisplay*,XrmHashBucketRec*,char*,char*);
-XOM                  XOpenOM(XDisplay*,XrmHashBucketRec*,const char*,const char*);
-int32_t              XParseColor(XDisplay*,XColormap,const char*,XColor*);
-int32_t              XParseGeometry(const char*,int32_t*,int32_t*,uint32_t*,uint32_t*);
-int32_t              XPeekEvent(XDisplay*,XEvent*);
-int32_t              XPeekIfEvent(XDisplay*,XEvent*,int32_t(*)(XDisplay*,XEvent*,void*),void*);
-int32_t              XPending(XDisplay*);
-int32_t              XPlanesOfScreen(XScreen*);
-void                 XProcessInternalConnection(XDisplay*,int32_t);
-int32_t              XProtocolRevision(XDisplay*);
-int32_t              XProtocolVersion(XDisplay*);
-int32_t              XPutBackEvent(XDisplay*,XEvent*);
-int32_t              XPutImage(XDisplay*,XDrawable,XGC,XImage*,int32_t,int32_t,int32_t,int32_t,uint32_t,uint32_t);
-int32_t              XQLength(XDisplay*);
-int32_t              XQueryBestCursor(XDisplay*,XDrawable,uint32_t,uint32_t,uint32_t*,uint32_t*);
-int32_t              XQueryBestSize(XDisplay*,int32_t,XDrawable,uint32_t,uint32_t,uint32_t*,uint32_t*);
-int32_t              XQueryBestStipple(XDisplay*,XDrawable,uint32_t,uint32_t,uint32_t*,uint32_t*);
-int32_t              XQueryBestTile(XDisplay*,XDrawable,uint32_t,uint32_t,uint32_t*,uint32_t*);
-int32_t              XQueryColor(XDisplay*,XColormap,XColor*);
-int32_t              XQueryColors(XDisplay*,XColormap,XColor*,int32_t);
-int32_t              XQueryExtension(XDisplay*,const char*,int32_t*,int32_t*,int32_t*);
-XFontStruct*         XQueryFont(XDisplay*,XID);
-int32_t              XQueryKeymap(XDisplay*,char[32]);
-int32_t              XQueryPointer(XDisplay*,XWindow,XWindow*,XWindow*,int32_t*,int32_t*,int32_t*,int32_t*,uint32_t*);
-int32_t              XQueryTextExtents(XDisplay*,XID,const char*,int32_t,int32_t*,int32_t*,int32_t*,XCharStruct*);
-int32_t              XQueryTextExtents16(XDisplay*,XID,const XChar2b*,int32_t,int32_t*,int32_t*,int32_t*,XCharStruct*);
-int32_t              XQueryTree(XDisplay*,XWindow,XWindow*,XWindow*,XWindow**,uint32_t*);
-int32_t              XRaiseWindow(XDisplay*,XWindow);
-int32_t              XReadBitmapFile(XDisplay*,XDrawable,const char*,uint32_t*,uint32_t*,XPixmap*,int32_t*,int32_t*);
-int32_t              XReadBitmapFileData(const char*,uint32_t*,uint32_t*,uint8_t**,int32_t*,int32_t*);
-int32_t              XRebindKeysym(XDisplay*,XKeySym,XKeySym*,int32_t,const uint8_t*,int32_t);
-int32_t              XRecolorCursor(XDisplay*,XCursor,XColor*,XColor*);
-int32_t              XReconfigureWMWindow(XDisplay*,XWindow,int32_t,uint32_t,XWindowChanges*);
-int32_t              XRefreshKeyboardMapping(XMappingEvent*);
-int32_t              XRegisterIMInstantiateCallback(XDisplay*,XrmHashBucketRec*,char*,char*,XIDProc,void*);
-void                 XRemoveConnectionWatch(XDisplay*,XConnectionWatchProc,void*);
-int32_t              XRemoveFromSaveSet(XDisplay*,XWindow);
-int32_t              XRemoveHost(XDisplay*,XHostAddress*);
-int32_t              XRemoveHosts(XDisplay*,XHostAddress*,int32_t);
-int32_t              XReparentWindow(XDisplay*,XWindow,XWindow,int32_t,int32_t);
-int32_t              XResetScreenSaver(XDisplay*);
-int32_t              XResizeWindow(XDisplay*,XWindow,uint32_t,uint32_t);
-char*                XResourceManagerString(XDisplay*);
-int32_t              XRestackWindows(XDisplay*,XWindow*,int32_t);
-void                 XrmInitialize(void);
-int                  XrmUniqueQuark();
-XWindow              XRootWindow(XDisplay*,int32_t);
-XWindow              XRootWindowOfScreen(XScreen*);
-int32_t              XRotateBuffers(XDisplay*,int32_t);
-int32_t              XRotateWindowProperties(XDisplay*,XWindow,XAtom*,int32_t,int32_t);
-int32_t              XScreenCount(XDisplay*);
-int32_t              XScreenNumberOfScreen(XScreen*);
-XScreen*             XScreenOfDisplay(XDisplay*,int32_t);
-char*                XScreenResourceString(XScreen*);
-int32_t              XSelectInput(XDisplay*,XWindow,int64_t);
-int32_t              XSendEvent(XDisplay*,XWindow,int32_t,int64_t,XEvent*);
-char*                XServerVendor(XDisplay*);
-int32_t              XSetAccessControl(XDisplay*,int32_t);
-int32_t              XSetArcMode(XDisplay*,XGC,int32_t);
-void                 XSetAuthorization(char*,int32_t,char*,int32_t);
-int32_t              XSetBackground(XDisplay*,XGC,uint64_t);
-int32_t              XSetClipMask(XDisplay*,XGC,XPixmap);
-int32_t              XSetClipOrigin(XDisplay*,XGC,int32_t,int32_t);
-int32_t              XSetClipRectangles(XDisplay*,XGC,int32_t,int32_t,XRectangle*,int32_t,int32_t);
-int32_t              XSetCloseDownMode(XDisplay*,int32_t);
-int32_t              XSetCommand(XDisplay*,XWindow,char**,int32_t);
-int32_t              XSetDashes(XDisplay*,XGC,int32_t,const char*,int32_t);
-XErrorHandler        XSetErrorHandler(XErrorHandler);
-int32_t              XSetFillRule(XDisplay*,XGC,int32_t);
-int32_t              XSetFillStyle(XDisplay*,XGC,int32_t);
-int32_t              XSetFont(XDisplay*,XGC,XFont);
-int32_t              XSetFontPath(XDisplay*,char**,int32_t);
-int32_t              XSetForeground(XDisplay*,XGC,uint64_t);
-int32_t              XSetFunction(XDisplay*,XGC,int32_t);
-int32_t              XSetGraphicsExposures(XDisplay*,XGC,int32_t);
-void                 XSetICFocus(XIC);
-int32_t              XSetIconName(XDisplay*,XWindow,const char*);
-char*                XSetICValues(XIC,...);
-char*                XSetIMValues(XIM,...);
-int32_t              XSetInputFocus(XDisplay*,XWindow,int32_t,XTime);
-void                 XSetIOErrorExitHandler(XDisplay*,XIOErrorExitHandler,void*);
-XIOErrorHandler      XSetIOErrorHandler(XIOErrorHandler);
-int32_t              XSetLineAttributes(XDisplay*,XGC,uint32_t,int32_t,int32_t,int32_t);
-char*                XSetLocaleModifiers(const char*);
-int32_t              XSetModifierMapping(XDisplay*,XModifierKeymap*);
-char*                XSetOCValues(XOC,...);
-char*                XSetOMValues(XOM,...);
-int32_t              XSetPlaneMask(XDisplay*,XGC,uint64_t);
-int32_t              XSetPointerMapping(XDisplay*,const uint8_t*,int32_t);
-int32_t              XSetScreenSaver(XDisplay*,int32_t,int32_t,int32_t,int32_t);
-int32_t              XSetSelectionOwner(XDisplay*,XAtom,XWindow,XTime);
-int32_t              XSetState(XDisplay*,XGC,uint64_t,uint64_t,int32_t,uint64_t);
-int32_t              XSetStipple(XDisplay*,XGC,XPixmap);
-int32_t              XSetSubwindowMode(XDisplay*,XGC,int32_t);
-int32_t              XSetTile(XDisplay*,XGC,XPixmap);
-int32_t              XSetTransientForHint(XDisplay*,XWindow,XWindow);
-int32_t              XSetTSOrigin(XDisplay*,XGC,int32_t,int32_t);
-int32_t              XSetWindowBackground(XDisplay*,XWindow,uint64_t);
-int32_t              XSetWindowBackgroundPixmap(XDisplay*,XWindow,XPixmap);
-int32_t              XSetWindowBorder(XDisplay*,XWindow,uint64_t);
-int32_t              XSetWindowBorderPixmap(XDisplay*,XWindow,XPixmap);
-int32_t              XSetWindowBorderWidth(XDisplay*,XWindow,uint32_t);
-int32_t              XSetWindowColormap(XDisplay*,XWindow,XColormap);
-int32_t              XSetWMColormapWindows(XDisplay*,XWindow,XWindow*,int32_t);
-int32_t              XSetWMProtocols(XDisplay*,XWindow,XAtom*,int32_t);
-int32_t              XStoreBuffer(XDisplay*,const char*,int32_t,int32_t);
-int32_t              XStoreBytes(XDisplay*,const char*,int32_t);
-int32_t              XStoreColor(XDisplay*,XColormap,XColor*);
-int32_t              XStoreColors(XDisplay*,XColormap,XColor*,int32_t);
-int32_t              XStoreName(XDisplay*,XWindow,const char*);
-int32_t              XStoreNamedColor(XDisplay*,XColormap,const char*,uint64_t,int32_t);
-XKeySym              XStringToKeysym(const char*);
-int32_t              XSupportsLocale(void);
-int32_t              XSync(XDisplay*,int32_t);
-int32_t              XTextExtents(XFontStruct*,const char*,int32_t,int32_t*,int32_t*,int32_t*,XCharStruct*);
-int32_t              XTextExtents16(XFontStruct*,const XChar2b*,int32_t,int32_t*,int32_t*,int32_t*,XCharStruct*);
-int32_t              XTextWidth(XFontStruct*,const char*,int32_t);
-int32_t              XTextWidth16(XFontStruct*,const XChar2b*,int32_t);
-int32_t              XTranslateCoordinates(XDisplay*,XWindow,XWindow,int32_t,int32_t,int32_t*,int32_t*,XWindow*);
-int32_t              XUndefineCursor(XDisplay*,XWindow);
-int32_t              XUngrabButton(XDisplay*,uint32_t,uint32_t,XWindow);
-int32_t              XUngrabKey(XDisplay*,int32_t,uint32_t,XWindow);
-int32_t              XUngrabKeyboard(XDisplay*,XTime);
-int32_t              XUngrabPointer(XDisplay*,XTime);
-int32_t              XUngrabServer(XDisplay*);
-int32_t              XUninstallColormap(XDisplay*,XColormap);
-int32_t              XUnloadFont(XDisplay*,XFont);
-void                 XUnlockDisplay(XDisplay*);
-int32_t              XUnmapSubwindows(XDisplay*,XWindow);
-int32_t              XUnmapWindow(XDisplay*,XWindow);
-int32_t              XUnregisterIMInstantiateCallback(XDisplay*,XrmHashBucketRec*,char*,char*,XIDProc,void*);
-void                 XUnsetICFocus(XIC);
-void                 Xutf8DrawImageString(XDisplay*,XDrawable,XFontSet,XGC,int32_t,int32_t,const char*,int32_t);
-void                 Xutf8DrawString(XDisplay*,XDrawable,XFontSet,XGC,int32_t,int32_t,const char*,int32_t);
-void                 Xutf8DrawText(XDisplay*,XDrawable,XGC,int32_t,int32_t,XmbTextItem*,int32_t);
-int32_t              Xutf8LookupString(XIC,XKeyEvent*,char*,int32_t,XKeySym*,int32_t*);
-char*                Xutf8ResetIC(XIC);
-int32_t              Xutf8TextEscapement(XFontSet,const char*,int32_t);
-int32_t              Xutf8TextExtents(XFontSet,const char*,int32_t,XRectangle*,XRectangle*);
-int32_t              Xutf8TextPerCharExtents(XFontSet,const char*,int32_t,XRectangle*,XRectangle*,int32_t,int32_t*,XRectangle*,XRectangle*);
-XVaNestedList        XVaCreateNestedList(int32_t,...);
-int32_t              XVendorRelease(XDisplay*);
-XVisualID            XVisualIDFromVisual(XVisual*);
-int32_t              XWarpPointer(XDisplay*,XWindow,XWindow,int32_t,int32_t,uint32_t,uint32_t,int32_t,int32_t);
-void                 XwcDrawImageString(XDisplay*,XDrawable,XFontSet,XGC,int32_t,int32_t,const wchar_t*,int32_t);
-void                 XwcDrawString(XDisplay*,XDrawable,XFontSet,XGC,int32_t,int32_t,const wchar_t*,int32_t);
-void                 XwcDrawText(XDisplay*,XDrawable,XGC,int32_t,int32_t,XwcTextItem*,int32_t);
-int32_t              XwcLookupString(XIC,XKeyEvent*,wchar_t*,int32_t,XKeySym*,int32_t*);
-wchar_t*             XwcResetIC(XIC);
-int32_t              XwcTextEscapement(XFontSet,const wchar_t*,int32_t);
-int32_t              XwcTextExtents(XFontSet,const wchar_t*,int32_t,XRectangle*,XRectangle*);
-int32_t              XwcTextPerCharExtents(XFontSet,const wchar_t*,int32_t,XRectangle*,XRectangle*,int32_t,int32_t*,XRectangle*,XRectangle*);
-uint64_t             XWhitePixel(XDisplay*,int32_t);
-uint64_t             XWhitePixelOfScreen(XScreen*);
-int32_t              XWidthMMOfScreen(XScreen*);
-int32_t              XWidthOfScreen(XScreen*);
-int32_t              XWindowEvent(XDisplay*,XWindow,int64_t,XEvent*);
-int32_t              XWithdrawWindow(XDisplay*,XWindow,int32_t);
-int32_t              XWriteBitmapFile(XDisplay*,const char*,XPixmap,uint32_t,uint32_t,int32_t,int32_t);
+#define _Xmblen(...)                          _libX11._Xmblen(__VA_ARGS__)
+#define _Xmbtowc(...)                         _libX11._Xmbtowc(__VA_ARGS__)
+#define _Xwctomb(...)                         _libX11._Xwctomb(__VA_ARGS__)
+#define XActivateScreenSaver(...)             _libX11.XActivateScreenSaver(__VA_ARGS__)
+#define XAddConnectionWatch(...)              _libX11.XAddConnectionWatch(__VA_ARGS__)
+#define XAddExtension(...)                    _libX11.XAddExtension(__VA_ARGS__)
+#define XAddHost(...)                         _libX11.XAddHost(__VA_ARGS__)
+#define XAddHosts(...)                        _libX11.XAddHosts(__VA_ARGS__)
+#define XAddToExtensionList(...)              _libX11.XAddToExtensionList(__VA_ARGS__)
+#define XAddToSaveSet(...)                    _libX11.XAddToSaveSet(__VA_ARGS__)
+#define XAllocColor(...)                      _libX11.XAllocColor(__VA_ARGS__)
+#define XAllocColorCells(...)                 _libX11.XAllocColorCells(__VA_ARGS__)
+#define XAllocColorPlanes(...)                _libX11.XAllocColorPlanes(__VA_ARGS__)
+#define XAllocNamedColor(...)                 _libX11.XAllocNamedColor(__VA_ARGS__)
+#define XAllowEvents(...)                     _libX11.XAllowEvents(__VA_ARGS__)
+#define XAllPlanes(...)                       _libX11.XAllPlanes(__VA_ARGS__)
+#define XAutoRepeatOff(...)                   _libX11.XAutoRepeatOff(__VA_ARGS__)
+#define XAutoRepeatOn(...)                    _libX11.XAutoRepeatOn(__VA_ARGS__)
+#define XBaseFontNameListOfFontSet(...)       _libX11.XBaseFontNameListOfFontSet(__VA_ARGS__)
+#define XBell(...)                            _libX11.XBell(__VA_ARGS__)
+#define XBitmapBitOrder(...)                  _libX11.XBitmapBitOrder(__VA_ARGS__)
+#define XBitmapPad(...)                       _libX11.XBitmapPad(__VA_ARGS__)
+#define XBitmapUnit(...)                      _libX11.XBitmapUnit(__VA_ARGS__)
+#define XBlackPixel(...)                      _libX11.XBlackPixel(__VA_ARGS__)
+#define XBlackPixelOfScreen(...)              _libX11.XBlackPixelOfScreen(__VA_ARGS__)
+#define XCellsOfScreen(...)                   _libX11.XCellsOfScreen(__VA_ARGS__)
+#define XChangeActivePointerGrab(...)         _libX11.XChangeActivePointerGrab(__VA_ARGS__)
+#define XChangeGC(...)                        _libX11.XChangeGC(__VA_ARGS__)
+#define XChangeKeyboardControl(...)           _libX11.XChangeKeyboardControl(__VA_ARGS__)
+#define XChangeKeyboardMapping(...)           _libX11.XChangeKeyboardMapping(__VA_ARGS__)
+#define XChangePointerControl(...)            _libX11.XChangePointerControl(__VA_ARGS__)
+#define XChangeProperty(...)                  _libX11.XChangeProperty(__VA_ARGS__)
+#define XChangeSaveSet(...)                   _libX11.XChangeSaveSet(__VA_ARGS__)
+#define XChangeWindowAttributes(...)          _libX11.XChangeWindowAttributes(__VA_ARGS__)
+#define XCheckIfEvent(...)                    _libX11.XCheckIfEvent(__VA_ARGS__)
+#define XCheckMaskEvent(...)                  _libX11.XCheckMaskEvent(__VA_ARGS__)
+#define XCheckTypedEvent(...)                 _libX11.XCheckTypedEvent(__VA_ARGS__)
+#define XCheckTypedWindowEvent(...)           _libX11.XCheckTypedWindowEvent(__VA_ARGS__)
+#define XCheckWindowEvent(...)                _libX11.XCheckWindowEvent(__VA_ARGS__)
+#define XCirculateSubwindows(...)             _libX11.XCirculateSubwindows(__VA_ARGS__)
+#define XCirculateSubwindowsDown(...)         _libX11.XCirculateSubwindowsDown(__VA_ARGS__)
+#define XCirculateSubwindowsUp(...)           _libX11.XCirculateSubwindowsUp(__VA_ARGS__)
+#define XClearArea(...)                       _libX11.XClearArea(__VA_ARGS__)
+#define XClearWindow(...)                     _libX11.XClearWindow(__VA_ARGS__)
+#define XCloseDisplay(...)                    _libX11.XCloseDisplay(__VA_ARGS__)
+#define XCloseIM(...)                         _libX11.XCloseIM(__VA_ARGS__)
+#define XCloseOM(...)                         _libX11.XCloseOM(__VA_ARGS__)
+#define XConfigureWindow(...)                 _libX11.XConfigureWindow(__VA_ARGS__)
+#define XConnectionNumber(...)                _libX11.XConnectionNumber(__VA_ARGS__)
+#define XContextDependentDrawing(...)         _libX11.XContextDependentDrawing(__VA_ARGS__)
+#define XContextualDrawing(...)               _libX11.XContextualDrawing(__VA_ARGS__)
+#define XConvertSelection(...)                _libX11.XConvertSelection(__VA_ARGS__)
+#define XCopyArea(...)                        _libX11.XCopyArea(__VA_ARGS__)
+#define XCopyColormapAndFree(...)             _libX11.XCopyColormapAndFree(__VA_ARGS__)
+#define XCopyGC(...)                          _libX11.XCopyGC(__VA_ARGS__)
+#define XCopyPlane(...)                       _libX11.XCopyPlane(__VA_ARGS__)
+#define XCreateBitmapFromData(...)            _libX11.XCreateBitmapFromData(__VA_ARGS__)
+#define XCreateColormap(...)                  _libX11.XCreateColormap(__VA_ARGS__)
+#define XCreateFontCursor(...)                _libX11.XCreateFontCursor(__VA_ARGS__)
+#define XCreateFontSet(...)                   _libX11.XCreateFontSet(__VA_ARGS__)
+#define XCreateGC(...)                        _libX11.XCreateGC(__VA_ARGS__)
+#define XCreateGlyphCursor(...)               _libX11.XCreateGlyphCursor(__VA_ARGS__)
+#define XCreateIC(...)                        _libX11.XCreateIC(__VA_ARGS__)
+#define XCreateImage(...)                     _libX11.XCreateImage(__VA_ARGS__)
+#define XCreateOC(...)                        _libX11.XCreateOC(__VA_ARGS__)
+#define XCreatePixmap(...)                    _libX11.XCreatePixmap(__VA_ARGS__)
+#define XCreatePixmapCursor(...)              _libX11.XCreatePixmapCursor(__VA_ARGS__)
+#define XCreatePixmapFromBitmapData(...)      _libX11.XCreatePixmapFromBitmapData(__VA_ARGS__)
+#define XCreateSimpleWindow(...)              _libX11.XCreateSimpleWindow(__VA_ARGS__)
+#define XCreateWindow(...)                    _libX11.XCreateWindow(__VA_ARGS__)
+#define XDefaultColormap(...)                 _libX11.XDefaultColormap(__VA_ARGS__)
+#define XDefaultColormapOfScreen(...)         _libX11.XDefaultColormapOfScreen(__VA_ARGS__)
+#define XDefaultDepth(...)                    _libX11.XDefaultDepth(__VA_ARGS__)
+#define XDefaultDepthOfScreen(...)            _libX11.XDefaultDepthOfScreen(__VA_ARGS__)
+#define XDefaultGC(...)                       _libX11.XDefaultGC(__VA_ARGS__)
+#define XDefaultGCOfScreen(...)               _libX11.XDefaultGCOfScreen(__VA_ARGS__)
+#define XDefaultRootWindow(...)               _libX11.XDefaultRootWindow(__VA_ARGS__)
+#define XDefaultScreen(...)                   _libX11.XDefaultScreen(__VA_ARGS__)
+#define XDefaultScreenOfDisplay(...)          _libX11.XDefaultScreenOfDisplay(__VA_ARGS__)
+#define XDefaultVisual(...)                   _libX11.XDefaultVisual(__VA_ARGS__)
+#define XDefaultVisualOfScreen(...)           _libX11.XDefaultVisualOfScreen(__VA_ARGS__)
+#define XDefineCursor(...)                    _libX11.XDefineCursor(__VA_ARGS__)
+#define XDeleteModifiermapEntry(...)          _libX11.XDeleteModifiermapEntry(__VA_ARGS__)
+#define XDeleteProperty(...)                  _libX11.XDeleteProperty(__VA_ARGS__)
+#define XDestroyIC(...)                       _libX11.XDestroyIC(__VA_ARGS__)
+#define XDestroyOC(...)                       _libX11.XDestroyOC(__VA_ARGS__)
+#define XDestroySubwindows(...)               _libX11.XDestroySubwindows(__VA_ARGS__)
+#define XDestroyWindow(...)                   _libX11.XDestroyWindow(__VA_ARGS__)
+#define XDirectionalDependentDrawing(...)     _libX11.XDirectionalDependentDrawing(__VA_ARGS__)
+#define XDisableAccessControl(...)            _libX11.XDisableAccessControl(__VA_ARGS__)
+#define XDisplayCells(...)                    _libX11.XDisplayCells(__VA_ARGS__)
+#define XDisplayHeight(...)                   _libX11.XDisplayHeight(__VA_ARGS__)
+#define XDisplayHeightMM(...)                 _libX11.XDisplayHeightMM(__VA_ARGS__)
+#define XDisplayKeycodes(...)                 _libX11.XDisplayKeycodes(__VA_ARGS__)
+#define XDisplayMotionBufferSize(...)         _libX11.XDisplayMotionBufferSize(__VA_ARGS__)
+#define XDisplayName(...)                     _libX11.XDisplayName(__VA_ARGS__)
+#define XDisplayOfIM(...)                     _libX11.XDisplayOfIM(__VA_ARGS__)
+#define XDisplayOfOM(...)                     _libX11.XDisplayOfOM(__VA_ARGS__)
+#define XDisplayOfScreen(...)                 _libX11.XDisplayOfScreen(__VA_ARGS__)
+#define XDisplayPlanes(...)                   _libX11.XDisplayPlanes(__VA_ARGS__)
+#define XDisplayString(...)                   _libX11.XDisplayString(__VA_ARGS__)
+#define XDisplayWidth(...)                    _libX11.XDisplayWidth(__VA_ARGS__)
+#define XDisplayWidthMM(...)                  _libX11.XDisplayWidthMM(__VA_ARGS__)
+#define XDoesBackingStore(...)                _libX11.XDoesBackingStore(__VA_ARGS__)
+#define XDoesSaveUnders(...)                  _libX11.XDoesSaveUnders(__VA_ARGS__)
+#define XDrawArc(...)                         _libX11.XDrawArc(__VA_ARGS__)
+#define XDrawArcs(...)                        _libX11.XDrawArcs(__VA_ARGS__)
+#define XDrawImageString(...)                 _libX11.XDrawImageString(__VA_ARGS__)
+#define XDrawImageString16(...)               _libX11.XDrawImageString16(__VA_ARGS__)
+#define XDrawLine(...)                        _libX11.XDrawLine(__VA_ARGS__)
+#define XDrawLines(...)                       _libX11.XDrawLines(__VA_ARGS__)
+#define XDrawPoint(...)                       _libX11.XDrawPoint(__VA_ARGS__)
+#define XDrawPoints(...)                      _libX11.XDrawPoints(__VA_ARGS__)
+#define XDrawRectangle(...)                   _libX11.XDrawRectangle(__VA_ARGS__)
+#define XDrawRectangles(...)                  _libX11.XDrawRectangles(__VA_ARGS__)
+#define XDrawSegments(...)                    _libX11.XDrawSegments(__VA_ARGS__)
+#define XDrawString(...)                      _libX11.XDrawString(__VA_ARGS__)
+#define XDrawString16(...)                    _libX11.XDrawString16(__VA_ARGS__)
+#define XDrawText(...)                        _libX11.XDrawText(__VA_ARGS__)
+#define XDrawText16(...)                      _libX11.XDrawText16(__VA_ARGS__)
+#define XEHeadOfExtensionList(...)            _libX11.XEHeadOfExtensionList(__VA_ARGS__)
+#define XEnableAccessControl(...)             _libX11.XEnableAccessControl(__VA_ARGS__)
+#define XEventMaskOfScreen(...)               _libX11.XEventMaskOfScreen(__VA_ARGS__)
+#define XEventsQueued(...)                    _libX11.XEventsQueued(__VA_ARGS__)
+#define XExtendedMaxRequestSize(...)          _libX11.XExtendedMaxRequestSize(__VA_ARGS__)
+#define XExtentsOfFontSet(...)                _libX11.XExtentsOfFontSet(__VA_ARGS__)
+#define XFetchBuffer(...)                     _libX11.XFetchBuffer(__VA_ARGS__)
+#define XFetchBytes(...)                      _libX11.XFetchBytes(__VA_ARGS__)
+#define XFetchName(...)                       _libX11.XFetchName(__VA_ARGS__)
+#define XFillArc(...)                         _libX11.XFillArc(__VA_ARGS__)
+#define XFillArcs(...)                        _libX11.XFillArcs(__VA_ARGS__)
+#define XFillPolygon(...)                     _libX11.XFillPolygon(__VA_ARGS__)
+#define XFillRectangle(...)                   _libX11.XFillRectangle(__VA_ARGS__)
+#define XFillRectangles(...)                  _libX11.XFillRectangles(__VA_ARGS__)
+#define XFilterEvent(...)                     _libX11.XFilterEvent(__VA_ARGS__)
+#define XFindOnExtensionList(...)             _libX11.XFindOnExtensionList(__VA_ARGS__)
+#define XFlush(...)                           _libX11.XFlush(__VA_ARGS__)
+#define XFlushGC(...)                         _libX11.XFlushGC(__VA_ARGS__)
+#define XFontsOfFontSet(...)                  _libX11.XFontsOfFontSet(__VA_ARGS__)
+#define XForceScreenSaver(...)                _libX11.XForceScreenSaver(__VA_ARGS__)
+#define XFree(...)                            _libX11.XFree(__VA_ARGS__)
+#define XFreeColormap(...)                    _libX11.XFreeColormap(__VA_ARGS__)
+#define XFreeColors(...)                      _libX11.XFreeColors(__VA_ARGS__)
+#define XFreeCursor(...)                      _libX11.XFreeCursor(__VA_ARGS__)
+#define XFreeEventData(...)                   _libX11.XFreeEventData(__VA_ARGS__)
+#define XFreeExtensionList(...)               _libX11.XFreeExtensionList(__VA_ARGS__)
+#define XFreeFont(...)                        _libX11.XFreeFont(__VA_ARGS__)
+#define XFreeFontInfo(...)                    _libX11.XFreeFontInfo(__VA_ARGS__)
+#define XFreeFontNames(...)                   _libX11.XFreeFontNames(__VA_ARGS__)
+#define XFreeFontPath(...)                    _libX11.XFreeFontPath(__VA_ARGS__)
+#define XFreeFontSet(...)                     _libX11.XFreeFontSet(__VA_ARGS__)
+#define XFreeGC(...)                          _libX11.XFreeGC(__VA_ARGS__)
+#define XFreeModifiermap(...)                 _libX11.XFreeModifiermap(__VA_ARGS__)
+#define XFreePixmap(...)                      _libX11.XFreePixmap(__VA_ARGS__)
+#define XFreeStringList(...)                  _libX11.XFreeStringList(__VA_ARGS__)
+#define XFreeThreads(...)                     _libX11.XFreeThreads(__VA_ARGS__)
+#define XGContextFromGC(...)                  _libX11.XGContextFromGC(__VA_ARGS__)
+#define XGeometry(...)                        _libX11.XGeometry(__VA_ARGS__)
+#define XGetAtomName(...)                     _libX11.XGetAtomName(__VA_ARGS__)
+#define XGetAtomNames(...)                    _libX11.XGetAtomNames(__VA_ARGS__)
+#define XGetCommand(...)                      _libX11.XGetCommand(__VA_ARGS__)
+#define XGetDefault(...)                      _libX11.XGetDefault(__VA_ARGS__)
+#define XGetErrorDatabaseText(...)            _libX11.XGetErrorDatabaseText(__VA_ARGS__)
+#define XGetErrorText(...)                    _libX11.XGetErrorText(__VA_ARGS__)
+#define XGetEventData(...)                    _libX11.XGetEventData(__VA_ARGS__)
+#define XGetFontPath(...)                     _libX11.XGetFontPath(__VA_ARGS__)
+#define XGetFontProperty(...)                 _libX11.XGetFontProperty(__VA_ARGS__)
+#define XGetGCValues(...)                     _libX11.XGetGCValues(__VA_ARGS__)
+#define XGetGeometry(...)                     _libX11.XGetGeometry(__VA_ARGS__)
+#define XGetIconName(...)                     _libX11.XGetIconName(__VA_ARGS__)
+#define XGetICValues(...)                     _libX11.XGetICValues(__VA_ARGS__)
+#define XGetImage(...)                        _libX11.XGetImage(__VA_ARGS__)
+#define XGetIMValues(...)                     _libX11.XGetIMValues(__VA_ARGS__)
+#define XGetInputFocus(...)                   _libX11.XGetInputFocus(__VA_ARGS__)
+#define XGetKeyboardControl(...)              _libX11.XGetKeyboardControl(__VA_ARGS__)
+#define XGetKeyboardMapping(...)              _libX11.XGetKeyboardMapping(__VA_ARGS__)
+#define XGetModifierMapping(...)              _libX11.XGetModifierMapping(__VA_ARGS__)
+#define XGetMotionEvents(...)                 _libX11.XGetMotionEvents(__VA_ARGS__)
+#define XGetOCValues(...)                     _libX11.XGetOCValues(__VA_ARGS__)
+#define XGetOMValues(...)                     _libX11.XGetOMValues(__VA_ARGS__)
+#define XGetPointerControl(...)               _libX11.XGetPointerControl(__VA_ARGS__)
+#define XGetPointerMapping(...)               _libX11.XGetPointerMapping(__VA_ARGS__)
+#define XGetScreenSaver(...)                  _libX11.XGetScreenSaver(__VA_ARGS__)
+#define XGetSelectionOwner(...)               _libX11.XGetSelectionOwner(__VA_ARGS__)
+#define XGetSubImage(...)                     _libX11.XGetSubImage(__VA_ARGS__)
+#define XGetTransientForHint(...)             _libX11.XGetTransientForHint(__VA_ARGS__)
+#define XGetWindowAttributes(...)             _libX11.XGetWindowAttributes(__VA_ARGS__)
+#define XGetWindowProperty(...)               _libX11.XGetWindowProperty(__VA_ARGS__)
+#define XGetWMColormapWindows(...)            _libX11.XGetWMColormapWindows(__VA_ARGS__)
+#define XGetWMProtocols(...)                  _libX11.XGetWMProtocols(__VA_ARGS__)
+#define XGrabButton(...)                      _libX11.XGrabButton(__VA_ARGS__)
+#define XGrabKey(...)                         _libX11.XGrabKey(__VA_ARGS__)
+#define XGrabKeyboard(...)                    _libX11.XGrabKeyboard(__VA_ARGS__)
+#define XGrabPointer(...)                     _libX11.XGrabPointer(__VA_ARGS__)
+#define XGrabServer(...)                      _libX11.XGrabServer(__VA_ARGS__)
+#define XHeightMMOfScreen(...)                _libX11.XHeightMMOfScreen(__VA_ARGS__)
+#define XHeightOfScreen(...)                  _libX11.XHeightOfScreen(__VA_ARGS__)
+#define XIconifyWindow(...)                   _libX11.XIconifyWindow(__VA_ARGS__)
+#define XIfEvent(...)                         _libX11.XIfEvent(__VA_ARGS__)
+#define XImageByteOrder(...)                  _libX11.XImageByteOrder(__VA_ARGS__)
+#define XIMOfIC(...)                          _libX11.XIMOfIC(__VA_ARGS__)
+#define XInitExtension(...)                   _libX11.XInitExtension(__VA_ARGS__)
+#define XInitImage(...)                       _libX11.XInitImage(__VA_ARGS__)
+#define XInitThreads(...)                     _libX11.XInitThreads(__VA_ARGS__)
+#define XInsertModifiermapEntry(...)          _libX11.XInsertModifiermapEntry(__VA_ARGS__)
+#define XInstallColormap(...)                 _libX11.XInstallColormap(__VA_ARGS__)
+#define XInternalConnectionNumbers(...)       _libX11.XInternalConnectionNumbers(__VA_ARGS__)
+#define XInternAtom(...)                      _libX11.XInternAtom(__VA_ARGS__)
+#define XInternAtoms(...)                     _libX11.XInternAtoms(__VA_ARGS__)
+#define XKeycodeToKeysym(...)                 _libX11.XKeycodeToKeysym(__VA_ARGS__)
+#define XKeysymToKeycode(...)                 _libX11.XKeysymToKeycode(__VA_ARGS__)
+#define XKeysymToString(...)                  _libX11.XKeysymToString(__VA_ARGS__)
+#define XKillClient(...)                      _libX11.XKillClient(__VA_ARGS__)
+#define XLastKnownRequestProcessed(...)       _libX11.XLastKnownRequestProcessed(__VA_ARGS__)
+#define XListDepths(...)                      _libX11.XListDepths(__VA_ARGS__)
+#define XListExtensions(...)                  _libX11.XListExtensions(__VA_ARGS__)
+#define XListFonts(...)                       _libX11.XListFonts(__VA_ARGS__)
+#define XListFontsWithInfo(...)               _libX11.XListFontsWithInfo(__VA_ARGS__)
+#define XListHosts(...)                       _libX11.XListHosts(__VA_ARGS__)
+#define XListInstalledColormaps(...)          _libX11.XListInstalledColormaps(__VA_ARGS__)
+#define XListPixmapFormats(...)               _libX11.XListPixmapFormats(__VA_ARGS__)
+#define XListProperties(...)                  _libX11.XListProperties(__VA_ARGS__)
+#define XLoadFont(...)                        _libX11.XLoadFont(__VA_ARGS__)
+#define XLoadQueryFont(...)                   _libX11.XLoadQueryFont(__VA_ARGS__)
+#define XLocaleOfFontSet(...)                 _libX11.XLocaleOfFontSet(__VA_ARGS__)
+#define XLocaleOfIM(...)                      _libX11.XLocaleOfIM(__VA_ARGS__)
+#define XLocaleOfOM(...)                      _libX11.XLocaleOfOM(__VA_ARGS__)
+#define XLockDisplay(...)                     _libX11.XLockDisplay(__VA_ARGS__)
+#define XLookupColor(...)                     _libX11.XLookupColor(__VA_ARGS__)
+#define XLookupKeysym(...)                    _libX11.XLookupKeysym(__VA_ARGS__)
+#define XLowerWindow(...)                     _libX11.XLowerWindow(__VA_ARGS__)
+#define XMapRaised(...)                       _libX11.XMapRaised(__VA_ARGS__)
+#define XMapSubwindows(...)                   _libX11.XMapSubwindows(__VA_ARGS__)
+#define XMapWindow(...)                       _libX11.XMapWindow(__VA_ARGS__)
+#define XMaskEvent(...)                       _libX11.XMaskEvent(__VA_ARGS__)
+#define XMaxCmapsOfScreen(...)                _libX11.XMaxCmapsOfScreen(__VA_ARGS__)
+#define XMaxRequestSize(...)                  _libX11.XMaxRequestSize(__VA_ARGS__)
+#define XmbDrawImageString(...)               _libX11.XmbDrawImageString(__VA_ARGS__)
+#define XmbDrawString(...)                    _libX11.XmbDrawString(__VA_ARGS__)
+#define XmbDrawText(...)                      _libX11.XmbDrawText(__VA_ARGS__)
+#define XmbLookupString(...)                  _libX11.XmbLookupString(__VA_ARGS__)
+#define XmbResetIC(...)                       _libX11.XmbResetIC(__VA_ARGS__)
+#define XmbTextEscapement(...)                _libX11.XmbTextEscapement(__VA_ARGS__)
+#define XmbTextExtents(...)                   _libX11.XmbTextExtents(__VA_ARGS__)
+#define XmbTextPerCharExtents(...)            _libX11.XmbTextPerCharExtents(__VA_ARGS__)
+#define XMinCmapsOfScreen(...)                _libX11.XMinCmapsOfScreen(__VA_ARGS__)
+#define XMoveResizeWindow(...)                _libX11.XMoveResizeWindow(__VA_ARGS__)
+#define XMoveWindow(...)                      _libX11.XMoveWindow(__VA_ARGS__)
+#define XNewModifiermap(...)                  _libX11.XNewModifiermap(__VA_ARGS__)
+#define XNextEvent(...)                       _libX11.XNextEvent(__VA_ARGS__)
+#define XNextRequest(...)                     _libX11.XNextRequest(__VA_ARGS__)
+#define XNoOp(...)                            _libX11.XNoOp(__VA_ARGS__)
+#define XOMOfOC(...)                          _libX11.XOMOfOC(__VA_ARGS__)
+#define XOpenDisplay(...)                     _libX11.XOpenDisplay(__VA_ARGS__)
+#define XOpenIM(...)                          _libX11.XOpenIM(__VA_ARGS__)
+#define XOpenOM(...)                          _libX11.XOpenOM(__VA_ARGS__)
+#define XParseColor(...)                      _libX11.XParseColor(__VA_ARGS__)
+#define XParseGeometry(...)                   _libX11.XParseGeometry(__VA_ARGS__)
+#define XPeekEvent(...)                       _libX11.XPeekEvent(__VA_ARGS__)
+#define XPeekIfEvent(...)                     _libX11.XPeekIfEvent(__VA_ARGS__)
+#define XPending(...)                         _libX11.XPending(__VA_ARGS__)
+#define XPlanesOfScreen(...)                  _libX11.XPlanesOfScreen(__VA_ARGS__)
+#define XProcessInternalConnection(...)       _libX11.XProcessInternalConnection(__VA_ARGS__)
+#define XProtocolRevision(...)                _libX11.XProtocolRevision(__VA_ARGS__)
+#define XProtocolVersion(...)                 _libX11.XProtocolVersion(__VA_ARGS__)
+#define XPutBackEvent(...)                    _libX11.XPutBackEvent(__VA_ARGS__)
+#define XPutImage(...)                        _libX11.XPutImage(__VA_ARGS__)
+#define XQLength(...)                         _libX11.XQLength(__VA_ARGS__)
+#define XQueryBestCursor(...)                 _libX11.XQueryBestCursor(__VA_ARGS__)
+#define XQueryBestSize(...)                   _libX11.XQueryBestSize(__VA_ARGS__)
+#define XQueryBestStipple(...)                _libX11.XQueryBestStipple(__VA_ARGS__)
+#define XQueryBestTile(...)                   _libX11.XQueryBestTile(__VA_ARGS__)
+#define XQueryColor(...)                      _libX11.XQueryColor(__VA_ARGS__)
+#define XQueryColors(...)                     _libX11.XQueryColors(__VA_ARGS__)
+#define XQueryExtension(...)                  _libX11.XQueryExtension(__VA_ARGS__)
+#define XQueryFont(...)                       _libX11.XQueryFont(__VA_ARGS__)
+#define XQueryKeymap(...)                     _libX11.XQueryKeymap(__VA_ARGS__)
+#define XQueryPointer(...)                    _libX11.XQueryPointer(__VA_ARGS__)
+#define XQueryTextExtents(...)                _libX11.XQueryTextExtents(__VA_ARGS__)
+#define XQueryTextExtents16(...)              _libX11.XQueryTextExtents16(__VA_ARGS__)
+#define XQueryTree(...)                       _libX11.XQueryTree(__VA_ARGS__)
+#define XRaiseWindow(...)                     _libX11.XRaiseWindow(__VA_ARGS__)
+#define XReadBitmapFile(...)                  _libX11.XReadBitmapFile(__VA_ARGS__)
+#define XReadBitmapFileData(...)              _libX11.XReadBitmapFileData(__VA_ARGS__)
+#define XRebindKeysym(...)                    _libX11.XRebindKeysym(__VA_ARGS__)
+#define XRecolorCursor(...)                   _libX11.XRecolorCursor(__VA_ARGS__)
+#define XReconfigureWMWindow(...)             _libX11.XReconfigureWMWindow(__VA_ARGS__)
+#define XRefreshKeyboardMapping(...)          _libX11.XRefreshKeyboardMapping(__VA_ARGS__)
+#define XRegisterIMInstantiateCallback(...)   _libX11.XRegisterIMInstantiateCallback(__VA_ARGS__)
+#define XRemoveConnectionWatch(...)           _libX11.XRemoveConnectionWatch(__VA_ARGS__)
+#define XRemoveFromSaveSet(...)               _libX11.XRemoveFromSaveSet(__VA_ARGS__)
+#define XRemoveHost(...)                      _libX11.XRemoveHost(__VA_ARGS__)
+#define XRemoveHosts(...)                     _libX11.XRemoveHosts(__VA_ARGS__)
+#define XReparentWindow(...)                  _libX11.XReparentWindow(__VA_ARGS__)
+#define XResetScreenSaver(...)                _libX11.XResetScreenSaver(__VA_ARGS__)
+#define XResizeWindow(...)                    _libX11.XResizeWindow(__VA_ARGS__)
+#define XResourceManagerString(...)           _libX11.XResourceManagerString(__VA_ARGS__)
+#define XRestackWindows(...)                  _libX11.XRestackWindows(__VA_ARGS__)
+#define XrmInitialize(...)                    _libX11.XrmInitialize(__VA_ARGS__)
+#define XrmUniqueQuark(...)                   _libX11.XrmUniqueQuark(__VA_ARGS__)
+#define XRootWindow(...)                      _libX11.XRootWindow(__VA_ARGS__)
+#define XRootWindowOfScreen(...)              _libX11.XRootWindowOfScreen(__VA_ARGS__)
+#define XRotateBuffers(...)                   _libX11.XRotateBuffers(__VA_ARGS__)
+#define XRotateWindowProperties(...)          _libX11.XRotateWindowProperties(__VA_ARGS__)
+#define XScreenCount(...)                     _libX11.XScreenCount(__VA_ARGS__)
+#define XScreenNumberOfScreen(...)            _libX11.XScreenNumberOfScreen(__VA_ARGS__)
+#define XScreenOfDisplay(...)                 _libX11.XScreenOfDisplay(__VA_ARGS__)
+#define XScreenResourceString(...)            _libX11.XScreenResourceString(__VA_ARGS__)
+#define XSelectInput(...)                     _libX11.XSelectInput(__VA_ARGS__)
+#define XSendEvent(...)                       _libX11.XSendEvent(__VA_ARGS__)
+#define XServerVendor(...)                    _libX11.XServerVendor(__VA_ARGS__)
+#define XSetAccessControl(...)                _libX11.XSetAccessControl(__VA_ARGS__)
+#define XSetArcMode(...)                      _libX11.XSetArcMode(__VA_ARGS__)
+#define XSetAuthorization(...)                _libX11.XSetAuthorization(__VA_ARGS__)
+#define XSetBackground(...)                   _libX11.XSetBackground(__VA_ARGS__)
+#define XSetClipMask(...)                     _libX11.XSetClipMask(__VA_ARGS__)
+#define XSetClipOrigin(...)                   _libX11.XSetClipOrigin(__VA_ARGS__)
+#define XSetClipRectangles(...)               _libX11.XSetClipRectangles(__VA_ARGS__)
+#define XSetCloseDownMode(...)                _libX11.XSetCloseDownMode(__VA_ARGS__)
+#define XSetCommand(...)                      _libX11.XSetCommand(__VA_ARGS__)
+#define XSetDashes(...)                       _libX11.XSetDashes(__VA_ARGS__)
+#define XSetErrorHandler(...)                 _libX11.XSetErrorHandler(__VA_ARGS__)
+#define XSetFillRule(...)                     _libX11.XSetFillRule(__VA_ARGS__)
+#define XSetFillStyle(...)                    _libX11.XSetFillStyle(__VA_ARGS__)
+#define XSetFont(...)                         _libX11.XSetFont(__VA_ARGS__)
+#define XSetFontPath(...)                     _libX11.XSetFontPath(__VA_ARGS__)
+#define XSetForeground(...)                   _libX11.XSetForeground(__VA_ARGS__)
+#define XSetFunction(...)                     _libX11.XSetFunction(__VA_ARGS__)
+#define XSetGraphicsExposures(...)            _libX11.XSetGraphicsExposures(__VA_ARGS__)
+#define XSetICFocus(...)                      _libX11.XSetICFocus(__VA_ARGS__)
+#define XSetIconName(...)                     _libX11.XSetIconName(__VA_ARGS__)
+#define XSetICValues(...)                     _libX11.XSetICValues(__VA_ARGS__)
+#define XSetIMValues(...)                     _libX11.XSetIMValues(__VA_ARGS__)
+#define XSetInputFocus(...)                   _libX11.XSetInputFocus(__VA_ARGS__)
+#define XSetIOErrorExitHandler(...)           _libX11.XSetIOErrorExitHandler(__VA_ARGS__)
+#define XSetIOErrorHandler(...)               _libX11.XSetIOErrorHandler(__VA_ARGS__)
+#define XSetLineAttributes(...)               _libX11.XSetLineAttributes(__VA_ARGS__)
+#define XSetLocaleModifiers(...)              _libX11.XSetLocaleModifiers(__VA_ARGS__)
+#define XSetModifierMapping(...)              _libX11.XSetModifierMapping(__VA_ARGS__)
+#define XSetOCValues(...)                     _libX11.XSetOCValues(__VA_ARGS__)
+#define XSetOMValues(...)                     _libX11.XSetOMValues(__VA_ARGS__)
+#define XSetPlaneMask(...)                    _libX11.XSetPlaneMask(__VA_ARGS__)
+#define XSetPointerMapping(...)               _libX11.XSetPointerMapping(__VA_ARGS__)
+#define XSetScreenSaver(...)                  _libX11.XSetScreenSaver(__VA_ARGS__)
+#define XSetSelectionOwner(...)               _libX11.XSetSelectionOwner(__VA_ARGS__)
+#define XSetState(...)                        _libX11.XSetState(__VA_ARGS__)
+#define XSetStipple(...)                      _libX11.XSetStipple(__VA_ARGS__)
+#define XSetSubwindowMode(...)                _libX11.XSetSubwindowMode(__VA_ARGS__)
+#define XSetTile(...)                         _libX11.XSetTile(__VA_ARGS__)
+#define XSetTransientForHint(...)             _libX11.XSetTransientForHint(__VA_ARGS__)
+#define XSetTSOrigin(...)                     _libX11.XSetTSOrigin(__VA_ARGS__)
+#define XSetWindowBackground(...)             _libX11.XSetWindowBackground(__VA_ARGS__)
+#define XSetWindowBackgroundPixmap(...)       _libX11.XSetWindowBackgroundPixmap(__VA_ARGS__)
+#define XSetWindowBorder(...)                 _libX11.XSetWindowBorder(__VA_ARGS__)
+#define XSetWindowBorderPixmap(...)           _libX11.XSetWindowBorderPixmap(__VA_ARGS__)
+#define XSetWindowBorderWidth(...)            _libX11.XSetWindowBorderWidth(__VA_ARGS__)
+#define XSetWindowColormap(...)               _libX11.XSetWindowColormap(__VA_ARGS__)
+#define XSetWMColormapWindows(...)            _libX11.XSetWMColormapWindows(__VA_ARGS__)
+#define XSetWMProtocols(...)                  _libX11.XSetWMProtocols(__VA_ARGS__)
+#define XStoreBuffer(...)                     _libX11.XStoreBuffer(__VA_ARGS__)
+#define XStoreBytes(...)                      _libX11.XStoreBytes(__VA_ARGS__)
+#define XStoreColor(...)                      _libX11.XStoreColor(__VA_ARGS__)
+#define XStoreColors(...)                     _libX11.XStoreColors(__VA_ARGS__)
+#define XStoreName(...)                       _libX11.XStoreName(__VA_ARGS__)
+#define XStoreNamedColor(...)                 _libX11.XStoreNamedColor(__VA_ARGS__)
+#define XStringToKeysym(...)                  _libX11.XStringToKeysym(__VA_ARGS__)
+#define XSupportsLocale(...)                  _libX11.XSupportsLocale(__VA_ARGS__)
+#define XSync(...)                            _libX11.XSync(__VA_ARGS__)
+#define XTextExtents(...)                     _libX11.XTextExtents(__VA_ARGS__)
+#define XTextExtents16(...)                   _libX11.XTextExtents16(__VA_ARGS__)
+#define XTextWidth(...)                       _libX11.XTextWidth(__VA_ARGS__)
+#define XTextWidth16(...)                     _libX11.XTextWidth16(__VA_ARGS__)
+#define XTranslateCoordinates(...)            _libX11.XTranslateCoordinates(__VA_ARGS__)
+#define XUndefineCursor(...)                  _libX11.XUndefineCursor(__VA_ARGS__)
+#define XUngrabButton(...)                    _libX11.XUngrabButton(__VA_ARGS__)
+#define XUngrabKey(...)                       _libX11.XUngrabKey(__VA_ARGS__)
+#define XUngrabKeyboard(...)                  _libX11.XUngrabKeyboard(__VA_ARGS__)
+#define XUngrabPointer(...)                   _libX11.XUngrabPointer(__VA_ARGS__)
+#define XUngrabServer(...)                    _libX11.XUngrabServer(__VA_ARGS__)
+#define XUninstallColormap(...)               _libX11.XUninstallColormap(__VA_ARGS__)
+#define XUnloadFont(...)                      _libX11.XUnloadFont(__VA_ARGS__)
+#define XUnlockDisplay(...)                   _libX11.XUnlockDisplay(__VA_ARGS__)
+#define XUnmapSubwindows(...)                 _libX11.XUnmapSubwindows(__VA_ARGS__)
+#define XUnmapWindow(...)                     _libX11.XUnmapWindow(__VA_ARGS__)
+#define XUnregisterIMInstantiateCallback(...) _libX11.XUnregisterIMInstantiateCallback(__VA_ARGS__)
+#define XUnsetICFocus(...)                    _libX11.XUnsetICFocus(__VA_ARGS__)
+#define Xutf8DrawImageString(...)             _libX11.Xutf8DrawImageString(__VA_ARGS__)
+#define Xutf8DrawString(...)                  _libX11.Xutf8DrawString(__VA_ARGS__)
+#define Xutf8DrawText(...)                    _libX11.Xutf8DrawText(__VA_ARGS__)
+#define Xutf8LookupString(...)                _libX11.Xutf8LookupString(__VA_ARGS__)
+#define Xutf8ResetIC(...)                     _libX11.Xutf8ResetIC(__VA_ARGS__)
+#define Xutf8TextEscapement(...)              _libX11.Xutf8TextEscapement(__VA_ARGS__)
+#define Xutf8TextExtents(...)                 _libX11.Xutf8TextExtents(__VA_ARGS__)
+#define Xutf8TextPerCharExtents(...)          _libX11.Xutf8TextPerCharExtents(__VA_ARGS__)
+#define XVaCreateNestedList(...)              _libX11.XVaCreateNestedList(__VA_ARGS__)
+#define XVendorRelease(...)                   _libX11.XVendorRelease(__VA_ARGS__)
+#define XVisualIDFromVisual(...)              _libX11.XVisualIDFromVisual(__VA_ARGS__)
+#define XWarpPointer(...)                     _libX11.XWarpPointer(__VA_ARGS__)
+#define XwcDrawImageString(...)               _libX11.XwcDrawImageString(__VA_ARGS__)
+#define XwcDrawString(...)                    _libX11.XwcDrawString(__VA_ARGS__)
+#define XwcDrawText(...)                      _libX11.XwcDrawText(__VA_ARGS__)
+#define XwcLookupString(...)                  _libX11.XwcLookupString(__VA_ARGS__)
+#define XwcResetIC(...)                       _libX11.XwcResetIC(__VA_ARGS__)
+#define XwcTextEscapement(...)                _libX11.XwcTextEscapement(__VA_ARGS__)
+#define XwcTextExtents(...)                   _libX11.XwcTextExtents(__VA_ARGS__)
+#define XwcTextPerCharExtents(...)            _libX11.XwcTextPerCharExtents(__VA_ARGS__)
+#define XWhitePixel(...)                      _libX11.XWhitePixel(__VA_ARGS__)
+#define XWhitePixelOfScreen(...)              _libX11.XWhitePixelOfScreen(__VA_ARGS__)
+#define XWidthMMOfScreen(...)                 _libX11.XWidthMMOfScreen(__VA_ARGS__)
+#define XWidthOfScreen(...)                   _libX11.XWidthOfScreen(__VA_ARGS__)
+#define XWindowEvent(...)                     _libX11.XWindowEvent(__VA_ARGS__)
+#define XWithdrawWindow(...)                  _libX11.XWithdrawWindow(__VA_ARGS__)
+#define XWriteBitmapFile(...)                 _libX11.XWriteBitmapFile(__VA_ARGS__)
 
 #ifdef __clang__
 #pragma clang diagnostic pop

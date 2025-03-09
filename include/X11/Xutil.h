@@ -223,82 +223,82 @@ typedef struct XStandardColormap {
 
 typedef int32_t XContext;
 
-int32_t            XDestroyImage(XImage*);
-uint64_t           XGetPixel(XImage*,int32_t,int32_t);
-int32_t            XPutPixel(XImage*,int32_t,int32_t,uint64_t);
-XImage*            XSubImage(XImage*,int32_t,int32_t,uint32_t,uint32_t);
-int32_t            XAddPixel(XImage*,int64_t);
-XClassHint*        XAllocClassHint();
-XIconSize*         XAllocIconSize();
-XSizeHints*        XAllocSizeHints();
-XStandardColormap* XAllocStandardColormap();
-XWMHints*          XAllocWMHints();
-int32_t            XClipBox(XRegion,XRectangle*);
-XRegion            XCreateRegion();
-const char*        XDefaultString();
-int32_t            XDeleteContext(XDisplay*,XID,XContext);
-int32_t            XDestroyRegion(XRegion);
-int                XEmptyRegion(XRegion);
-int                XEqualRegion(XRegion,XRegion);
-int32_t            XFindContext(XDisplay*,XID,XContext,void**);
-int                XGetClassHint(XDisplay*,XWindow,XClassHint*);
-int                XGetIconSizes(XDisplay*,XWindow,XIconSize**,int32_t*); 
-int                XGetNormalHints(XDisplay*,XWindow,XSizeHints*); 
-int                XGetRGBColormaps(XDisplay*,XWindow,XStandardColormap**,int32_t*,XAtom); 
-int                XGetSizeHints(XDisplay*,XWindow,XSizeHints*,XAtom); 
-int                XGetStandardColormap(XDisplay*,XWindow,XStandardColormap*,XAtom); 
-int                XGetTextProperty(XDisplay*,XWindow,XTextProperty*,XAtom); 
-XVisualInfo*       XGetVisualInfo(XDisplay*,int64_t,XVisualInfo*,int32_t*); 
-int                XGetWMClientMachine(XDisplay*,XWindow,XTextProperty*); 
-XWMHints*          XGetWMHints(XDisplay*,XWindow); 
-int                XGetWMIconName(XDisplay*,XWindow,XTextProperty*); 
-int                XGetWMName(XDisplay*,XWindow,XTextProperty*); 
-int                XGetWMNormalHints(XDisplay*,XWindow,XSizeHints*,int64_t*); 
-int                XGetWMSizeHints(XDisplay*,XWindow,XSizeHints*,int64_t*,XAtom); 
-int                XGetZoomHints(XDisplay*,XWindow,XSizeHints*); 
-int32_t            XIntersectRegion(XRegion,XRegion,XRegion); 
-void               XConvertCase(XKeySym,XKeySym*,XKeySym*); 
-int32_t            XLookupString(XKeyEvent*,char*,int32_t,XKeySym*,XComposeStatus*); 
-int                XMatchVisualInfo(XDisplay*,int32_t,int32_t,int32_t,XVisualInfo*); 
-int32_t            XOffsetRegion(XRegion,int32_t,int32_t); 
-int                XPointInRegion(XRegion,int32_t,int32_t); 
-XRegion            XPolygonRegion(XPoint*,int32_t,int32_t); 
-int32_t            XRectInRegion(XRegion,int32_t,int32_t,uint32_t,uint32_t); 
-int32_t            XSaveContext(XDisplay*,XID,XContext,const char*); 
-int32_t            XSetClassHint(XDisplay*,XWindow,XClassHint*); 
-int32_t            XSetIconSizes(XDisplay*,XWindow,XIconSize*,int32_t); 
-int32_t            XSetNormalHints(XDisplay*,XWindow,XSizeHints*); 
-void               XSetRGBColormaps(XDisplay*,XWindow,XStandardColormap*,int32_t,XAtom); 
-int32_t            XSetSizeHints(XDisplay*,XWindow,XSizeHints*,XAtom); 
-int32_t            XSetStandardProperties(XDisplay*,XWindow,const char*,const char*,XPixmap,char**,int32_t,XSizeHints*); 
-void               XSetTextProperty(XDisplay*,XWindow,XTextProperty*,XAtom); 
-void               XSetWMClientMachine(XDisplay*,XWindow,XTextProperty*); 
-int32_t            XSetWMHints(XDisplay*,XWindow,XWMHints*); 
-void               XSetWMIconName(XDisplay*,XWindow,XTextProperty*); 
-void               XSetWMName(XDisplay*,XWindow,XTextProperty*); 
-void               XSetWMNormalHints(XDisplay*,XWindow,XSizeHints*); 
-void               XSetWMProperties(XDisplay*,XWindow,XTextProperty*,XTextProperty*,char**,int32_t,XSizeHints*,XWMHints*,XClassHint*); 
-void               XmbSetWMProperties(XDisplay*,XWindow,const char*,const char*,char**,int32_t,XSizeHints*,XWMHints*,XClassHint*); 
-void               Xutf8SetWMProperties(XDisplay*,XWindow,const char*,const char*,char**,int32_t,XSizeHints*,XWMHints*,XClassHint*); 
-void               XSetWMSizeHints(XDisplay*,XWindow,XSizeHints*,XAtom); 
-int32_t            XSetRegion(XDisplay*,XGC,XRegion); 
-void               XSetStandardColormap(XDisplay*,XWindow,XStandardColormap*,XAtom); 
-int32_t            XSetZoomHints(XDisplay*,XWindow,XSizeHints*); 
-int32_t            XShrinkRegion(XRegion,int32_t,int32_t); 
-int                XStringListToTextProperty(char**,int32_t,XTextProperty*); 
-int32_t            XSubtractRegion(XRegion,XRegion,XRegion); 
-int32_t            XmbTextListToTextProperty(XDisplay*,char**,int32_t,XICCEncodingStyle,XTextProperty*);
-int32_t            XwcTextListToTextProperty(XDisplay*,wchar_t**,int32_t,XICCEncodingStyle,XTextProperty*);
-int32_t            Xutf8TextListToTextProperty(XDisplay*,char**,int32_t,XICCEncodingStyle,XTextProperty*);
-void               XwcFreeStringList(wchar_t**); 
-int                XTextPropertyToStringList(XTextProperty*,char***,int32_t*); 
-int32_t            XmbTextPropertyToTextList(XDisplay*,const XTextProperty*,char***,int32_t*); 
-int32_t            XwcTextPropertyToTextList(XDisplay*,const XTextProperty*,wchar_t***,int32_t*); 
-int32_t            Xutf8TextPropertyToTextList(XDisplay*,const XTextProperty*,char***,int32_t*); 
-int32_t            XUnionRectWithRegion(XRectangle*,XRegion,XRegion); 
-int32_t            XUnionRegion(XRegion,XRegion,XRegion); 
-int32_t            XWMGeometry(XDisplay*,int32_t,const char*,const char*,uint32_t,XSizeHints*,int32_t*,int32_t*,int32_t*,int32_t*,int32_t*); 
-int32_t            XXorRegion(XRegion,XRegion,XRegion);
+#define XDestroyImage(...)               _libX11.XDestroyImage(__VA_ARGS__)
+#define XGetPixel(...)                   _libX11.XGetPixel(__VA_ARGS__)
+#define XPutPixel(...)                   _libX11.XPutPixel(__VA_ARGS__)
+#define XSubImage(...)                   _libX11.XSubImage(__VA_ARGS__)
+#define XAddPixel(...)                   _libX11.XAddPixel(__VA_ARGS__)
+#define XAllocClassHint(...)             _libX11.XAllocClassHint(__VA_ARGS__)
+#define XAllocIconSize(...)              _libX11.XAllocIconSize(__VA_ARGS__)
+#define XAllocSizeHints(...)             _libX11.XAllocSizeHints(__VA_ARGS__)
+#define XAllocStandardColormap(...)      _libX11.XAllocStandardColormap(__VA_ARGS__)
+#define XAllocWMHints(...)               _libX11.XAllocWMHints(__VA_ARGS__)
+#define XClipBox(...)                    _libX11.XClipBox(__VA_ARGS__)
+#define XCreateRegion(...)               _libX11.XCreateRegion(__VA_ARGS__)
+#define XDefaultString(...)              _libX11.XDefaultString(__VA_ARGS__)
+#define XDeleteContext(...)              _libX11.XDeleteContext(__VA_ARGS__)
+#define XDestroyRegion(...)              _libX11.XDestroyRegion(__VA_ARGS__)
+#define XEmptyRegion(...)                _libX11.XEmptyRegion(__VA_ARGS__)
+#define XEqualRegion(...)                _libX11.XEqualRegion(__VA_ARGS__)
+#define XFindContext(...)                _libX11.XFindContext(__VA_ARGS__)
+#define XGetClassHint(...)               _libX11.XGetClassHint(__VA_ARGS__)
+#define XGetIconSizes(...)               _libX11.XGetIconSizes(__VA_ARGS__)
+#define XGetNormalHints(...)             _libX11.XGetNormalHints(__VA_ARGS__)
+#define XGetRGBColormaps(...)            _libX11.XGetRGBColormaps(__VA_ARGS__)
+#define XGetSizeHints(...)               _libX11.XGetSizeHints(__VA_ARGS__)
+#define XGetStandardColormap(...)        _libX11.XGetStandardColormap(__VA_ARGS__)
+#define XGetTextProperty(...)            _libX11.XGetTextProperty(__VA_ARGS__)
+#define XGetVisualInfo(...)              _libX11.XGetVisualInfo(__VA_ARGS__)
+#define XGetWMClientMachine(...)         _libX11.XGetWMClientMachine(__VA_ARGS__)
+#define XGetWMHints(...)                 _libX11.XGetWMHints(__VA_ARGS__)
+#define XGetWMIconName(...)              _libX11.XGetWMIconName(__VA_ARGS__)
+#define XGetWMName(...)                  _libX11.XGetWMName(__VA_ARGS__)
+#define XGetWMNormalHints(...)           _libX11.XGetWMNormalHints(__VA_ARGS__)
+#define XGetWMSizeHints(...)             _libX11.XGetWMSizeHints(__VA_ARGS__)
+#define XGetZoomHints(...)               _libX11.XGetZoomHints(__VA_ARGS__)
+#define XIntersectRegion(...)            _libX11.XIntersectRegion(__VA_ARGS__)
+#define XConvertCase(...)                _libX11.XConvertCase(__VA_ARGS__)
+#define XLookupString(...)               _libX11.XLookupString(__VA_ARGS__)
+#define XMatchVisualInfo(...)            _libX11.XMatchVisualInfo(__VA_ARGS__)
+#define XOffsetRegion(...)               _libX11.XOffsetRegion(__VA_ARGS__)
+#define XPointInRegion(...)              _libX11.XPointInRegion(__VA_ARGS__)
+#define XPolygonRegion(...)              _libX11.XPolygonRegion(__VA_ARGS__)
+#define XRectInRegion(...)               _libX11.XRectInRegion(__VA_ARGS__)
+#define XSaveContext(...)                _libX11.XSaveContext(__VA_ARGS__)
+#define XSetClassHint(...)               _libX11.XSetClassHint(__VA_ARGS__)
+#define XSetIconSizes(...)               _libX11.XSetIconSizes(__VA_ARGS__)
+#define XSetNormalHints(...)             _libX11.XSetNormalHints(__VA_ARGS__)
+#define XSetRGBColormaps(...)            _libX11.XSetRGBColormaps(__VA_ARGS__)
+#define XSetSizeHints(...)               _libX11.XSetSizeHints(__VA_ARGS__)
+#define XSetStandardProperties(...)      _libX11.XSetStandardProperties(__VA_ARGS__)
+#define XSetTextProperty(...)            _libX11.XSetTextProperty(__VA_ARGS__)
+#define XSetWMClientMachine(...)         _libX11.XSetWMClientMachine(__VA_ARGS__)
+#define XSetWMHints(...)                 _libX11.XSetWMHints(__VA_ARGS__)
+#define XSetWMIconName(...)              _libX11.XSetWMIconName(__VA_ARGS__)
+#define XSetWMName(...)                  _libX11.XSetWMName(__VA_ARGS__)
+#define XSetWMNormalHints(...)           _libX11.XSetWMNormalHints(__VA_ARGS__)
+#define XSetWMProperties(...)            _libX11.XSetWMProperties(__VA_ARGS__)
+#define XmbSetWMProperties(...)          _libX11.XmbSetWMProperties(__VA_ARGS__)
+#define Xutf8SetWMProperties(...)        _libX11.Xutf8SetWMProperties(__VA_ARGS__)
+#define XSetWMSizeHints(...)             _libX11.XSetWMSizeHints(__VA_ARGS__)
+#define XSetRegion(...)                  _libX11.XSetRegion(__VA_ARGS__)
+#define XSetStandardColormap(...)        _libX11.XSetStandardColormap(__VA_ARGS__)
+#define XSetZoomHints(...)               _libX11.XSetZoomHints(__VA_ARGS__)
+#define XShrinkRegion(...)               _libX11.XShrinkRegion(__VA_ARGS__)
+#define XStringListToTextProperty(...)   _libX11.XStringListToTextProperty(__VA_ARGS__)
+#define XSubtractRegion(...)             _libX11.XSubtractRegion(__VA_ARGS__)
+#define XmbTextListToTextProperty(...)   _libX11.XmbTextListToTextProperty(__VA_ARGS__)
+#define XwcTextListToTextProperty(...)   _libX11.XwcTextListToTextProperty(__VA_ARGS__)
+#define Xutf8TextListToTextProperty(...) _libX11.Xutf8TextListToTextProperty(__VA_ARGS__)
+#define XwcFreeStringList(...)           _libX11.XwcFreeStringList(__VA_ARGS__)
+#define XTextPropertyToStringList(...)   _libX11.XTextPropertyToStringList(__VA_ARGS__)
+#define XmbTextPropertyToTextList(...)   _libX11.XmbTextPropertyToTextList(__VA_ARGS__)
+#define XwcTextPropertyToTextList(...)   _libX11.XwcTextPropertyToTextList(__VA_ARGS__)
+#define Xutf8TextPropertyToTextList(...) _libX11.Xutf8TextPropertyToTextList(__VA_ARGS__)
+#define XUnionRectWithRegion(...)        _libX11.XUnionRectWithRegion(__VA_ARGS__)
+#define XUnionRegion(...)                _libX11.XUnionRegion(__VA_ARGS__)
+#define XWMGeometry(...)                 _libX11.XWMGeometry(__VA_ARGS__)
+#define XXorRegion(...)                  _libX11.XXorRegion(__VA_ARGS__)
 
 #ifdef __clang__
 #pragma clang diagnostic pop
