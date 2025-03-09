@@ -47,7 +47,7 @@ bool x11_CreateWindow(const WindowCreateInfo* pCreateInfo, Window window)
     window->impl.pMoveWindow     = x11_MoveWindow;
     window->impl.pShowWindow     = x11_ShowWindow;
     window->impl.pSizeWindow     = x11_SizeWindow;
-    window->events = *pCreateInfo->pEvents;
+    if (pCreateInfo->pEvents) window->events = *pCreateInfo->pEvents;
     return true;
 
     // // initialize a 3D graphics rendering context
