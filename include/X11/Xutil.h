@@ -168,7 +168,7 @@ typedef struct XWMHints {
 
 
 typedef struct XTextProperty {
-    u_char*                   value;         // same as Property routines
+    uint8_t*                  value;         // same as Property routines
     XAtom                     encoding;      // prop type
     int32_t                   format;        // prop data format: 8, 16, or 32
     uint64_t                  nitems;        // number of data items in value

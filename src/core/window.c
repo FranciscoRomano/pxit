@@ -22,7 +22,7 @@ bool CreateWindow(const WindowCreateInfo* pCreateInfo, Window* pWindow)
 
     // create native platform window
     #if IS_PLATFORM_LINUX
-    if (_CreateWindow_x11(pCreateInfo, window)) return true;
+    if (x11_CreateWindow(pCreateInfo, window)) return true;
     #elif IS_PLATFORM_WINDOWS
     if (win32_CreateWindow(pCreateInfo, window)) return true;
     #endif
@@ -46,7 +46,7 @@ bool ReadEvents()
     // read all platform specific events
     bool result = false;
     #if IS_PLATFORM_LINUX
-    result |= _ReadWindowEvents_x11();
+    result |= x11_ReadEvents();
     #elif IS_PLATFORM_WINDOWS
     result |= win32_ReadEvents();
     #endif

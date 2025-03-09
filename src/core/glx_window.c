@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2025 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#include "module.h"
+#include "private.h"
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 bool _CreateWindow_glx(const WindowCreateInfo* pCreateInfo, Window window)
@@ -12,7 +12,7 @@ bool _CreateWindow_glx(const WindowCreateInfo* pCreateInfo, Window window)
 
     // select best framebuffer configuration
     int count;
-    int screen = _libX11.XDefaultScreen(_x11.display);
+    int screen = XDefaultScreen(x11.display);
     static int attribs[] = {
         GLX_X_RENDERABLE,  GLX_TRUE,
         GLX_DRAWABLE_TYPE, GLX_WINDOW_BIT,
@@ -27,46 +27,45 @@ bool _CreateWindow_glx(const WindowCreateInfo* pCreateInfo, Window window)
         GLX_DOUBLEBUFFER,  GLX_TRUE,
         0
     };
-    GLXFBConfig* fbc_array = _libGLX.glXChooseFBConfig(_x11.display, screen, attribs, &count);
-    assert(count > 0 && fbc_array, "failed to select GLX framebuffer configuration");
+    GLXFBConfig* fbc_array = _libGLX.glXChooseFBConfig(x11.display, screen, attribs, &count);
+    if (!(count > 0 && fbc_array)) return failure("failed to select GLX framebuffer configuration");
     GLXFBConfig fbc = fbc_array[0];
-    _libX11.XFree(fbc_array);
+    XFree(fbc_array);
 
     // create a compatible GLX rendering context
-    XVisualInfo* vi = _libGLX.glXGetVisualFromFBConfig(_x11.display, fbc);
-    window->x11.cmap = _libX11.XCreateColormap(_x11.display, window->x11.win, vi->visual, AllocNone);
-    _libX11.XFree(vi);
-    assert(window->x11.cmap, "failed to create GLX compatible colormap")
+    XVisualInfo* vi = _libGLX.glXGetVisualFromFBConfig(x11.display, fbc);
+    window->x11.cmap = XCreateColormap(x11.display, window->x11.win, vi->visual, AllocNone);
+    XFree(vi);
+    if (!window->x11.cmap) return failure("failed to create GLX compatible colormap");
     XSetWindowAttributes swa;
     swa.colormap = window->x11.cmap;
-    _libX11.XChangeWindowAttributes(_x11.display, window->x11.win, CWColormap, &swa);
-    window->x11.glx = _libGLX.glXCreateNewContext(_x11.display, fbc, GLX_RGBA_TYPE, 0, 1);
-    assert(window->x11.glx, "failed to create GLX rendering context");
-    _libGLX.glXMakeCurrent(_x11.display, window->x11.win, window->x11.glx);
-    window->impl.DestroyWindow = _DestroyWindow_glx;
-    window->impl.DrawWindow = _DrawWindow_glx;
+    XChangeWindowAttributes(x11.display, window->x11.win, CWColormap, &swa);
+    window->x11.glx = _libGLX.glXCreateNewContext(x11.display, fbc, GLX_RGBA_TYPE, 0, 1);
+    if (!window->x11.glx) return failure("failed to create GLX rendering context");
+    _libGLX.glXMakeCurrent(x11.display, window->x11.win, window->x11.glx);
+    window->impl.pDestroyWindow = _DestroyWindow_glx;
     return true;
 }
 
 bool _DestroyWindow_glx(Window window)
 {
     // destroy the GLX rendering context and resources
-    _libGLX.glXMakeCurrent(_x11.display, window->x11.win, NULL);
-    _libGLX.glXDestroyContext(_x11.display, window->x11.glx);
-    _libX11.XFree((void*)window->x11.cmap);
-    return _DestroyWindow_x11(window);
+    _libGLX.glXMakeCurrent(x11.display, window->x11.win, NULL);
+    _libGLX.glXDestroyContext(x11.display, window->x11.glx);
+    XFree((void*)window->x11.cmap);
+    return x11_DestroyWindow(window);
 }
 
 bool _DrawWindow_glx(Window window)
 {
     // set GLX rendering context as current
-    _libGLX.glXMakeCurrent(_x11.display, window->x11.win, window->x11.glx);
+    _libGLX.glXMakeCurrent(x11.display, window->x11.win, window->x11.glx);
 
     // invoke "OnWindowDraw" event and flush
-    WINDOW_EVENT(OnWindowDraw)
-    glFlush();
+    // window_evnt(OnWindowDraw)
+    // glFlush();
 
     // swap the back buffer with the main buffer
-    _libGLX.glXSwapBuffers(_x11.display, window->x11.win);
+    _libGLX.glXSwapBuffers(x11.display, window->x11.win);
     return true;
 }

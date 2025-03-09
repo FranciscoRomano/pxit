@@ -30,6 +30,10 @@ extern "C" {
     #include <unistd.h>
     #include "linux/libGLX.h"
     #include "linux/libX11.h"
+    #include "glx_module.h"
+    #include "glx_window.h"
+    #include "x11_module.h"
+    #include "x11_window.h"
     #define dl_free(HNDL)      dlclose(HNDL)
     #define dl_hndl(NAME)      NAME.so
     #define dl_load(PATH)      dlopen(PATH, RTLD_LAZY)

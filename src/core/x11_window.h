@@ -13,24 +13,20 @@ extern "C" {
 #include "linux/libGLX.h"
 #include "linux/libX11.h"
 
-typedef struct _Window_x11_t {
+typedef struct x11_Window_t {
     XWindow    win;  // A X11 window handle.
     XColormap  cmap; // A X11 colormap handle.
     GLXContext glx;  // A OpenGL rendering context.
-} _Window_x11_t;
+} x11_Window_t;
 
-bool _CloseWindow_x11(Window window);
-bool _CreateWindow_x11(const WindowCreateInfo* pCreateInfo, Window window);
-bool _DestroyWindow_x11(Window window);
-bool _FocusWindow_x11(Window window, bool focus);
-bool _HideWindow_x11(Window window);
-bool _MaximizeWindow_x11(Window window);
-bool _MinimizeWindow_x11(Window window);
-bool _MoveWindow_x11(Window window, int32_t left, int32_t top);
-bool _ReadWindowEvents_x11();
-bool _RestoreWindow_x11(Window window);
-bool _ShowWindow_x11(Window window);
-bool _SizeWindow_x11(Window window, uint32_t width, uint32_t height);
+bool x11_CloseWindow(Window window);
+bool x11_CreateWindow(const WindowCreateInfo* pCreateInfo, Window window);
+bool x11_DestroyWindow(Window window);
+bool x11_HideWindow(Window window);
+bool x11_MoveWindow(Window window, int32_t left, int32_t top);
+bool x11_ReadEvents();
+bool x11_ShowWindow(Window window);
+bool x11_SizeWindow(Window window, uint32_t width, uint32_t height);
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

@@ -9,8 +9,9 @@ extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
 #define KEY_NONE            0x00
 #define KEY_0               0x01

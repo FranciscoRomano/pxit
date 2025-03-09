@@ -14,7 +14,7 @@ extern "C" {
 #define MAX_WINDOWS_X11 100
 
 /// @brief Represents the X11 module and supported functions.
-extern struct _Module_x11 {
+extern struct x11_Module {
     bool      OK;
     XDisplay* display;
     XContext  context;
@@ -22,13 +22,13 @@ extern struct _Module_x11 {
     XAtom     WM_DELETE_WINDOW;
     XWindow   windows[MAX_WINDOWS_X11];
     uint16_t  window_count;
-} _x11;
+} x11;
 
 /// @brief Returns true if the X11 module was freed successfully.
-bool _FreeModule_x11();
+bool x11_FreeModule();
 
 /// @brief Returns true if the X11 module was loaded successfully.
-bool _LoadModule_x11();
+bool x11_LoadModule();
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

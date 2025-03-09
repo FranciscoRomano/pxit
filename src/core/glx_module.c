@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2025 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#include "module.h"
+#include "private.h"
+#include "opengl/gles.h"
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 struct _Module_glx _glx = { NULL };
@@ -35,7 +36,7 @@ bool _LoadModule_glx()
     if (_glx.OK) return true;
 
     // load all module dependencies
-    if (!_x11.OK)
+    if (!x11.OK)
     {
         printf("ERROR: unitialized module 'X11'\n");
         return false;
