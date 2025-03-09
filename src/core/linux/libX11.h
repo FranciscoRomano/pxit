@@ -39,7 +39,7 @@ extern struct _libX11_so {
     int32_t              (*XAllocColorPlanes)(XDisplay*,XColormap,int32_t,uint32_t*,int32_t,int32_t,int32_t,int32_t,uint32_t*,uint32_t*,uint32_t*);
     int32_t              (*XAllocNamedColor)(XDisplay*,XColormap,const char*,XColor*,XColor*);
     int32_t              (*XAllowEvents)(XDisplay*,int32_t,XTime);
-    uint32_t             (*XAllPlanes)(void);
+    uint32_t             (*XAllPlanes)();
     int32_t              (*XAutoRepeatOff)(XDisplay*);
     int32_t              (*XAutoRepeatOn)(XDisplay*);
     char*                (*XBaseFontNameListOfFontSet)(XFontSet);
@@ -179,7 +179,7 @@ extern struct _libX11_so {
     int32_t              (*XFreeModifiermap)(XModifierKeymap*);
     int32_t              (*XFreePixmap)(XDisplay*,XPixmap);
     void                 (*XFreeStringList)(char**);
-    int32_t              (*XFreeThreads)(void);
+    int32_t              (*XFreeThreads)();
     XGContext            (*XGContextFromGC)(XGC);
     int32_t              (*XGeometry)(XDisplay*,int32_t,const char*,const char*,uint32_t,uint32_t,uint32_t,int32_t,int32_t,int32_t*,int32_t*,int32_t*,int32_t*);
     char*                (*XGetAtomName)(XDisplay*,XAtom);
@@ -227,7 +227,7 @@ extern struct _libX11_so {
     XIM                  (*XIMOfIC)(XIC);
     XExtCodes*           (*XInitExtension)(XDisplay*,const char*);
     int32_t              (*XInitImage)(XImage*);
-    int32_t              (*XInitThreads)(void);
+    int32_t              (*XInitThreads)();
     XModifierKeymap*     (*XInsertModifiermapEntry)(XModifierKeymap*,XKeyCode,int32_t);
     int32_t              (*XInstallColormap)(XDisplay*,XColormap);
     int32_t              (*XInternalConnectionNumbers)(XDisplay*,int32_t**,int32_t*);
@@ -322,7 +322,7 @@ extern struct _libX11_so {
     int32_t              (*XResizeWindow)(XDisplay*,XWindow,uint32_t,uint32_t);
     char*                (*XResourceManagerString)(XDisplay*);
     int32_t              (*XRestackWindows)(XDisplay*,XWindow*,int32_t);
-    void                 (*XrmInitialize)(void);
+    void                 (*XrmInitialize)();
     int                  (*XrmUniqueQuark)();
     XWindow              (*XRootWindow)(XDisplay*,int32_t);
     XWindow              (*XRootWindowOfScreen)(XScreen*);
@@ -390,7 +390,7 @@ extern struct _libX11_so {
     int32_t              (*XStoreName)(XDisplay*,XWindow,const char*);
     int32_t              (*XStoreNamedColor)(XDisplay*,XColormap,const char*,uint32_t,int32_t);
     XKeySym              (*XStringToKeysym)(const char*);
-    int32_t              (*XSupportsLocale)(void);
+    int32_t              (*XSupportsLocale)();
     int32_t              (*XSync)(XDisplay*,int32_t);
     int32_t              (*XTextExtents)(XFontStruct*,const char*,int32_t,int32_t*,int32_t*,int32_t*,XCharStruct*);
     int32_t              (*XTextExtents16)(XFontStruct*,const XChar2b*,int32_t,int32_t*,int32_t*,int32_t*,XCharStruct*);
@@ -515,7 +515,6 @@ extern struct _libX11_so {
     int32_t              (*XWMGeometry)(XDisplay*,int32_t,const char*,const char*,uint32_t,XSizeHints*,int32_t*,int32_t*,int32_t*,int32_t*,int32_t*); 
     int32_t              (*XXorRegion)(XRegion,XRegion,XRegion);
 } _libX11;
-
 
 /// @brief Returns true if the "libX11.so" library was freed successfully.
 bool _free_libX11_so();
