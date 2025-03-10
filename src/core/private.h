@@ -45,6 +45,7 @@ extern "C" {
 #if IS_PLATFORM_WINDOWS
     #define WIN32_LEAN_AND_MEAN 1
     #include "windows/d3d9.h"
+    #include "windows/dxgi.h"
     #include "windows/gdi32.h"
     #include "windows/kernel32.h"
     #include "windows/opengl32.h"
