@@ -19,37 +19,19 @@ soon. Please stay tuned for new updates!
 </div>
 
 ## Basic window
-Below is an example on how to create a OpenGL window and clear the screen red.
-```c++
+Below is an example on how to create a basic window with pxit
+```c
 #include <pxit/pxit.h>
 
-void draw(Window window)
+int main()
 {
-    glClearColor(1, 0, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
-}
-
-int main(void)
-{
-    WindowEvents events = {};
-    events.OnWindowDraw = draw;
-
     WindowCreateInfo create_info = {};
-    create_info.Top     = 40;
-    create_info.Left    = 40;
     create_info.Width   = 800;
     create_info.Height  = 600;
     create_info.pTitle  = "My Window";
-    create_info.pEvents = &events;
+    CreateWindow(&create_info, NULL);
 
-    Window window;
-    CreateWindow(&create_info, &window);
-
-    while (ReadWindowEvents())
-    {
-        DrawWindow(window);
-        // ...sea wolves are cool...
-    }
+    while (ReadEvents());
 }
 ```
 <br>
