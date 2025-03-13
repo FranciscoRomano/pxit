@@ -11,8 +11,8 @@ extern "C" {
 
 #include <windef.h>
 #include <stdbool.h>
-//#include "api/dxgiddi.h"
-//#include "api/dxgidebug.h"
+#include "api/dxgiddi.h"
+#include "api/dxgidebug.h"
 
 /// @brief Represents the "dxgi.dll" library and supported functions.
 extern struct _dxgi_dll {
