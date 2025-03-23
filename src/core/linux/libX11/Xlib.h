@@ -4,39 +4,11 @@
 // │ THIS FILE IS A MODIFIED VERSION OF THE ORIGINAL X WINDOWING SYSTEM (AKA: X11, X) LIBRARY. │
 // │ MODIFICATIONS ARE DISTRIBUTED UNDER THE SAME ORIGINAL FILE LICENSE, WHICH IS SHOWN BELOW: │
 // └───────────────────────────────────────────────────────────────────────────────────────────┘
-// 
-// Copyright 1985, 1986, 1987, 1991, 1998  The Open Group
-// 
-// Permission to use, copy, modify, distribute, and sell this software and its
-// documentation for any purpose is hereby granted without fee, provided that
-// the above copyright notice appear in all copies and that both that
-// copyright notice and this permission notice appear in supporting
-// documentation.
-// 
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
-// OPEN GROUP BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
-// AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-// 
-// Except as contained in this notice, the name of The Open Group shall not be
-// used in advertising or otherwise to promote the sale, use or other dealings
-// in this Software without prior written authorization from The Open Group.
-//
-//    Xlib.h - Header definition and support file for the C subroutine
-//    interface library (Xlib) to the X XWindow System Protocol (V11).
-//    Structures and symbols starting with "_" are private to the library.
 
-#ifndef _X11_Xlib_h_
-#define _X11_Xlib_h_
+#ifndef _core_linux_libX11_Xlib_h_
+#define _core_linux_libX11_Xlib_h_
 
-#define XlibSpecificationRelease 6
-
-#include <X11/X.h>
+#include "X.h"
 #include <stddef.h>
 #include <stdint.h>
 #include <stdlib.h>
@@ -49,263 +21,263 @@
 #pragma clang diagnostic ignored "-Wpadded"
 #endif
 
-#define AllPlanes                       ((uint64_t)~0L)
-#define BitmapBitOrder(dpy)             (((XDisplay*)(dpy))->bitmap_bit_order)
-#define BitmapPad(dpy)                  (((XDisplay*)(dpy))->bitmap_pad)
-#define BitmapUnit(dpy)                 (((XDisplay*)(dpy))->bitmap_unit)
-#define BlackPixel(dpy,scr)             (ScreenOfDisplay(dpy,scr)->black_pixel)
-#define BlackPixelOfScreen(s)           ((s)->black_pixel)
-#define CellsOfScreen(s)                (DefaultVisualOfScreen((s))->map_entries)
-#define ConnectionNumber(dpy)           (((XDisplay*)(dpy))->fd)
-#define DefaultColormap(dpy,scr)        (ScreenOfDisplay(dpy,scr)->cmap)
-#define DefaultColormapOfScreen(s)      ((s)->cmap)
-#define DefaultDepth(dpy,scr)           (ScreenOfDisplay(dpy,scr)->root_depth)
-#define DefaultDepthOfScreen(s)         ((s)->root_depth)
-#define DefaultGC(dpy,scr)              (ScreenOfDisplay(dpy,scr)->default_gc)
-#define DefaultGCOfScreen(s)            ((s)->default_gc)
-#define DefaultRootWindow(dpy)          (ScreenOfDisplay(dpy,DefaultScreen(dpy))->root)
-#define DefaultScreen(dpy)              (((XDisplay*)(dpy))->default_screen)
-#define DefaultScreenOfDisplay(dpy)     ScreenOfDisplay(dpy,DefaultScreen(dpy))
-#define DefaultVisual(dpy,scr)          (ScreenOfDisplay(dpy,scr)->root_visual)
-#define DefaultVisualOfScreen(s)        ((s)->root_visual)
-#define DisplayCells(dpy,scr)           (DefaultVisual(dpy,scr)->map_entries)
-#define DisplayHeight(dpy,scr)          (ScreenOfDisplay(dpy,scr)->height)
-#define DisplayHeightMM(dpy,scr)        (ScreenOfDisplay(dpy,scr)->mheight)
-#define DisplayOfScreen(s)              ((s)->display)
-#define DisplayPlanes(dpy,scr)          (ScreenOfDisplay(dpy,scr)->root_depth)
-#define DisplayString(dpy)              (((XDisplay*)(dpy))->display_name)
-#define DisplayWidth(dpy,scr)           (ScreenOfDisplay(dpy,scr)->width)
-#define DisplayWidthMM(dpy,scr)         (ScreenOfDisplay(dpy,scr)->mwidth)
-#define DoesBackingStore(s)             ((s)->backing_store)
-#define DoesSaveUnders(s)               ((s)->save_unders)
-#define EventMaskOfScreen(s)            ((s)->root_input_mask)
-#define HeightMMOfScreen(s)             ((s)->mheight)
-#define HeightOfScreen(s)               ((s)->height)
-#define ImageByteOrder(dpy)             (((XDisplay*)(dpy))->byte_order)
-#define LastKnownRequestProcessed(dpy)  (((XDisplay*)(dpy))->last_request_read)
-#define MaxCmapsOfScreen(s)             ((s)->max_maps)
-#define MinCmapsOfScreen(s)             ((s)->min_maps)
-#define NextRequest(dpy)                (((XDisplay*)(dpy))->request + 1)
-#define PlanesOfScreen(s)               ((s)->root_depth)
-#define ProtocolRevision(dpy)           (((XDisplay*)(dpy))->proto_minor_version)
-#define ProtocolVersion(dpy)            (((XDisplay*)(dpy))->proto_major_version)
-#define QLength(dpy)                    (((XDisplay*)(dpy))->qlen)
-#define QueuedAfterFlush                2
-#define QueuedAfterReading              1
-#define QueuedAlready                   0
-#define RootWindow(dpy,scr)             (ScreenOfDisplay(dpy,scr)->root)
-#define RootWindowOfScreen(s)           ((s)->root)
-#define ScreenCount(dpy)                (((XDisplay*)(dpy))->nscreens)
-#define ScreenOfDisplay(dpy,scr)        (&((XDisplay*)(dpy))->screens[scr])
-#define ServerVendor(dpy)               (((XDisplay*)(dpy))->vendor)
-#define VendorRelease(dpy)              (((XDisplay*)(dpy))->release)
-#define WhitePixel(dpy,scr)             (ScreenOfDisplay(dpy,scr)->white_pixel)
-#define WhitePixelOfScreen(s)           ((s)->white_pixel)
-#define WidthMMOfScreen(s)              ((s)->mwidth)
-#define WidthOfScreen(s)                ((s)->width)
-#define XAllocID(dpy)                   ((*((XDisplay*)(dpy))->resource_alloc)((dpy)))
-#define XBufferOverflow                 -1
-#define XIMHighlight                    (1L<<2)
-#define XIMHotKeyStateOFF               (0x0002L)
-#define XIMHotKeyStateON                (0x0001L)
-#define XIMInitialState                 1L
-#define XIMPreeditArea                  0x0001L
-#define XIMPreeditCallbacks             0x0002L
-#define XIMPreeditDisable               (1L<<1)
-#define XIMPreeditEnable                1L
-#define XIMPreeditNone                  0x0010L
-#define XIMPreeditNothing               0x0008L
-#define XIMPreeditPosition              0x0004L
-#define XIMPreeditUnKnown               0L
-#define XIMPreserveState                (1L<<1)
-#define XIMPrimary                      (1L<<5)
-#define XIMReverse                      1L
-#define XIMSecondary                    (1L<<6)
-#define XIMStatusArea                   0x0100L
-#define XIMStatusCallbacks              0x0200L
-#define XIMStatusNone                   0x0800L
-#define XIMStatusNothing                0x0400L
-#define XIMStringConversionBottomEdge   (0x00000008)
-#define XIMStringConversionBuffer       (0x0001)
-#define XIMStringConversionChar         (0x0004)
-#define XIMStringConversionConcealed    (0x00000010)
-#define XIMStringConversionLeftEdge     (0x00000001)
-#define XIMStringConversionLine         (0x0002)
-#define XIMStringConversionRetrieval    (0x0002)
-#define XIMStringConversionRightEdge    (0x00000002)
-#define XIMStringConversionSubstitution (0x0001)
-#define XIMStringConversionTopEdge      (0x00000004)
-#define XIMStringConversionWord         (0x0003)
-#define XIMStringConversionWrapped      (0x00000020)
-#define XIMTertiary                     (1L<<7)
-#define XIMUnderline                    (1L<<1)
-#define XIMVisibleToBackword            (1L<<9)
-#define XIMVisibleToCenter              (1L<<10)
-#define XIMVisibleToForward             (1L<<8)
-#define XLookupBoth                     4
-#define XLookupChars                    2
-#define XLookupKeySym                   3
-#define XLookupNone                     1
-#define XNArea                          "area"
-#define XNAreaNeeded                    "areaNeeded"
-#define XNBackground                    "background"
-#define XNBackgroundPixmap              "backgroundPixmap"
-#define XNBaseFontName                  "baseFontName"
-#define XNClientWindow                  "clientWindow"
-#define XNColormap                      "colorMap"
-#define XNContextualDrawing             "contextualDrawing"
-#define XNCursor                        "cursor"
-#define XNDefaultString                 "defaultString"
-#define XNDestroyCallback               "destroyCallback"
-#define XNDirectionalDependentDrawing   "directionalDependentDrawing"
-#define XNFilterEvents                  "filterEvents"
-#define XNFocusWindow                   "focusWindow"
-#define XNFontInfo                      "fontInfo"
-#define XNFontSet                       "fontSet"
-#define XNForeground                    "foreground"
-#define XNGeometryCallback              "geometryCallback"
-#define XNHotKey                        "hotKey"
-#define XNHotKeyState                   "hotKeyState"
-#define XNInputStyle                    "inputStyle"
-#define XNLineSpace                     "lineSpace"
-#define XNMissingCharSet                "missingCharSet"
-#define XNOMAutomatic                   "omAutomatic"
-#define XNOrientation                   "orientation"
-#define XNPreeditAttributes             "preeditAttributes"
-#define XNPreeditCaretCallback          "preeditCaretCallback"
-#define XNPreeditDoneCallback           "preeditDoneCallback"
-#define XNPreeditDrawCallback           "preeditDrawCallback"
-#define XNPreeditStartCallback          "preeditStartCallback"
-#define XNPreeditState                  "preeditState"
-#define XNPreeditStateNotifyCallback    "preeditStateNotifyCallback"
-#define XNQueryICValuesList             "queryICValuesList"
-#define XNQueryIMValuesList             "queryIMValuesList"
-#define XNQueryInputStyle               "queryInputStyle"
-#define XNQueryOrientation              "queryOrientation"
-#define XNR6PreeditCallback             "r6PreeditCallback"
-#define XNRequiredCharSet               "requiredCharSet"
-#define XNResetState                    "resetState"
-#define XNResourceClass                 "resourceClass"
-#define XNResourceName                  "resourceName"
-#define XNSeparatorofNestedList         "separatorofNestedList"
-#define XNSpotLocation                  "spotLocation"
-#define XNStatusAttributes              "statusAttributes"
-#define XNStatusDoneCallback            "statusDoneCallback"
-#define XNStatusDrawCallback            "statusDrawCallback"
-#define XNStatusStartCallback           "statusStartCallback"
-#define XNStdColormap                   "stdColorMap"
-#define XNStringConversion              "stringConversion"
-#define XNStringConversionCallback      "stringConversionCallback"
-#define XNVaNestedList                  "XNVaNestedList"
-#define XNVisiblePosition               "visiblePosition"
+#define AllPlanes                                    ((uint64_t)~0L)
+#define BitmapBitOrder(dpy)                          (((XDisplay*)(dpy))->bitmap_bit_order)
+#define BitmapPad(dpy)                               (((XDisplay*)(dpy))->bitmap_pad)
+#define BitmapUnit(dpy)                              (((XDisplay*)(dpy))->bitmap_unit)
+#define BlackPixel(dpy,scr)                          (ScreenOfDisplay(dpy,scr)->black_pixel)
+#define BlackPixelOfScreen(s)                        ((s)->black_pixel)
+#define CellsOfScreen(s)                             (DefaultVisualOfScreen((s))->map_entries)
+#define ConnectionNumber(dpy)                        (((XDisplay*)(dpy))->fd)
+#define DefaultColormap(dpy,scr)                     (ScreenOfDisplay(dpy,scr)->cmap)
+#define DefaultColormapOfScreen(s)                   ((s)->cmap)
+#define DefaultDepth(dpy,scr)                        (ScreenOfDisplay(dpy,scr)->root_depth)
+#define DefaultDepthOfScreen(s)                      ((s)->root_depth)
+#define DefaultGC(dpy,scr)                           (ScreenOfDisplay(dpy,scr)->default_gc)
+#define DefaultGCOfScreen(s)                         ((s)->default_gc)
+#define DefaultRootWindow(dpy)                       (ScreenOfDisplay(dpy,DefaultScreen(dpy))->root)
+#define DefaultScreen(dpy)                           (((XDisplay*)(dpy))->default_screen)
+#define DefaultScreenOfDisplay(dpy)                  ScreenOfDisplay(dpy,DefaultScreen(dpy))
+#define DefaultVisual(dpy,scr)                       (ScreenOfDisplay(dpy,scr)->root_visual)
+#define DefaultVisualOfScreen(s)                     ((s)->root_visual)
+#define DisplayCells(dpy,scr)                        (DefaultVisual(dpy,scr)->map_entries)
+#define DisplayHeight(dpy,scr)                       (ScreenOfDisplay(dpy,scr)->height)
+#define DisplayHeightMM(dpy,scr)                     (ScreenOfDisplay(dpy,scr)->mheight)
+#define DisplayOfScreen(s)                           ((s)->display)
+#define DisplayPlanes(dpy,scr)                       (ScreenOfDisplay(dpy,scr)->root_depth)
+#define DisplayString(dpy)                           (((XDisplay*)(dpy))->display_name)
+#define DisplayWidth(dpy,scr)                        (ScreenOfDisplay(dpy,scr)->width)
+#define DisplayWidthMM(dpy,scr)                      (ScreenOfDisplay(dpy,scr)->mwidth)
+#define DoesBackingStore(s)                          ((s)->backing_store)
+#define DoesSaveUnders(s)                            ((s)->save_unders)
+#define EventMaskOfScreen(s)                         ((s)->root_input_mask)
+#define HeightMMOfScreen(s)                          ((s)->mheight)
+#define HeightOfScreen(s)                            ((s)->height)
+#define ImageByteOrder(dpy)                          (((XDisplay*)(dpy))->byte_order)
+#define LastKnownRequestProcessed(dpy)               (((XDisplay*)(dpy))->last_request_read)
+#define MaxCmapsOfScreen(s)                          ((s)->max_maps)
+#define MinCmapsOfScreen(s)                          ((s)->min_maps)
+#define NextRequest(dpy)                             (((XDisplay*)(dpy))->request + 1)
+#define PlanesOfScreen(s)                            ((s)->root_depth)
+#define ProtocolRevision(dpy)                        (((XDisplay*)(dpy))->proto_minor_version)
+#define ProtocolVersion(dpy)                         (((XDisplay*)(dpy))->proto_major_version)
+#define QLength(dpy)                                 (((XDisplay*)(dpy))->qlen)
+#define QueuedAfterFlush                             2
+#define QueuedAfterReading                           1
+#define QueuedAlready                                0
+#define RootWindow(dpy,scr)                          (ScreenOfDisplay(dpy,scr)->root)
+#define RootWindowOfScreen(s)                        ((s)->root)
+#define ScreenCount(dpy)                             (((XDisplay*)(dpy))->nscreens)
+#define ScreenOfDisplay(dpy,scr)                     (&((XDisplay*)(dpy))->screens[scr])
+#define ServerVendor(dpy)                            (((XDisplay*)(dpy))->vendor)
+#define VendorRelease(dpy)                           (((XDisplay*)(dpy))->release)
+#define WhitePixel(dpy,scr)                          (ScreenOfDisplay(dpy,scr)->white_pixel)
+#define WhitePixelOfScreen(s)                        ((s)->white_pixel)
+#define WidthMMOfScreen(s)                           ((s)->mwidth)
+#define WidthOfScreen(s)                             ((s)->width)
+#define XAllocID(dpy)                                ((*((XDisplay*)(dpy))->resource_alloc)((dpy)))
+#define XBufferOverflow                              -1
+#define XIMHighlight                                 (1L<<2)
+#define XIMHotKeyStateOFF                            (0x0002L)
+#define XIMHotKeyStateON                             (0x0001L)
+#define XIMInitialState                              1L
+#define XIMPreeditArea                               0x0001L
+#define XIMPreeditCallbacks                          0x0002L
+#define XIMPreeditDisable                            (1L<<1)
+#define XIMPreeditEnable                             1L
+#define XIMPreeditNone                               0x0010L
+#define XIMPreeditNothing                            0x0008L
+#define XIMPreeditPosition                           0x0004L
+#define XIMPreeditUnKnown                            0L
+#define XIMPreserveState                             (1L<<1)
+#define XIMPrimary                                   (1L<<5)
+#define XIMReverse                                   1L
+#define XIMSecondary                                 (1L<<6)
+#define XIMStatusArea                                0x0100L
+#define XIMStatusCallbacks                           0x0200L
+#define XIMStatusNone                                0x0800L
+#define XIMStatusNothing                             0x0400L
+#define XIMStringConversionBottomEdge                (0x00000008)
+#define XIMStringConversionBuffer                    (0x0001)
+#define XIMStringConversionChar                      (0x0004)
+#define XIMStringConversionConcealed                 (0x00000010)
+#define XIMStringConversionLeftEdge                  (0x00000001)
+#define XIMStringConversionLine                      (0x0002)
+#define XIMStringConversionRetrieval                 (0x0002)
+#define XIMStringConversionRightEdge                 (0x00000002)
+#define XIMStringConversionSubstitution              (0x0001)
+#define XIMStringConversionTopEdge                   (0x00000004)
+#define XIMStringConversionWord                      (0x0003)
+#define XIMStringConversionWrapped                   (0x00000020)
+#define XIMTertiary                                  (1L<<7)
+#define XIMUnderline                                 (1L<<1)
+#define XIMVisibleToBackword                         (1L<<9)
+#define XIMVisibleToCenter                           (1L<<10)
+#define XIMVisibleToForward                          (1L<<8)
+#define XlibSpecificationRelease                     6
+#define XLookupBoth                                  4
+#define XLookupChars                                 2
+#define XLookupKeySym                                3
+#define XLookupNone                                  1
+#define XNArea                                       "area"
+#define XNAreaNeeded                                 "areaNeeded"
+#define XNBackground                                 "background"
+#define XNBackgroundPixmap                           "backgroundPixmap"
+#define XNBaseFontName                               "baseFontName"
+#define XNClientWindow                               "clientWindow"
+#define XNColormap                                   "colorMap"
+#define XNContextualDrawing                          "contextualDrawing"
+#define XNCursor                                     "cursor"
+#define XNDefaultString                              "defaultString"
+#define XNDestroyCallback                            "destroyCallback"
+#define XNDirectionalDependentDrawing                "directionalDependentDrawing"
+#define XNFilterEvents                               "filterEvents"
+#define XNFocusWindow                                "focusWindow"
+#define XNFontInfo                                   "fontInfo"
+#define XNFontSet                                    "fontSet"
+#define XNForeground                                 "foreground"
+#define XNGeometryCallback                           "geometryCallback"
+#define XNHotKey                                     "hotKey"
+#define XNHotKeyState                                "hotKeyState"
+#define XNInputStyle                                 "inputStyle"
+#define XNLineSpace                                  "lineSpace"
+#define XNMissingCharSet                             "missingCharSet"
+#define XNOMAutomatic                                "omAutomatic"
+#define XNOrientation                                "orientation"
+#define XNPreeditAttributes                          "preeditAttributes"
+#define XNPreeditCaretCallback                       "preeditCaretCallback"
+#define XNPreeditDoneCallback                        "preeditDoneCallback"
+#define XNPreeditDrawCallback                        "preeditDrawCallback"
+#define XNPreeditStartCallback                       "preeditStartCallback"
+#define XNPreeditState                               "preeditState"
+#define XNPreeditStateNotifyCallback                 "preeditStateNotifyCallback"
+#define XNQueryICValuesList                          "queryICValuesList"
+#define XNQueryIMValuesList                          "queryIMValuesList"
+#define XNQueryInputStyle                            "queryInputStyle"
+#define XNQueryOrientation                           "queryOrientation"
+#define XNR6PreeditCallback                          "r6PreeditCallback"
+#define XNRequiredCharSet                            "requiredCharSet"
+#define XNResetState                                 "resetState"
+#define XNResourceClass                              "resourceClass"
+#define XNResourceName                               "resourceName"
+#define XNSeparatorofNestedList                      "separatorofNestedList"
+#define XNSpotLocation                               "spotLocation"
+#define XNStatusAttributes                           "statusAttributes"
+#define XNStatusDoneCallback                         "statusDoneCallback"
+#define XNStatusDrawCallback                         "statusDrawCallback"
+#define XNStatusStartCallback                        "statusStartCallback"
+#define XNStdColormap                                "stdColorMap"
+#define XNStringConversion                           "stringConversion"
+#define XNStringConversionCallback                   "stringConversionCallback"
+#define XNVaNestedList                               "XNVaNestedList"
+#define XNVisiblePosition                            "visiblePosition"
 
-typedef struct _XIC*                               XIC;
-typedef struct _XIM*                               XIM;
-typedef struct _XOC*                               XOC;
-typedef struct _XOC**                              XFontSet;
-typedef struct _XOM*                               XOM;
-typedef struct XAnyEvent                           XAnyEvent;
-typedef struct XArc                                XArc;
-typedef struct XButtonEvent                        XButtonEvent;
-typedef struct XChar2b                             XChar2b;
-typedef struct XCharStruct                         XCharStruct;
-typedef struct XCirculateEvent                     XCirculateEvent;
-typedef struct XCirculateRequestEvent              XCirculateRequestEvent;
-typedef struct XClientMessageEvent                 XClientMessageEvent;
-typedef struct XColor                              XColor;
-typedef struct XColormapEvent                      XColormapEvent;
-typedef struct XConfigureEvent                     XConfigureEvent;
-typedef struct XConfigureRequestEvent              XConfigureRequestEvent;
-typedef struct XCreateWindowEvent                  XCreateWindowEvent;
-typedef struct XCrossingEvent                      XCrossingEvent;
-typedef struct XDepth                              XDepth;
-typedef struct XDestroyWindowEvent                 XDestroyWindowEvent;
-typedef struct XDisplay                            XDisplay;
-typedef struct XErrorEvent                         XErrorEvent;
-typedef struct XExposeEvent                        XExposeEvent;
-typedef struct XExtCodes                           XExtCodes;
-typedef struct XExtData                            XExtData;
-typedef struct XFocusChangeEvent                   XFocusChangeEvent;
-typedef struct XFontProp                           XFontProp;
-typedef struct XFontSetExtents                     XFontSetExtents;
-typedef struct XFontStruct                         XFontStruct;
-typedef struct _XGC*                                XGC;
-typedef struct XGCValues                           XGCValues;
-typedef struct XGenericEvent                       XGenericEvent;
-typedef struct XGenericEventCookie                 XGenericEventCookie;
-typedef struct XGraphicsExposeEvent                XGraphicsExposeEvent;
-typedef struct XGravityEvent                       XGravityEvent;
-typedef struct XHostAddress                        XHostAddress;
-typedef struct XICCallback                         XICCallback;
-typedef struct XImage                              XImage;
-typedef struct XIMCallback                         XIMCallback;
-typedef uint64_t                                   XIMFeedback;
-typedef uint64_t                                   XIMHotKeyState;
-typedef struct XIMHotKeyTrigger                    XIMHotKeyTrigger;
-typedef struct XIMHotKeyTriggers                   XIMHotKeyTriggers;
-typedef struct XIMPreeditCaretCallbackStruct       XIMPreeditCaretCallbackStruct;
-typedef struct XIMPreeditDrawCallbackStruct        XIMPreeditDrawCallbackStruct;
-typedef uint64_t                                   XIMPreeditState;
-typedef struct XIMPreeditStateNotifyCallbackStruct XIMPreeditStateNotifyCallbackStruct;
-typedef uint64_t                                   XIMResetState;
-typedef struct XIMStatusDrawCallbackStruct         XIMStatusDrawCallbackStruct;
-typedef struct XIMStringConversionCallbackStruct   XIMStringConversionCallbackStruct;
-typedef uint64_t                                   XIMStringConversionFeedback;
-typedef uint16_t                                   XIMStringConversionOperation;
-typedef uint16_t                                   XIMStringConversionPosition;
-typedef uint16_t                                   XIMStringConversionType;
-typedef uint64_t                                   XIMStyle;
-typedef struct XIMStyles                           XIMStyles;
-typedef struct XIMText                             XIMText;
-typedef struct XIMValuesList                       XIMValuesList;
-typedef struct XKeyboardControl                    XKeyboardControl;
-typedef struct XKeyboardState                      XKeyboardState;
-typedef struct XKeyEvent                           XKeyEvent;
-typedef struct XKeymapEvent                        XKeymapEvent;
-typedef struct XMapEvent                           XMapEvent;
-typedef struct XMappingEvent                       XMappingEvent;
-typedef struct XMapRequestEvent                    XMapRequestEvent;
-typedef struct XmbTextItem                         XmbTextItem;
-typedef struct XModifierKeymap                     XModifierKeymap;
-typedef struct XMotionEvent                        XMotionEvent;
-typedef struct XNoExposeEvent                      XNoExposeEvent;
-typedef struct XOMCharSetList                      XOMCharSetList;
-typedef struct XOMFontInfo                         XOMFontInfo;
-typedef struct XOMOrientation                      XOMOrientation;
-typedef struct XPixmapFormatValues                 XPixmapFormatValues;
-typedef struct XPoint                              XPoint;
-typedef struct XPrivate                            XPrivate;
-typedef struct XPropertyEvent                      XPropertyEvent;
-typedef struct XRectangle                          XRectangle;
-typedef struct XReparentEvent                      XReparentEvent;
-typedef struct XResizeRequestEvent                 XResizeRequestEvent;
-typedef struct XrmHashBucketRec                    XrmHashBucketRec;
-typedef struct XScreen                             XScreen;
-typedef struct XScreenFormat                       XScreenFormat;
-typedef struct XSegment                            XSegment;
-typedef struct XSelectionClearEvent                XSelectionClearEvent;
-typedef struct XSelectionEvent                     XSelectionEvent;
-typedef struct XSelectionRequestEvent              XSelectionRequestEvent;
-typedef struct XServerInterpretedAddress           XServerInterpretedAddress;
-typedef struct XSetWindowAttributes                XSetWindowAttributes;
-typedef struct XTextItem                           XTextItem;
-typedef struct XTextItem16                         XTextItem16;
-typedef struct XTimeCoord                          XTimeCoord;
-typedef struct XUnmapEvent                         XUnmapEvent;
-typedef void*                                      XVaNestedList;
-typedef struct XVisibilityEvent                    XVisibilityEvent;
-typedef struct XVisual                             XVisual;
-typedef struct XwcTextItem                         XwcTextItem;
-typedef struct XWindowAttributes                   XWindowAttributes;
-typedef struct XWindowChanges                      XWindowChanges;
-
-typedef void    (*XIMProc)(XIM,void*,void*);
-typedef int32_t (*XICProc)(XIC,void*,void*);
-typedef void    (*XIDProc)(XDisplay*,void*,void*);
-typedef void    (*XConnectionWatchProc)(XDisplay*,void*,int32_t,int32_t,void**);
-typedef int32_t (*XErrorHandler)(XDisplay*,XErrorEvent*);
-typedef int32_t (*XIOErrorHandler)(XDisplay*);
-typedef void    (*XIOErrorExitHandler)(XDisplay*,void*);
+typedef struct _XIC*                                 XIC;
+typedef struct _XIM*                                 XIM;
+typedef struct _XOC*                                 XOC;
+typedef struct _XOC**                                XFontSet;
+typedef struct _XOM*                                 XOM;
+typedef struct XAnyEvent                             XAnyEvent;
+typedef struct XArc                                  XArc;
+typedef struct XButtonEvent                          XButtonEvent;
+typedef struct XChar2b                               XChar2b;
+typedef struct XCharStruct                           XCharStruct;
+typedef struct XCirculateEvent                       XCirculateEvent;
+typedef struct XCirculateRequestEvent                XCirculateRequestEvent;
+typedef struct XClientMessageEvent                   XClientMessageEvent;
+typedef struct XColor                                XColor;
+typedef struct XColormapEvent                        XColormapEvent;
+typedef struct XConfigureEvent                       XConfigureEvent;
+typedef struct XConfigureRequestEvent                XConfigureRequestEvent;
+typedef struct XCreateWindowEvent                    XCreateWindowEvent;
+typedef struct XCrossingEvent                        XCrossingEvent;
+typedef struct XDepth                                XDepth;
+typedef struct XDestroyWindowEvent                   XDestroyWindowEvent;
+typedef struct XDisplay                              XDisplay;
+typedef struct XErrorEvent                           XErrorEvent;
+typedef struct XExposeEvent                          XExposeEvent;
+typedef struct XExtCodes                             XExtCodes;
+typedef struct XExtData                              XExtData;
+typedef struct XFocusChangeEvent                     XFocusChangeEvent;
+typedef struct XFontProp                             XFontProp;
+typedef struct XFontSetExtents                       XFontSetExtents;
+typedef struct XFontStruct                           XFontStruct;
+typedef struct _XGC*                                 XGC;
+typedef struct XGCValues                             XGCValues;
+typedef struct XGenericEvent                         XGenericEvent;
+typedef struct XGenericEventCookie                   XGenericEventCookie;
+typedef struct XGraphicsExposeEvent                  XGraphicsExposeEvent;
+typedef struct XGravityEvent                         XGravityEvent;
+typedef struct XHostAddress                          XHostAddress;
+typedef struct XICCallback                           XICCallback;
+typedef struct XImage                                XImage;
+typedef struct XIMCallback                           XIMCallback;
+typedef uint64_t                                     XIMFeedback;
+typedef uint64_t                                     XIMHotKeyState;
+typedef struct XIMHotKeyTrigger                      XIMHotKeyTrigger;
+typedef struct XIMHotKeyTriggers                     XIMHotKeyTriggers;
+typedef struct XIMPreeditCaretCallbackStruct         XIMPreeditCaretCallbackStruct;
+typedef struct XIMPreeditDrawCallbackStruct          XIMPreeditDrawCallbackStruct;
+typedef uint64_t                                     XIMPreeditState;
+typedef struct XIMPreeditStateNotifyCallbackStruct   XIMPreeditStateNotifyCallbackStruct;
+typedef uint64_t                                     XIMResetState;
+typedef struct XIMStatusDrawCallbackStruct           XIMStatusDrawCallbackStruct;
+typedef struct XIMStringConversionCallbackStruct     XIMStringConversionCallbackStruct;
+typedef uint64_t                                     XIMStringConversionFeedback;
+typedef uint16_t                                     XIMStringConversionOperation;
+typedef uint16_t                                     XIMStringConversionPosition;
+typedef uint16_t                                     XIMStringConversionType;
+typedef uint64_t                                     XIMStyle;
+typedef struct XIMStyles                             XIMStyles;
+typedef struct XIMText                               XIMText;
+typedef struct XIMValuesList                         XIMValuesList;
+typedef struct XKeyboardControl                      XKeyboardControl;
+typedef struct XKeyboardState                        XKeyboardState;
+typedef struct XKeyEvent                             XKeyEvent;
+typedef struct XKeymapEvent                          XKeymapEvent;
+typedef struct XMapEvent                             XMapEvent;
+typedef struct XMappingEvent                         XMappingEvent;
+typedef struct XMapRequestEvent                      XMapRequestEvent;
+typedef struct XmbTextItem                           XmbTextItem;
+typedef struct XModifierKeymap                       XModifierKeymap;
+typedef struct XMotionEvent                          XMotionEvent;
+typedef struct XNoExposeEvent                        XNoExposeEvent;
+typedef struct XOMCharSetList                        XOMCharSetList;
+typedef struct XOMFontInfo                           XOMFontInfo;
+typedef struct XOMOrientation                        XOMOrientation;
+typedef struct XPixmapFormatValues                   XPixmapFormatValues;
+typedef struct XPoint                                XPoint;
+typedef struct XPrivate                              XPrivate;
+typedef struct XPropertyEvent                        XPropertyEvent;
+typedef struct XRectangle                            XRectangle;
+typedef struct XReparentEvent                        XReparentEvent;
+typedef struct XResizeRequestEvent                   XResizeRequestEvent;
+typedef struct XrmHashBucketRec                      XrmHashBucketRec;
+typedef struct XScreen                               XScreen;
+typedef struct XScreenFormat                         XScreenFormat;
+typedef struct XSegment                              XSegment;
+typedef struct XSelectionClearEvent                  XSelectionClearEvent;
+typedef struct XSelectionEvent                       XSelectionEvent;
+typedef struct XSelectionRequestEvent                XSelectionRequestEvent;
+typedef struct XServerInterpretedAddress             XServerInterpretedAddress;
+typedef struct XSetWindowAttributes                  XSetWindowAttributes;
+typedef struct XTextItem                             XTextItem;
+typedef struct XTextItem16                           XTextItem16;
+typedef struct XTimeCoord                            XTimeCoord;
+typedef struct XUnmapEvent                           XUnmapEvent;
+typedef void*                                        XVaNestedList;
+typedef struct XVisibilityEvent                      XVisibilityEvent;
+typedef struct XVisual                               XVisual;
+typedef struct XwcTextItem                           XwcTextItem;
+typedef struct XWindowAttributes                     XWindowAttributes;
+typedef struct XWindowChanges                        XWindowChanges;
+typedef void                                       (*XIMProc)(XIM,void*,void*);
+typedef int32_t                                    (*XICProc)(XIC,void*,void*);
+typedef void                                       (*XIDProc)(XDisplay*,void*,void*);
+typedef void                                       (*XConnectionWatchProc)(XDisplay*,void*,int32_t,int32_t,void**);
+typedef int32_t                                    (*XErrorHandler)(XDisplay*,XErrorEvent*);
+typedef int32_t                                    (*XIOErrorHandler)(XDisplay*);
+typedef void                                       (*XIOErrorExitHandler)(XDisplay*,void*);
 
 typedef enum XIMCaretDirection {
     XIMForwardChar,                                                       // ???
@@ -1687,4 +1659,4 @@ typedef struct XIMValuesList {
 #pragma clang diagnostic pop
 #endif
 
-#endif// _X11_Xlib_h_
+#endif//_core_linux_libX11_Xlib_h_

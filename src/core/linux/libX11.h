@@ -11,12 +11,12 @@ extern "C" {
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "X11/keysym.h"
-#include "X11/keysymdef.h"
-#include "X11/X.h"
-#include "X11/Xatom.h"
-#include "X11/Xlib.h"
-#include "X11/Xutil.h"
+#include "libX11/keysym.h"
+#include "libX11/keysymdef.h"
+#include "libX11/X.h"
+#include "libX11/Xatom.h"
+#include "libX11/Xlib.h"
+#include "libX11/Xutil.h"
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 
