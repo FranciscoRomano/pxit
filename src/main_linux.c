@@ -2,12 +2,14 @@
 
 int main(void)
 {
-    if (!_load_libX11_so())
-    {
-        printf("failed to load library 'libX11'\n");
-        exit(EXIT_FAILURE);
-    }
+    WindowCreateInfo create_info = {};
+    create_info.Width  = 320;
+    create_info.Height = 200;
+    create_info.pTitle = "My Window";
+    create_info.Family = WINDOW_FAMILY_ANY;
+    CreateWindow(&create_info, NULL);
 
-    _free_libX11_so();
+    while (ReadEvents());
+
     return 0;
 }
