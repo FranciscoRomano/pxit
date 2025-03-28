@@ -9,11 +9,11 @@ extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
+#include "../public.h"
 #include "libGLX/glx.h"
 
-/// @brief Represents the global context for the "libGLX.so" library.
-extern struct _libGLX_so {
-    void*                            so;
+DECLARE_LIBRARY(libGLX,
+    // #include <GL/glx.h>
     XVisualInfo*                   (*glXChooseVisual)(XDisplay*,int32_t,int32_t*);
     GLXContext                     (*glXCreateContext)(XDisplay*,XVisualInfo*,GLXContext,int32_t);
     void                           (*glXDestroyContext)(XDisplay*,GLXContext);
@@ -67,13 +67,7 @@ extern struct _libGLX_so {
     int32_t                        (*glXGetSwapIntervalMESA)();
     void                           (*glXBindTexImageEXT)(XDisplay*,GLXDrawable,int32_t,const int32_t*);
     void                           (*glXReleaseTexImageEXT)(XDisplay*,GLXDrawable,int32_t);
-} _libGLX;
-
-/// @brief Returns true if the "libGLX.so" library was freed successfully.
-bool _free_libGLX_so();
-
-/// @brief Returns true if the "libGLX.so" library was loaded successfully.
-bool _load_libGLX_so();
+)
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

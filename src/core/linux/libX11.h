@@ -9,8 +9,7 @@ extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-#include <stdint.h>
-#include <stdbool.h>
+#include "../public.h"
 #include "libX11/keysym.h"
 #include "libX11/keysymdef.h"
 #include "libX11/X.h"
@@ -20,9 +19,7 @@ extern "C" {
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-/// @brief Represents the global context for the "libX11.so" library.
-extern struct _libX11_so {
-    void*                  so;
+DECLARE_LIBRARY(libX11,
     // #include <X11/Xlib.h>
     int32_t              (*_Xmblen)(char*,int32_t);
     int32_t              (*_Xmbtowc)(wchar_t*,char*,int32_t);
@@ -514,13 +511,7 @@ extern struct _libX11_so {
     int32_t              (*XUnionRegion)(XRegion,XRegion,XRegion); 
     int32_t              (*XWMGeometry)(XDisplay*,int32_t,const char*,const char*,uint32_t,XSizeHints*,int32_t*,int32_t*,int32_t*,int32_t*,int32_t*); 
     int32_t              (*XXorRegion)(XRegion,XRegion,XRegion);
-} _libX11;
-
-/// @brief Returns true if the "libX11.so" library was freed successfully.
-bool _free_libX11_so();
-
-/// @brief Returns true if the "libX11.so" library was loaded successfully.
-bool _load_libX11_so();
+)
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
