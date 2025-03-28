@@ -2,14 +2,19 @@
 
 int main(void)
 {
-    WindowCreateInfo create_info = {};
-    create_info.Width  = 320;
-    create_info.Height = 200;
-    create_info.pTitle = "My Window";
-    create_info.Family = WINDOW_FAMILY_ANY;
-    CreateWindow(&create_info, NULL);
+    if (!_load_libX11_so())
+    {
+        FAILURE("could not load 'libX11' library");
+        exit(EXIT_FAILURE);
+    }
 
-    while (ReadEvents());
+    if (!_load_libGLX_so())
+    {
+        FAILURE("could not load 'libGLX' library");
+        exit(EXIT_FAILURE);
+    }
 
+    _free_libX11_so();
+    _free_libGLX_so();
     return 0;
 }
