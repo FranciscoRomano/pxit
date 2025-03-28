@@ -20,7 +20,7 @@ extern "C" {
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-/// @brief Represents the "libX11.so" library and supported functions.
+/// @brief Represents the global context for the "libX11.so" library.
 extern struct _libX11_so {
     void*                  so;
     // #include <X11/Xlib.h>
