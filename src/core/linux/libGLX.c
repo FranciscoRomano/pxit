@@ -2,14 +2,8 @@
 // SPDX-License-Identifier: MIT
 // Copyright (c) 2025 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
-#include "libGLX.h"
-#include <dlfcn.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#define LOAD_REQUIRED_SYMBOL(Name)\
-_libGLX.Name = dlsym(_libGLX.so, #Name);\
-if (!_libGLX.Name) { printf("ERROR: failed to load symbol '" #Name "'\n"); return false; }
+#define LIBRARY_MODULE _libGLX
+#include "../private.h"
 // -------------------------------------------------------------------------------------------------------------------------- //
 
 struct _libGLX_so _libGLX = { NULL };
@@ -17,11 +11,10 @@ struct _libGLX_so _libGLX = { NULL };
 bool _free_libGLX_so()
 {
     // check if library was unloaded
-    if (!_libGLX.so) return false;
+    if (!_libGLX.so) return true;
 
-    // unload and reset library handle
-    dlclose(_libGLX.so);
-    _libGLX.so = NULL;
+    // unload and reset library module
+    LIBRARY_MODULE_FREE()
     return true;
 }
 
@@ -35,48 +28,60 @@ bool _load_libGLX_so()
     for (size_t i = 0; paths[i]; i++)
     {
         // try loading library and any symbols
-        _libGLX.so = dlopen(paths[i], RTLD_LAZY);
-        if (_libGLX.so == NULL) continue;
-        LOAD_REQUIRED_SYMBOL(glXChooseVisual)
-        LOAD_REQUIRED_SYMBOL(glXCreateContext)
-        LOAD_REQUIRED_SYMBOL(glXDestroyContext)
-        LOAD_REQUIRED_SYMBOL(glXMakeCurrent)
-        LOAD_REQUIRED_SYMBOL(glXCopyContext)
-        LOAD_REQUIRED_SYMBOL(glXSwapBuffers)
-        LOAD_REQUIRED_SYMBOL(glXCreateGLXPixmap)
-        LOAD_REQUIRED_SYMBOL(glXDestroyGLXPixmap)
-        LOAD_REQUIRED_SYMBOL(glXQueryExtension)
-        LOAD_REQUIRED_SYMBOL(glXQueryVersion)
-        LOAD_REQUIRED_SYMBOL(glXIsDirect)
-        LOAD_REQUIRED_SYMBOL(glXGetConfig)
-        LOAD_REQUIRED_SYMBOL(glXGetCurrentContext)
-        LOAD_REQUIRED_SYMBOL(glXGetCurrentDrawable)
-        LOAD_REQUIRED_SYMBOL(glXWaitGL)
-        LOAD_REQUIRED_SYMBOL(glXWaitX)
-        LOAD_REQUIRED_SYMBOL(glXUseXFont)
-        LOAD_REQUIRED_SYMBOL(glXQueryExtensionsString)
-        LOAD_REQUIRED_SYMBOL(glXQueryServerString)
-        LOAD_REQUIRED_SYMBOL(glXGetClientString)
-        LOAD_REQUIRED_SYMBOL(glXGetCurrentDisplay)
-        LOAD_REQUIRED_SYMBOL(glXChooseFBConfig)
-        LOAD_REQUIRED_SYMBOL(glXGetFBConfigAttrib)
-        LOAD_REQUIRED_SYMBOL(glXGetFBConfigs)
-        LOAD_REQUIRED_SYMBOL(glXGetVisualFromFBConfig)
-        LOAD_REQUIRED_SYMBOL(glXCreateWindow)
-        LOAD_REQUIRED_SYMBOL(glXDestroyWindow)
-        LOAD_REQUIRED_SYMBOL(glXCreatePixmap)
-        LOAD_REQUIRED_SYMBOL(glXDestroyPixmap)
-        LOAD_REQUIRED_SYMBOL(glXCreatePbuffer)
-        LOAD_REQUIRED_SYMBOL(glXDestroyPbuffer)
-        LOAD_REQUIRED_SYMBOL(glXQueryDrawable)
-        LOAD_REQUIRED_SYMBOL(glXCreateNewContext)
-        LOAD_REQUIRED_SYMBOL(glXMakeContextCurrent)
-        LOAD_REQUIRED_SYMBOL(glXGetCurrentReadDrawable)
-        LOAD_REQUIRED_SYMBOL(glXQueryContext)
-        LOAD_REQUIRED_SYMBOL(glXSelectEvent)
-        LOAD_REQUIRED_SYMBOL(glXGetSelectedEvent)
-        LOAD_REQUIRED_SYMBOL(glXGetProcAddressARB)
-        LOAD_REQUIRED_SYMBOL(glXGetProcAddress)
+        LIBRARY_MODULE_LOAD(paths[i])
+        LIBRARY_MODULE_RSYM(glXChooseVisual)
+        LIBRARY_MODULE_RSYM(glXCreateContext)
+        LIBRARY_MODULE_RSYM(glXDestroyContext)
+        LIBRARY_MODULE_RSYM(glXMakeCurrent)
+        LIBRARY_MODULE_RSYM(glXCopyContext)
+        LIBRARY_MODULE_RSYM(glXSwapBuffers)
+        LIBRARY_MODULE_RSYM(glXCreateGLXPixmap)
+        LIBRARY_MODULE_RSYM(glXDestroyGLXPixmap)
+        LIBRARY_MODULE_RSYM(glXQueryExtension)
+        LIBRARY_MODULE_RSYM(glXQueryVersion)
+        LIBRARY_MODULE_RSYM(glXIsDirect)
+        LIBRARY_MODULE_RSYM(glXGetConfig)
+        LIBRARY_MODULE_RSYM(glXGetCurrentContext)
+        LIBRARY_MODULE_RSYM(glXGetCurrentDrawable)
+        LIBRARY_MODULE_RSYM(glXWaitGL)
+        LIBRARY_MODULE_RSYM(glXWaitX)
+        LIBRARY_MODULE_RSYM(glXUseXFont)
+        LIBRARY_MODULE_RSYM(glXQueryExtensionsString)
+        LIBRARY_MODULE_RSYM(glXQueryServerString)
+        LIBRARY_MODULE_RSYM(glXGetClientString)
+        LIBRARY_MODULE_RSYM(glXGetCurrentDisplay)
+        LIBRARY_MODULE_RSYM(glXChooseFBConfig)
+        LIBRARY_MODULE_RSYM(glXGetFBConfigAttrib)
+        LIBRARY_MODULE_RSYM(glXGetFBConfigs)
+        LIBRARY_MODULE_RSYM(glXGetVisualFromFBConfig)
+        LIBRARY_MODULE_RSYM(glXCreateWindow)
+        LIBRARY_MODULE_RSYM(glXDestroyWindow)
+        LIBRARY_MODULE_RSYM(glXCreatePixmap)
+        LIBRARY_MODULE_RSYM(glXDestroyPixmap)
+        LIBRARY_MODULE_RSYM(glXCreatePbuffer)
+        LIBRARY_MODULE_RSYM(glXDestroyPbuffer)
+        LIBRARY_MODULE_RSYM(glXQueryDrawable)
+        LIBRARY_MODULE_RSYM(glXCreateNewContext)
+        LIBRARY_MODULE_RSYM(glXMakeContextCurrent)
+        LIBRARY_MODULE_RSYM(glXGetCurrentReadDrawable)
+        LIBRARY_MODULE_RSYM(glXQueryContext)
+        LIBRARY_MODULE_RSYM(glXSelectEvent)
+        LIBRARY_MODULE_RSYM(glXGetSelectedEvent)
+        LIBRARY_MODULE_RSYM(glXGetProcAddressARB)
+        LIBRARY_MODULE_RSYM(glXGetProcAddress)
+        LIBRARY_MODULE_RSYM(glXAllocateMemoryNV)
+        LIBRARY_MODULE_RSYM(glXFreeMemoryNV)
+        LIBRARY_MODULE_RSYM(glXBindTexImageARB)
+        LIBRARY_MODULE_RSYM(glXReleaseTexImageARB)
+        LIBRARY_MODULE_RSYM(glXDrawableAttribARB)
+        LIBRARY_MODULE_RSYM(glXGetFrameUsageMESA)
+        LIBRARY_MODULE_RSYM(glXBeginFrameTrackingMESA)
+        LIBRARY_MODULE_RSYM(glXEndFrameTrackingMESA)
+        LIBRARY_MODULE_RSYM(glXQueryFrameTrackingMESA)
+        LIBRARY_MODULE_RSYM(glXSwapIntervalMESA)
+        LIBRARY_MODULE_RSYM(glXGetSwapIntervalMESA)
+        LIBRARY_MODULE_RSYM(glXBindTexImageEXT)
+        LIBRARY_MODULE_RSYM(glXReleaseTexImageEXT)
         return true;
     }
     return false;

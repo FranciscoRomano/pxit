@@ -10,7 +10,7 @@ struct _Module_glx _glx = { NULL };
 
 void* _LoadSymbol_glx(const char* name)
 {
-    void* p = (void*)_libGLX.glXGetProcAddress(name);
+    void* p = (void*)glXGetProcAddress(name);
     if (p == (void*) 0) return (void*)dlsym(_libGLX.so, name);
     if (p == (void*) 1) return (void*)dlsym(_libGLX.so, name);
     if (p == (void*) 2) return (void*)dlsym(_libGLX.so, name);
