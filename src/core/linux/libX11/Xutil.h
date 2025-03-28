@@ -2,7 +2,7 @@
 // │ Copyright (c) 2025 Francisco Romano                                                       │
 // │                                                                                           │
 // │ THIS FILE IS A MODIFIED VERSION OF THE ORIGINAL X WINDOWING SYSTEM (AKA: X11, X) LIBRARY. │
-// │ MODIFICATIONS ARE DISTRIBUTED UNDER THE SAME ORIGINAL FILE LICENSE, WHICH IS SHOWN BELOW: │
+// │ MODIFICATIONS ARE DISTRIBUTED UNDER THE SAME ORIGINAL FILE LICENSE.                       │
 // └───────────────────────────────────────────────────────────────────────────────────────────┘
 
 #ifndef _core_linux_libX11_Xutil_h_
