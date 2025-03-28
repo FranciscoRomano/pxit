@@ -15,7 +15,6 @@ extern "C" {
 typedef struct win32_Window_t {
     HWND  hWnd;  // A win32 window handle.
     HDC   hDC;   // A win32 device context.
-    HGLRC hGLRC; // A OpenGL rendering context.
 } win32_Window_t;
 
 bool win32_CloseWindow(Window window);

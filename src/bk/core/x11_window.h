@@ -14,9 +14,8 @@ extern "C" {
 #include "linux/libX11.h"
 
 typedef struct x11_Window_t {
-    XWindow    win;  // A X11 window handle.
-    XColormap  cmap; // A X11 colormap handle.
-    GLXContext glx;  // A OpenGL rendering context.
+    XWindow   win;  // A X11 window handle.
+    XColormap cmap; // A X11 colormap handle.
 } x11_Window_t;
 
 bool x11_CloseWindow(Window window);

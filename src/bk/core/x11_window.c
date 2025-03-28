@@ -49,12 +49,6 @@ bool x11_CreateWindow(const WindowCreateInfo* pCreateInfo, Window window)
     window->impl.pSizeWindow     = x11_SizeWindow;
     if (pCreateInfo->pEvents) window->events = *pCreateInfo->pEvents;
     return true;
-
-    // // initialize a 3D graphics rendering context
-    // if (_CreateWindow_glx(pCreateInfo, window)) return true;
-    // error("failed to create X11 rendering context");
-    // x11_DestroyWindow(window);
-    // return false;
 }
 
 bool x11_DestroyWindow(Window window)
