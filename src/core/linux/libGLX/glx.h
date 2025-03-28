@@ -141,8 +141,8 @@ extern "C" {
 #define GLX_AUX8_EXT                    0x20EA 
 #define GLX_AUX9_EXT                    0x20EB
 
-typedef struct __GLXcontextRec*         GLXContext;
-typedef struct __GLXFBConfigRec*        GLXFBConfig;
+typedef void*                           GLXContext;
+typedef void*                           GLXFBConfig;
 typedef struct GLXBufferSwapComplete    GLXBufferSwapComplete;
 typedef struct GLXPbufferClobberEvent   GLXPbufferClobberEvent;
 typedef union GLXEvent                  GLXEvent;
