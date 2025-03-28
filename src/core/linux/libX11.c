@@ -3,11 +3,11 @@
 // Copyright (c) 2025 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
 #define LIBRARY_NAME libX11
+#define LIBRARY_HINT "libX11.so.6.4.0"
 #include "../private.h"
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-DEFINE_LIBRARY("libX11.so.6.4.0")
-DEFINE_SYMBOLS(
+DEFINE_LIBRARY(
     // #include <X11/Xlib.h>
     REQUIRED_SYMBOL(_Xmbtowc)
     REQUIRED_SYMBOL(_Xmblen)

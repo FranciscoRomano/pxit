@@ -48,28 +48,26 @@ extern "C" {
 #endif//IS_PLATFORM_WINDOWS
 
 // -------------------------------------------------------------------------------------------------------------------------- //
-#if defined(LIBRARY_NAME)
+#if defined(LIBRARY_NAME) && defined(LIBRARY_HINT)
+
 #define __JOIN__(LEFT,RIGHT) LEFT##RIGHT
 #define __TYPE__(NAME) __JOIN__(NAME, _t)
 #define __LOAD__(NAME) __JOIN__(load_, NAME)
 #define __FREE__(NAME) __JOIN__(free_, NAME)
-#define __PATH__(NAME) __JOIN__(NAME, _paths)
 
 #define DEFINE_LIBRARY(...)\
-const char* __PATH__(LIBRARY_NAME)[] = { __VA_ARGS__,NULL };\
 struct __TYPE__(LIBRARY_NAME) LIBRARY_NAME = { NULL };\
 bool __FREE__(LIBRARY_NAME)() {\
     if (!LIBRARY_NAME.hndl) return true;\
     DL_FREE(LIBRARY_NAME.hndl)\
     LIBRARY_NAME.hndl = NULL;\
     return true;\
-}
-
-#define DEFINE_SYMBOLS(...)\
+}\
 bool __LOAD__(LIBRARY_NAME)() {\
     if (LIBRARY_NAME.hndl) return true;\
-    for (size_t i = 0; __PATH__(LIBRARY_NAME)[i]; i++) {\
-        if (!(LIBRARY_NAME.hndl = DL_LOAD(__PATH__(LIBRARY_NAME)[i]))) continue;\
+    const char* paths[] = { LIBRARY_HINT, NULL };\
+    for (size_t i = 0; paths[i]; i++) {\
+        if (!(LIBRARY_NAME.hndl = DL_LOAD(paths[i]))) continue;\
         __VA_ARGS__\
         return true;\
     }\
@@ -87,6 +85,7 @@ if (!(LIBRARY_NAME.NAME = DL_SYMB(LIBRARY_NAME.hndl, NAME))) {\
     LIBRARY_NAME.hndl = NULL;\
     return FAILURE("could not load symbol '" #NAME "'");\
 }
+
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

@@ -3,11 +3,11 @@
 // Copyright (c) 2025 Francisco Romano
 // -------------------------------------------------------------------------------------------------------------------------- //
 #define LIBRARY_NAME libGLX
+#define LIBRARY_HINT "libGLX.so.0.0.0"
 #include "../private.h"
 // -------------------------------------------------------------------------------------------------------------------------- //
 
-DEFINE_LIBRARY("libGLX.so.0.0.0")
-DEFINE_SYMBOLS(
+DEFINE_LIBRARY(
     // #include <GL/glx.h>
     REQUIRED_SYMBOL(glXChooseVisual)
     REQUIRED_SYMBOL(glXCreateContext)
