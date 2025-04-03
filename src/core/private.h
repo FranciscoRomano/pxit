@@ -30,20 +30,17 @@ extern "C" {
     #include <unistd.h>
     #include "linux/libGLX.h"
     #include "linux/libX11.h"
-    #define DL_FREE(HNDL)      dlclose(HNDL);
+    #define DL_FREE(HNDL)      dlclose(HNDL)
     #define DL_LOAD(PATH)      dlopen(PATH, RTLD_LAZY)
     #define DL_SYMB(HNDL,NAME) dlsym(HNDL, #NAME)
 #endif//IS_PLATFORM_LINUX
 
 #if IS_PLATFORM_WINDOWS
-    #include "windows/d3d9.h"
-    #include "windows/dxgi.h"
     #include "windows/gdi32.h"
     #include "windows/kernel32.h"
-    #include "windows/opengl32.h"
     #include "windows/user32.h"
-    #define DL_FREE(HNDL)      FreeLibrary(HNDL);
-    #define DL_LOAD(PATH)      LoadLibraryA(PATH))
+    #define DL_FREE(HNDL)      FreeLibrary(HNDL)
+    #define DL_LOAD(PATH)      LoadLibraryA(PATH)
     #define DL_SYMB(HNDL,NAME) ((void*)GetProcAddress(HNDL, #NAME))
 #endif//IS_PLATFORM_WINDOWS
 
@@ -59,7 +56,7 @@ extern "C" {
 struct __TYPE__(LIBRARY_NAME) LIBRARY_NAME = { NULL };\
 bool __FREE__(LIBRARY_NAME)() {\
     if (!LIBRARY_NAME.hndl) return true;\
-    DL_FREE(LIBRARY_NAME.hndl)\
+    DL_FREE(LIBRARY_NAME.hndl);\
     LIBRARY_NAME.hndl = NULL;\
     return true;\
 }\

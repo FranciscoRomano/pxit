@@ -9,6 +9,7 @@ extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
+#include "../public.h"
 #include <windef.h>
 #include <stdbool.h>
 
@@ -67,22 +68,14 @@ typedef struct {
     DWORD dwDamageMask;
 } PIXELFORMATDESCRIPTOR;
 
-/// @brief Represents the "gdi32.dll" library and supported functions.
-extern struct _gdi32_dll {
-    void* dll;
-    int     WINAPI (*ChoosePixelFormat)(HDC,const PIXELFORMATDESCRIPTOR*);
-    int     WINAPI (*DescribePixelFormat)(HDC,int,UINT,PIXELFORMATDESCRIPTOR*);
-    UINT    WINAPI (*GetEnhMetaFilePixelFormat)(HENHMETAFILE,UINT,PIXELFORMATDESCRIPTOR*);
-    int     WINAPI (*GetPixelFormat)(HDC);
-    BOOL    WINAPI (*SetPixelFormat)(HDC,int,const PIXELFORMATDESCRIPTOR*);
-    BOOL    WINAPI (*SwapBuffers)(HDC);
-} _gdi32;
-
-/// @brief Returns true if the "gdi32.dll" library was freed successfully.
-bool _free_gdi32_dll();
-
-/// @brief Returns true if the "gdi32.dll" library was loaded successfully.
-bool _load_gdi32_dll();
+DECLARE_LIBRARY(gdi32,
+    int  WINAPI (*ChoosePixelFormat)(HDC,const PIXELFORMATDESCRIPTOR*);
+    int  WINAPI (*DescribePixelFormat)(HDC,int,UINT,PIXELFORMATDESCRIPTOR*);
+    UINT WINAPI (*GetEnhMetaFilePixelFormat)(HENHMETAFILE,UINT,PIXELFORMATDESCRIPTOR*);
+    int  WINAPI (*GetPixelFormat)(HDC);
+    BOOL WINAPI (*SetPixelFormat)(HDC,int,const PIXELFORMATDESCRIPTOR*);
+    BOOL WINAPI (*SwapBuffers)(HDC);
+)
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

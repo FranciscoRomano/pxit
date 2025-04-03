@@ -9,6 +9,7 @@ extern "C" {
 #endif
 // -------------------------------------------------------------------------------------------------------------------------- //
 
+#include "../public.h"
 #include <windef.h>
 #include <stdbool.h>
 
@@ -465,9 +466,7 @@ typedef struct {
     DWORD     dwExStyle;
 } CREATESTRUCTA;
 
-/// @brief Represents the "user32.dll" library and supported functions.
-extern struct _user32_dll {
-    void* dll;
+DECLARE_LIBRARY(user32,
     BOOL     (WINAPI *AdjustWindowRect)(LPRECT,DWORD,BOOL);
     BOOL     (WINAPI *ClientToScreen)(HWND,LPPOINT);
     BOOL     (WINAPI *CloseWindow)(HWND);
@@ -499,13 +498,7 @@ extern struct _user32_dll {
     BOOL     (WINAPI *TranslateMessage)(CONST MSG*);
     WINBOOL  (WINAPI *UnregisterClassA)(LPCSTR,HINSTANCE);
     BOOL     (WINAPI *UpdateLayeredWindow)(HWND,HDC,POINT*,SIZE*,HDC,POINT*,COLORREF,BLENDFUNCTION*,DWORD);
-} _user32;
-
-/// @brief Returns true if the "user32.dll" library was freed successfully.
-bool _free_user32_dll();
-
-/// @brief Returns true if the "user32.dll" library was loaded successfully.
-bool _load_user32_dll();
+)
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus
