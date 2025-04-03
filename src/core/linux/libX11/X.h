@@ -359,19 +359,19 @@
 #define YXSorted                    2
 #define ZPixmap                     2        // depth == drawable depth
 
-typedef uint64_t XID;
-typedef uint64_t XMask;
-typedef uint64_t XAtom;
-typedef uint64_t XVisualID;
-typedef uint64_t XTime;
-typedef XID      XWindow;
-typedef XID      XDrawable;
-typedef XID      XFont;
-typedef XID      XPixmap;
-typedef XID      XCursor;
-typedef XID      XColormap;
-typedef XID      XGContext;
-typedef XID      XKeySym;
-typedef uint8_t  XKeyCode;
+typedef uint64_t                    XID;
+typedef uint64_t                    XMask;
+typedef uint64_t                    XAtom;
+typedef uint64_t                    XVisualID;
+typedef uint64_t                    XTime;
+typedef XID                         XWindow;
+typedef XID                         XDrawable;
+typedef XID                         XFont;
+typedef XID                         XPixmap;
+typedef XID                         XCursor;
+typedef XID                         XColormap;
+typedef XID                         XGContext;
+typedef XID                         XKeySym;
+typedef uint8_t                     XKeyCode;
 
 #endif//_core_linux_libX11_X_h_
