@@ -2,30 +2,19 @@
 
 int main(void)
 {
-    if (!load_user32())
+    if (!user32_load())
     {
         FAILURE("could not load 'user32' library");
         exit(EXIT_FAILURE);
     }
 
-    if (!load_gdi32())
+    if (!gdi32_load())
     {
         FAILURE("could not load 'gdi32' library");
         exit(EXIT_FAILURE);
     }
 
-    WNDCLASSEXA wc = { sizeof(WNDCLASSEXA) };
-    wc.lpszClassName = "HiCanaanWindowClass";
-    if (!user32.RegisterClassExA(&wc))
-    {
-        FAILURE("failed to register window class");
-        exit(EXIT_FAILURE);
-    }
-
-    user32.UnregisterClassA(wc.lpszClassName, NULL);
-
-    printf("Hi Canaan\n");
-    free_user32();
-    free_gdi32();
+    user32_free();
+    gdi32_free();
     return 0;
 }

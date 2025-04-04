@@ -14,7 +14,7 @@ extern "C" {
 
 /// @brief Declares a global context library with the specified name.
 #define DECLARE_LIBRARY(NAME, ...)\
-extern struct NAME##_t { void* hndl; __VA_ARGS__ } NAME; bool free_##NAME(); bool load_##NAME();
+extern struct NAME##_t { void* hndl; __VA_ARGS__ } NAME; bool NAME##_free(); bool NAME##_load();
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 #ifdef __cplusplus

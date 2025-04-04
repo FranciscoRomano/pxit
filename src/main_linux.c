@@ -2,19 +2,19 @@
 
 int main(void)
 {
-    if (!load_libX11())
+    if (!libX11_load())
     {
         FAILURE("could not load 'libX11' library");
         exit(EXIT_FAILURE);
     }
 
-    if (!load_libGLX())
+    if (!libGLX_load())
     {
         FAILURE("could not load 'libGLX' library");
         exit(EXIT_FAILURE);
     }
 
-    free_libX11();
-    free_libGLX();
+    libX11_free();
+    libGLX_free();
     return 0;
 }
