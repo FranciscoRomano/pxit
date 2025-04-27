@@ -18,9 +18,41 @@ extern "C" {
 #include <stdlib.h>
 #include <string.h>
 
-#define SUCCESS(FMT,...) printf("success: " FMT "\n",##__VA_ARGS__) ? true  : true
-#define WARNING(FMT,...) printf("warning: " FMT "\n",##__VA_ARGS__) ? true  : true
-#define FAILURE(FMT,...) printf("failure: " FMT "\n",##__VA_ARGS__) ? false : false
+/// @brief Returns true after writing a "success" log message.
+inline static bool success(const char* message,...)
+{
+    va_list arguments;
+    va_start(arguments, message);
+    fprintf(stdout, "[success] :: ");
+    vfprintf(stdout, message, arguments);
+    fputc('\n',stdout);
+    va_end(arguments);
+    return true;
+}
+
+/// @brief Returns true after writing a "warning" log message.
+inline static bool warning(const char* message,...)
+{
+    va_list arguments;
+    va_start(arguments, message);
+    fprintf(stderr, "[warning] :: ");
+    vfprintf(stderr, message, arguments);
+    fputc('\n',stderr);
+    va_end(arguments);
+    return true;
+}
+
+/// @brief Returns false after writing a "failure" log message.
+inline static bool failure(const char* message,...)
+{
+    va_list arguments;
+    va_start(arguments, message);
+    fprintf(stderr, "[failure] :: ");
+    vfprintf(stderr, message, arguments);
+    fputc('\n',stderr);
+    va_end(arguments);
+    return false;
+}
 
 // -------------------------------------------------------------------------------------------------------------------------- //
 // platform includes, macros and definitions
@@ -73,14 +105,14 @@ bool __LOAD__(LIBRARY_NAME)() {\
 
 #define OPTIONAL_SYMBOL(NAME)\
 if (!(LIBRARY_NAME.NAME = dl_symb(LIBRARY_NAME.hndl, #NAME))) {\
-    WARNING("could not load symbol '" #NAME "'");\
+    warning("could not load symbol '" #NAME "'");\
 }
 
 #define REQUIRED_SYMBOL(NAME)\
 if (!(LIBRARY_NAME.NAME = dl_symb(LIBRARY_NAME.hndl, #NAME))) {\
     dl_free(LIBRARY_NAME.hndl);\
     LIBRARY_NAME.hndl = NULL;\
-    return FAILURE("could not load symbol '" #NAME "'");\
+    return failure("could not load symbol '" #NAME "'");\
 }
 
 #endif
