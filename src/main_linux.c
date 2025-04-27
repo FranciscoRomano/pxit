@@ -4,13 +4,13 @@ int main(void)
 {
     if (!libX11_load())
     {
-        FAILURE("could not load 'libX11' library");
+        failure("could not load 'libX11' library");
         exit(EXIT_FAILURE);
     }
 
     if (!libGLX_load())
     {
-        FAILURE("could not load 'libGLX' library");
+        failure("could not load 'libGLX' library");
         exit(EXIT_FAILURE);
     }
 
