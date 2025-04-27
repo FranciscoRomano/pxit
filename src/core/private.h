@@ -81,8 +81,8 @@ inline static bool failure(const char* message,...)
 
 #define __JOIN__(LEFT,RIGHT) LEFT##RIGHT
 #define __TYPE__(NAME) __JOIN__(NAME, _t)
-#define __LOAD__(NAME) __JOIN__(load_, NAME)
-#define __FREE__(NAME) __JOIN__(free_, NAME)
+#define __LOAD__(NAME) __JOIN__(NAME, _load)
+#define __FREE__(NAME) __JOIN__(NAME, _free)
 
 #define DEFINE_LIBRARY(...)\
 struct __TYPE__(LIBRARY_NAME) LIBRARY_NAME = { NULL };\
